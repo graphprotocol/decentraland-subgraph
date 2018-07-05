@@ -1,7 +1,3 @@
-/// <reference path="./node_modules/assemblyscript/std/assembly.d.ts" />
-/// <reference path="./node_modules/the-graph-wasm/index.d.ts" />
-/// <reference path="./types/Marketplace/Marketplace.types.ts" />
-
 export function handleAuctionCreated(event: EthereumEvent): void {
   let auction = new Entity()
   let id = event.params[0].value.toString()

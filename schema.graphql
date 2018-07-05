@@ -1,0 +1,7 @@
+type Auction {
+  id: ID!
+  asset: String
+  seller: String
+  priceInwei: String
+  expiresAt: String
+}

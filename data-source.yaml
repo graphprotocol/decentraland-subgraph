@@ -1,47 +1,55 @@
-# specVersion indicates the version of the data source definition spec
 specVersion: 0.0.1
-# Links to the GraphQL schema being mapped to
 schema:
-  # Path to the local schema for this Data Source.
   source:
     path: ./schema.graphql
-# A single Data Source may comprise multiple Datasets.
-# Datasets are composed of Data, Structure & Mapping, which are intentionally
-# decoupled.
 datasets:
-  # How the dataset is ingested into The Graph
+  - data:
+      kind: ethereum/contract
+      name: LANDRegistry
+      address: "f87e31492faf9a91b02ee0deaad50d51d56d5d4d"
+      structure:
+        abi: LANDRegistry
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.1
+      language: wasm/assemblyscript
+      entities:
+        - Parcel
+        - ParcelData
+      abis:
+        - name: LANDRegistry
+          source:
+            path: ./abis/LANDRegistry.json
+      eventHandlers:
+        - event: Transfer(address,address,uint256,address,bytes)
+          handler: handleLandTransfer
+        - event: Update(uint256,address,address,string)
+          handler: handleLandUpdate
+      source:
+        path: ./mappings/land-registry.ts
   - data:
       kind: ethereum/contract
       name: Marketplace
-      address: "B3BCa6F5052c7e24726b44da7403b56A8A1b98f8"
+      address: "b3bca6f5052c7e24726b44da7403b56a8a1b98f8"
       structure:
         abi: Marketplace
     mapping:
-      # Indicates that the mapping will be an event-driven.
       kind: ethereum/events
-      # Version of the ETL mapping API used.
       apiVersion: 0.0.1
-      # Indicates the language used by the mapping script runtime.
-      # The type of WASM matters because we are implementing custom
-      # data types for assemblyscript.
       language: wasm/assemblyscript
-      # The entities that will be created/updated/removed in this mapping
-      # Names must correspond to types in the GraphQL schema.
       entities:
-        - ExampleEntity
-      # Will be injected into the mapping module
+        - Auction
+        - Parcel
       abis:
         - name: Marketplace
           source:
             path: ./abis/Marketplace.json
       eventHandlers:
-          # This event will be subscribed to and trigger the handler function
-          # each time it is emitted.
         - event: AuctionCreated(bytes32,uint256,address,uint256,uint256)
-          # This is the name of the handler function that will be exported
-          # by the WASM module.
           handler: handleAuctionCreated
+        - event: AuctionCancelled(bytes32,uint256,address)
+          handler: handleAuctionCancelled
+        - event: AuctionSuccessful(bytes32,uint256,address,uint256,address)
+          handler: handleAuctionSuccessful
       source:
-        # Points to the AssemblyScript file, a module which should implement the mapping.
-        # This should actually point to the built WASM output when deployed.
-        path: ./mapping.ts
+        path: ./mappings/marketplace.ts

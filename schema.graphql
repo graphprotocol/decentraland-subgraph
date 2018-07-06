@@ -5,3 +5,10 @@ type Auction {
   priceInwei: String
   expiresAt: String
 }
+
+type Asset {
+  id: ID!
+  owner: String
+  operator: String
+  data: String
+}

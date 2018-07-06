@@ -28,7 +28,7 @@ datasets:
       # The entities that will be created/updated/removed in this mapping
       # Names must correspond to types in the GraphQL schema.
       entities:
-        - ExampleEntity
+        - Auction
       # Will be injected into the mapping module
       abis:
         - name: Marketplace
@@ -41,6 +41,43 @@ datasets:
           # This is the name of the handler function that will be exported
           # by the WASM module.
           handler: handleAuctionCreated
+        - event: AuctionCancelled(bytes32,uint256,address)
+          handler: handleAuctionCancelled
+      source:
+        # Points to the AssemblyScript file, a module which should implement the mapping.
+        # This should actually point to the built WASM output when deployed.
+        path: ./mapping.ts
+  - data:
+      kind: ethereum/contract
+      name: LANDRegistry
+      address: "f540a0606498cfcde73f0c8a6276ad44f1930b1a"
+      structure:
+        abi: LANDRegistry
+    mapping:
+      # Indicates that the mapping will be an event-driven.
+      kind: ethereum/events
+      # Version of the ETL mapping API used.
+      apiVersion: 0.0.1
+      # Indicates the language used by the mapping script runtime.
+      # The type of WASM matters because we are implementing custom
+      # data types for assemblyscript.
+      language: wasm/assemblyscript
+      # The entities that will be created/updated/removed in this mapping
+      # Names must correspond to types in the GraphQL schema.
+      entities:
+        - Parcel
+      # Will be injected into the mapping module
+      abis:
+        - name: LANDRegistry
+          source:
+            path: ./abis/LANDRegistry.json
+      eventHandlers:
+        - event: Transfer(address,address,uint256,address,bytes)
+          handler: handleLandTransfer
+        - event: Update(uint256,address,address,string)
+          handler: handleLandUpdate
+        - event: UpdateOperator(uint256,address)
+          handler: handleLandUpdateOperator
       source:
         # Points to the AssemblyScript file, a module which should implement the mapping.
         # This should actually point to the built WASM output when deployed.

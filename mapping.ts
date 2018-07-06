@@ -1,6 +1,7 @@
 /// <reference path="./node_modules/assemblyscript/std/assembly.d.ts" />
 /// <reference path="./node_modules/the-graph-wasm/index.d.ts" />
 /// <reference path="./types/Marketplace/Marketplace.types.ts" />
+/// <reference path="./types/LANDRegistry/LANDRegistry.types.ts" />
 
 export function handleAuctionCreated(event: EthereumEvent): void {
   let auction = new Entity()
@@ -13,4 +14,41 @@ export function handleAuctionCreated(event: EthereumEvent): void {
   auction.setU256('expiresAt', event.params[4].value.toU256())
 
   database.create('Auction', id, auction)
+}
+
+export function handleAuctionCancelled(event: EthereumEvent): void {
+  database.remove('Auction', event.params[0].value.toString())
+}
+
+export function handleLandTransfer(event: EthereumEvent): void {
+  let parcel = new Entity()
+  let id = event.params[2].value.toString()
+
+  parcel.setString('id', id)
+  parcel.setAddress('seller', event.params[0].value.toAddress())
+  parcel.setAddress('owner', event.params[1].value.toAddress())
+  parcel.setAddress('operator', event.params[3].value.toAddress())
+  parcel.setString('data', event.params[4].value.toString())
+
+  database.create('Asset', id, parcel)
+}
+
+export function handleLandUpdate(event: EthereumEvent): void {
+  let parcel = new Entity()
+  let id = event.params[0].value.toString()
+
+  parcel.setString('id', id)
+  parcel.setString('data', event.params[3].value.toString())
+
+  database.update('Asset', id, parcel)
+}
+
+export function handleLandUpdateOperator(event: EthereumEvent): void {
+  let parcel = new Entity()
+  let id = event.params[0].value.toString()
+
+  parcel.setString('id', id)
+  parcel.setAddress('operator', event.params[1].value.toAddress())
+
+  database.update('Asset', id, parcel)
 }

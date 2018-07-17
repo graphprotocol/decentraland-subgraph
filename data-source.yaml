@@ -13,7 +13,7 @@ datasets:
   - data:
       kind: ethereum/contract
       name: Marketplace
-      address: "B3BCa6F5052c7e24726b44da7403b56A8A1b98f8"
+      address: "b3bca6f5052c7e24726b44da7403b56a8a1b98f8"
       structure:
         abi: Marketplace
     mapping:
@@ -43,14 +43,16 @@ datasets:
           handler: handleAuctionCreated
         - event: AuctionCancelled(bytes32,uint256,address)
           handler: handleAuctionCancelled
+        - event: AuctionSuccessful(bytes32,uint256,address,uint256,address)
+          handler: handleAuctionSuccessful
       source:
         # Points to the AssemblyScript file, a module which should implement the mapping.
         # This should actually point to the built WASM output when deployed.
-        path: ./mapping.ts
+        path: ./mappings/auctions.ts
   - data:
       kind: ethereum/contract
       name: LANDRegistry
-      address: "f540a0606498cfcde73f0c8a6276ad44f1930b1a"
+      address: "F87E31492Faf9A91B02Ee0dEAAd50d51d56D5d4d"
       structure:
         abi: LANDRegistry
     mapping:
@@ -76,9 +78,7 @@ datasets:
           handler: handleLandTransfer
         - event: Update(uint256,address,address,string)
           handler: handleLandUpdate
-        - event: UpdateOperator(uint256,address)
-          handler: handleLandUpdateOperator
       source:
         # Points to the AssemblyScript file, a module which should implement the mapping.
         # This should actually point to the built WASM output when deployed.
-        path: ./mapping.ts
+        path: ./mappings/parcels.ts

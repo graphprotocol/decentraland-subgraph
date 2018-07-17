@@ -1,14 +1,43 @@
-type Auction {
-  id: ID!
-  asset: String
-  seller: String
-  priceInwei: String
-  expiresAt: String
+enum AuctionStatus {
+  open
+  sold
+  cancelled
 }
 
-type Asset {
-  id: ID!
+enum AuctionType {
+  parcel
+  estate
+}
+
+type Auction {
+  id: String!
+  is_sold: Boolean!
+  asset_id: String!
+  type: AuctionType
+  marketplace_id: String
+  block_number: Int
+  status: AuctionStatus!
   owner: String
-  operator: String
+  buyer: String
+  price: Int!
+  expires_at: Int
+  created_at: Int
+  updated_at: Int
+  contract_id: Int
+}
+
+type Parcel {
+  id: String!
+  owner: String
   data: String
+  x: Int!
+  y: Int!
+  auction_price: String
+  auction_owner: String
+  district_id: String
+  created_at: Int!
+  updated_at: Int
+  last_transferred_at: Int
+  tags: String
+  in_estate: Boolean
 }

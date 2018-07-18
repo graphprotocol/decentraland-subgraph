@@ -11,15 +11,15 @@ enum AuctionType {
 
 type Auction {
   id: String!
-  is_sold: Boolean!
-  asset_id: String!
+  for_parcel: Parcel!
+  seller: String
+  is_sold: Boolean
   type: AuctionType
   marketplace_id: String
   block_number: Int
-  status: AuctionStatus!
-  owner: String
+  status: AuctionStatus
   buyer: String
-  price: Int!
+  price: Int
   expires_at: Int
   created_at: Int
   updated_at: Int
@@ -30,14 +30,27 @@ type Parcel {
   id: String!
   owner: String
   data: String
-  x: Int!
-  y: Int!
-  auction_price: String
-  auction_owner: String
+  x: Int
+  y: Int
   district_id: String
-  created_at: Int!
+  created_at: Int
   updated_at: Int
   last_transferred_at: Int
   tags: String
   in_estate: Boolean
+  in_district: District
+  active_auction: Auction
+}
+
+type District {
+  id: String!
+  name: String
+  description: String
+  link: String
+  public: Boolean
+  parcel_count: Int
+  parcel_ids: [Parcel]
+  priority: String
+  center: Boolean
+  disabled: Boolean
 }

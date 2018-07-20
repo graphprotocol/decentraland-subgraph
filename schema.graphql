@@ -1,7 +1,56 @@
+enum AuctionStatus {
+  open
+  sold
+  cancelled
+}
+
+enum AuctionType {
+  parcel
+  estate
+}
+
 type Auction {
   id: ID!
-  asset: String
+  for_parcel: Parcel!
   seller: String
-  priceInwei: String
-  expiresAt: String
+  is_sold: Boolean
+  type: AuctionType
+  marketplace_id: String
+  block_number: String # BigInt
+  status: AuctionStatus
+  buyer: String
+  price: String
+  expires_at: String # BigInt
+  created_at: String # BigInt
+  updated_at: String # BigInt
+  contract_id: String # EthereumAddress / ID / Reference
+}
+
+type Parcel {
+  id: ID!
+  owner: String # EthereumAddress / ID
+  data: String # Remove: Replace with attributes stored in the Parcel event data
+  x: Int # BigInt
+  y: Int # BigInt
+  district_id: String # EthereumAddress / ID / Reference
+  created_at: String # BigInt
+  updated_at: String # BigInt
+  last_transferred_at: String # BigInt
+  tags: String
+  in_estate: Boolean
+  in_district: District # Should be required (!)
+  active_auction: Auction @deriveFrom(field: "for_parcel")
+}
+
+type District {
+  id: String!
+  name: String
+  description: String
+  link: String
+  public: Boolean
+  parcel_count: Int
+  parcel_ids: [Parcel]
+  priority: String
+  center: Boolean
+  disabled: Boolean
 }

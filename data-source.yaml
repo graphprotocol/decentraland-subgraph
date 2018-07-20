@@ -13,7 +13,7 @@ datasets:
   - data:
       kind: ethereum/contract
       name: Marketplace
-      address: "B3BCa6F5052c7e24726b44da7403b56A8A1b98f8"
+      address: "b3bca6f5052c7e24726b44da7403b56a8a1b98f8"
       structure:
         abi: Marketplace
     mapping:
@@ -28,7 +28,7 @@ datasets:
       # The entities that will be created/updated/removed in this mapping
       # Names must correspond to types in the GraphQL schema.
       entities:
-        - ExampleEntity
+        - Auction
       # Will be injected into the mapping module
       abis:
         - name: Marketplace
@@ -41,7 +41,44 @@ datasets:
           # This is the name of the handler function that will be exported
           # by the WASM module.
           handler: handleAuctionCreated
+        - event: AuctionCancelled(bytes32,uint256,address)
+          handler: handleAuctionCancelled
+        - event: AuctionSuccessful(bytes32,uint256,address,uint256,address)
+          handler: handleAuctionSuccessful
       source:
         # Points to the AssemblyScript file, a module which should implement the mapping.
         # This should actually point to the built WASM output when deployed.
-        path: ./mapping.ts
+        path: ./mappings/auctions.ts
+  - data:
+      kind: ethereum/contract
+      name: LANDRegistry
+      address: "F87E31492Faf9A91B02Ee0dEAAd50d51d56D5d4d"
+      structure:
+        abi: LANDRegistry
+    mapping:
+      # Indicates that the mapping will be an event-driven.
+      kind: ethereum/events
+      # Version of the ETL mapping API used.
+      apiVersion: 0.0.1
+      # Indicates the language used by the mapping script runtime.
+      # The type of WASM matters because we are implementing custom
+      # data types for assemblyscript.
+      language: wasm/assemblyscript
+      # The entities that will be created/updated/removed in this mapping
+      # Names must correspond to types in the GraphQL schema.
+      entities:
+        - Parcel
+      # Will be injected into the mapping module
+      abis:
+        - name: LANDRegistry
+          source:
+            path: ./abis/LANDRegistry.json
+      eventHandlers:
+        - event: Transfer(address,address,uint256,address,bytes)
+          handler: handleLandTransfer
+        - event: Update(uint256,address,address,string)
+          handler: handleLandUpdate
+      source:
+        # Points to the AssemblyScript file, a module which should implement the mapping.
+        # This should actually point to the built WASM output when deployed.
+        path: ./mappings/parcels.ts

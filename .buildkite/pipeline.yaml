@@ -1,0 +1,15 @@
+steps:
+  - label: Build and push Docker image
+    command: |
+      cp deployment/Dockerfile . \
+      && gcloud container builds submit \
+         --machine-type=n1-highcpu-8 \
+         --timeout=30m \
+         --tag gcr.io/the-graph-staging/decentraland .
+  - wait
+  - label: Deploy the node
+    command: |
+      kubectl apply --force \
+        --cluster=$BUILDKITE_TARGET_CLUSTER \
+        --user=$BUILDKITE_TARGET_CLUSTER \
+        -f deployment/deployment.yaml

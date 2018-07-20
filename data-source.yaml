@@ -1,54 +1,8 @@
-# specVersion indicates the version of the data source definition spec
 specVersion: 0.0.1
-# Links to the GraphQL schema being mapped to
 schema:
-  # Path to the local schema for this Data Source.
   source:
     path: ./schema.graphql
-# A single Data Source may comprise multiple Datasets.
-# Datasets are composed of Data, Structure & Mapping, which are intentionally
-# decoupled.
 datasets:
-  # How the dataset is ingested into The Graph
-  - data:
-      kind: ethereum/contract
-      name: Marketplace
-      address: "b3bca6f5052c7e24726b44da7403b56a8a1b98f8"
-      structure:
-        abi: Marketplace
-    mapping:
-      # Indicates that the mapping will be an event-driven.
-      kind: ethereum/events
-      # Version of the ETL mapping API used.
-      apiVersion: 0.0.1
-      # Indicates the language used by the mapping script runtime.
-      # The type of WASM matters because we are implementing custom
-      # data types for assemblyscript.
-      language: wasm/assemblyscript
-      # The entities that will be created/updated/removed in this mapping
-      # Names must correspond to types in the GraphQL schema.
-      entities:
-        - Auction
-      # Will be injected into the mapping module
-      abis:
-        - name: Marketplace
-          source:
-            path: ./abis/Marketplace.json
-      eventHandlers:
-          # This event will be subscribed to and trigger the handler function
-          # each time it is emitted.
-        - event: AuctionCreated(bytes32,uint256,address,uint256,uint256)
-          # This is the name of the handler function that will be exported
-          # by the WASM module.
-          handler: handleAuctionCreated
-        - event: AuctionCancelled(bytes32,uint256,address)
-          handler: handleAuctionCancelled
-        - event: AuctionSuccessful(bytes32,uint256,address,uint256,address)
-          handler: handleAuctionSuccessful
-      source:
-        # Points to the AssemblyScript file, a module which should implement the mapping.
-        # This should actually point to the built WASM output when deployed.
-        path: ./mappings/auctions.ts
   - data:
       kind: ethereum/contract
       name: LANDRegistry
@@ -56,19 +10,11 @@ datasets:
       structure:
         abi: LANDRegistry
     mapping:
-      # Indicates that the mapping will be an event-driven.
       kind: ethereum/events
-      # Version of the ETL mapping API used.
       apiVersion: 0.0.1
-      # Indicates the language used by the mapping script runtime.
-      # The type of WASM matters because we are implementing custom
-      # data types for assemblyscript.
       language: wasm/assemblyscript
-      # The entities that will be created/updated/removed in this mapping
-      # Names must correspond to types in the GraphQL schema.
       entities:
         - Parcel
-      # Will be injected into the mapping module
       abis:
         - name: LANDRegistry
           source:
@@ -79,6 +25,100 @@ datasets:
         - event: Update(uint256,address,address,string)
           handler: handleLandUpdate
       source:
-        # Points to the AssemblyScript file, a module which should implement the mapping.
-        # This should actually point to the built WASM output when deployed.
         path: ./mappings/parcels.ts
+  - data:
+      kind: ethereum/contract
+      name: MortgageHelper
+      address: "0"
+      structure:
+        abi: MortgageHelper
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.1
+      language: wasm/assemblyscript
+      entities:
+        - Mortgage
+      abis:
+        - name: MortgageHelper
+          source:
+            path: ./abis/MortgageHelper.json
+      eventHandlers:
+        - event: NewMortgage()
+          handler: handleNewMortgage
+      source:
+        path: ./mappings/mortgage-helper.ts
+  - data:
+      kind: ethereum/contract
+      name: MortgageManager
+      address: "0"
+      structure:
+        abi: MortgageManager
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.1
+      language: wasm/assemblyscript
+      entities:
+        - Mortgage
+      abis:
+        - name: MortgageManager
+          source:
+            path: ./abis/MortgageManager.json
+      eventHandlers:
+        - event: CanceledMortgage()
+          handler: handleCanceledMortgage
+        - event: StartedMortgage()
+          handler: handleStartedMortgage
+        - event: PaidMortgage()
+          handler: handlePaidMortgage
+        - event: DefaultedMortgage()
+          handler: handleDefaultedMortgage
+      source:
+        path: ./mappings/mortgage-manager.ts
+  - data:
+      kind: ethereum/contract
+      name: Marketplace
+      address: "b3bca6f5052c7e24726b44da7403b56a8a1b98f8"
+      structure:
+        abi: Marketplace
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.1
+      language: wasm/assemblyscript
+      entities:
+        - Auction
+      abis:
+        - name: Marketplace
+          source:
+            path: ./abis/Marketplace.json
+      eventHandlers:
+        - event: AuctionCreated(bytes32,uint256,address,uint256,uint256)
+          handler: handleAuctionCreated
+        - event: AuctionCancelled(bytes32,uint256,address)
+          handler: handleAuctionCancelled
+        - event: AuctionSuccessful(bytes32,uint256,address,uint256,address)
+          handler: handleAuctionSuccessful
+      source:
+        path: ./mappings/auctions.ts
+  - data:
+      kind: ethereum/contract
+      name: RCNEngine
+      address: "0"
+      structure:
+        abi: RCNEngine
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.1
+      language: wasm/assemblyscript
+      entities:
+        - ?
+      abis:
+        - name: RCNEngine
+          source:
+            path: ./abis/RCNEngine.json
+      eventHandlers:
+        - event: PartialPayment()
+          handler: handlePartialPayment
+        - event: TotalPayment()
+          handler: handleTotalPayment
+      source:
+        path: ./mappings/rcn-engine.ts

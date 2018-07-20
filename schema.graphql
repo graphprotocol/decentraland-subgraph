@@ -1,7 +1,90 @@
-enum AuctionStatus {
-  open
-  sold
-  cancelled
+type Contribution {
+  id: ID!
+  address: String! # EthereumAccount / EthereumAddress / Bytes
+  district: District!
+  landCount: Int! # BigInt!
+  timestamp: String! # BigInt!
+}
+
+type District {
+  id: ID!
+  name: String!
+  description: String
+  link: String!
+  public: Boolean!
+  parcelCount: Int! # BigInt!
+  parcels: [Parcel!]
+  center: String!
+  priority: String # Is this the real type?
+  disabled: Boolean!
+}
+
+type Estate {
+  id: ID!
+  owner: String! # EthereumAccount / EthereumAddress / Bytes
+  data: EstateData!
+  lastTransferredAt: String! # BigInt
+}
+
+type EstateData {
+  id: ID!
+  # ?
+}
+
+type Parcel {
+  id: ID!
+  x: Int # BigInt
+  y: Int # BigInt
+  auctionPrice: Int # BigInt
+  district: District
+  owner: String! # EthereumAccount / EthereumAddress / Bytes
+  data: ParcelData!
+  lastTransferredAt: String! # BigInt
+  tags: [ParcelTag!]
+  inEstate: Boolean!
+  auctionOwner: String # EthereumAccount / EthereumAddress / Bytes
+  auctionPrice: Int # BigInt!
+  activeAuction: Auction
+  auctions: [Auction!] @deriveFrom(field: "parcel")
+
+  # Source?
+  # in_district: Boolean!
+  # created_at: String # BigInt
+  # updated_at: String # BigInt
+}
+
+type ParcelData {
+  id: ID!
+  version: Int
+  name: String!
+  description: String
+  ipns: String
+}
+
+type ParcelTag {
+  id: ID!
+  # ?
+}
+
+type Auction {
+  id: ID!
+  type: AuctionType
+  parcel: Parcel
+  estate: Estate
+  txHash: String! # Bytes
+  txStatus: TransactionStatus
+  owner: String! # EthereumAccount / EthereumAddress / Bytes
+  price: Int! # BigInt
+  status: AuctionStatus
+  buyer: String! # EthereumAccount / EthereumAddress / Bytes
+  contract_id: String! # EthereumAddress / Bytes
+  blockNumber: Int! # BigInt
+  expiresAt: String! # BigInt
+  blockTimeCreatedAt: String! # BigInt
+  blockTimeUpdatedAt: String # BigInt
+  marketplace: String! # Is this a contract hash or a district-related ID?
+  # Source?
+  is_sold: Boolean!
 }
 
 enum AuctionType {
@@ -9,48 +92,52 @@ enum AuctionType {
   estate
 }
 
-type Auction {
-  id: ID!
-  for_parcel: Parcel!
-  seller: String
-  is_sold: Boolean
-  type: AuctionType
-  marketplace_id: String
-  block_number: String # BigInt
-  status: AuctionStatus
-  buyer: String
-  price: String
-  expires_at: String # BigInt
-  created_at: String # BigInt
-  updated_at: String # BigInt
-  contract_id: String # EthereumAddress / ID / Reference
+enum AuctionStatus {
+  open
+  sold
+  cancelled
 }
 
-type Parcel {
-  id: ID!
-  owner: String # EthereumAddress / ID
-  data: String # Remove: Replace with attributes stored in the Parcel event data
-  x: Int # BigInt
-  y: Int # BigInt
-  district_id: String # EthereumAddress / ID / Reference
-  created_at: String # BigInt
-  updated_at: String # BigInt
-  last_transferred_at: String # BigInt
-  tags: String
-  in_estate: Boolean
-  in_district: District # Should be required (!)
-  active_auction: Auction @deriveFrom(field: "for_parcel")
+enum TransactionStatus {
+  confirmed
+  pending
 }
 
-type District {
-  id: String!
-  name: String
-  description: String
-  link: String
-  public: Boolean
-  parcel_count: Int
-  parcel_ids: [Parcel]
-  priority: String
-  center: Boolean
-  disabled: Boolean
+type Mortgage {
+  id: ID!
+  txHash: String! # Bytes
+  txStatus: TransactionStatus!
+  blockNumber: Int! # BigInt
+  status: MortgageStatus
+  type: MortgageType
+  parcel: Parcel
+  estate: Estate
+  borrower: String! # EthereumAccount / EthereumAddress / Bytes
+  lender: String!  # EthereumAccount / EthereumAddress / Bytes
+  loan_id: String!
+  mortgage_id: String!
+  amount: Int! # BigInt
+  expiresAt: String! # BigInt
+  isDueAt: String! # BigInt
+  payableAt: String! # BigInt
+  startedAt: String! # BigInt
+  paid: Int! # BigInt
+  interestRate: Int! # BigInt
+  punitoryInterestRate: Int! # BigInt
+  outstandingAmount: Int! # BigInt
+  blockTimeCreatedAt: String! # BigInt
+  blockTimeUpdatedAt: String # BigInt
+}
+
+enum MortgageType {
+  # ?
+}
+
+enum MortgageStatus {
+  pending
+  cancelled
+  ongoing
+  paid
+  defaulted
+  claimed
 }

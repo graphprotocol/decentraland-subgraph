@@ -1,6 +1,6 @@
 type Contribution {
   id: ID!
-  address: String! # EthereumAccount / EthereumAddress / Bytes
+  address: String! # Bytes!
   district: District!
   landCount: Int! # BigInt!
   timestamp: String! # BigInt!
@@ -19,17 +19,19 @@ type District {
   disabled: Boolean!
 }
 
-type Estate {
-  id: ID!
-  owner: String! # EthereumAccount / EthereumAddress / Bytes
-  data: EstateData!
-  lastTransferredAt: String! # BigInt
-}
+# Source?
+# type Estate {
+#   id: ID!
+#   owner: String! # Bytes!
+#   data: EstateData!
+#   lastTransferredAt: String! # BigInt
+# }
 
-type EstateData {
-  id: ID!
-  # ?
-}
+# Source?
+# type EstateData {
+#   id: ID!
+#   # ?
+# }
 
 type Parcel {
   id: ID!
@@ -37,24 +39,27 @@ type Parcel {
   y: Int # BigInt
   auctionPrice: Int # BigInt
   district: District
-  owner: String! # EthereumAccount / EthereumAddress / Bytes
+  owner: String! # Bytes
   data: ParcelData!
   lastTransferredAt: String! # BigInt
-  tags: [ParcelTag!]
-  inEstate: Boolean!
-  auctionOwner: String # EthereumAccount / EthereumAddress / Bytes
+  # Source?
+  # tags: [ParcelTag!]
+  # Source?
+  # inEstate: Boolean!
+  auctionOwner: String # Bytes
   auctionPrice: Int # BigInt!
   activeAuction: Auction
   auctions: [Auction!] @deriveFrom(field: "parcel")
+  createdAt: String! # BigInt!
+  updatedAt: String # BigInt
 
   # Source?
   # in_district: Boolean!
-  # created_at: String # BigInt
-  # updated_at: String # BigInt
 }
 
 type ParcelData {
   id: ID!
+  parcel: Parcel!
   version: Int
   name: String!
   description: String
@@ -70,21 +75,23 @@ type Auction {
   id: ID!
   type: AuctionType
   parcel: Parcel
-  estate: Estate
-  txHash: String! # Bytes
+  # Source?
+  # estate: Estate
+  txHash: String! # Bytes!
   txStatus: TransactionStatus
-  owner: String! # EthereumAccount / EthereumAddress / Bytes
-  price: Int! # BigInt
+  owner: String! # Bytes!
+  price: Int! # BigInt!
   status: AuctionStatus
-  buyer: String! # EthereumAccount / EthereumAddress / Bytes
-  contract_id: String! # EthereumAddress / Bytes
-  blockNumber: Int! # BigInt
-  expiresAt: String! # BigInt
-  blockTimeCreatedAt: String! # BigInt
+  buyer: String! # Bytes!
+  contract: String! # Is this a contract hash?
+  blockNumber: Int! # BigInt!
+  expiresAt: String! # BigInt!
+  blockTimeCreatedAt: String! # BigInt!
   blockTimeUpdatedAt: String # BigInt
   marketplace: String! # Is this a contract hash or a district-related ID?
+
   # Source?
-  is_sold: Boolean!
+  # is_sold: Boolean!
 }
 
 enum AuctionType {
@@ -103,41 +110,42 @@ enum TransactionStatus {
   pending
 }
 
-type Mortgage {
-  id: ID!
-  txHash: String! # Bytes
-  txStatus: TransactionStatus!
-  blockNumber: Int! # BigInt
-  status: MortgageStatus
-  type: MortgageType
-  parcel: Parcel
-  estate: Estate
-  borrower: String! # EthereumAccount / EthereumAddress / Bytes
-  lender: String!  # EthereumAccount / EthereumAddress / Bytes
-  loan_id: String!
-  mortgage_id: String!
-  amount: Int! # BigInt
-  expiresAt: String! # BigInt
-  isDueAt: String! # BigInt
-  payableAt: String! # BigInt
-  startedAt: String! # BigInt
-  paid: Int! # BigInt
-  interestRate: Int! # BigInt
-  punitoryInterestRate: Int! # BigInt
-  outstandingAmount: Int! # BigInt
-  blockTimeCreatedAt: String! # BigInt
-  blockTimeUpdatedAt: String # BigInt
-}
-
-enum MortgageType {
-  # ?
-}
-
-enum MortgageStatus {
-  pending
-  cancelled
-  ongoing
-  paid
-  defaulted
-  claimed
-}
+# type Mortgage {
+#   id: ID!
+#   txHash: String! # Bytes
+#   txStatus: TransactionStatus!
+#   blockNumber: Int! # BigInt
+#   status: MortgageStatus
+#   type: MortgageType
+#   parcel: Parcel
+#   estate: Estate
+#   borrower: String! # EthereumAccount / EthereumAddress / Bytes
+#   lender: String! # EthereumAccount / EthereumAddress / Bytes
+#   loan_id: String!
+#   mortgage_id: String!
+#   amount: Int! # BigInt
+#   expiresAt: String! # BigInt
+#   isDueAt: String! # BigInt
+#   payableAt: String! # BigInt
+#   startedAt: String! # BigInt
+#   paid: Int! # BigInt
+#   interestRate: Int! # BigInt
+#   punitoryInterestRate: Int! # BigInt
+#   outstandingAmount: Int! # BigInt
+#   blockTimeCreatedAt: String! # BigInt
+#   blockTimeUpdatedAt: String # BigInt
+# }
+#
+# enum MortgageType {
+#   estate
+#   parcel
+# }
+#
+# enum MortgageStatus {
+#   pending
+#   cancelled
+#   ongoing
+#   paid
+#   defaulted
+#   claimed
+# }

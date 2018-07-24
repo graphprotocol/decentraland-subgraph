@@ -22,7 +22,7 @@ export function handleAuctionCreated(event: AuctionCreated): void {
   // should probably make that available here
   database.create('Auction', auctionId, auction)
 
-  // Set the current auction of the parcel
+  // Set the active auction of the parcel
   let parcel = new Entity()
   parcel.setString('id', parcelId)
   parcel.setString('activeAuction', auctionId)
@@ -30,15 +30,36 @@ export function handleAuctionCreated(event: AuctionCreated): void {
 }
 
 export function handleAuctionCancelled(event: AuctionCancelled): void {
-  //let auction = new Entity()
-  //auction.setString('status', 'cancelled')
-  //database.update('Auction', event.id.toHex(), auction)
+  let auctionId = event.id.toHex()
+  let parcelId = event.assetId.toHex()
+
+  // Mark the auction as cancelled
+  let auction = new Entity()
+  auction.setString('status', 'cancelled')
+  // TODO: auction.setU256('blockTimeUpdatedAt', event.blockTime)
+  database.update('Auction', auctionId, auction)
+
+  // Clear the active auction of the parcel
+  let parcel = new Entity()
+  parcel.set('activeAuction', Value.fromNull())
+  database.update('Parcel', parcelId, parcel)
 }
 
 export function handleAuctionSuccessful(event: AuctionSuccessful): void {
-  //let auction = new Entity()
-  //auction.setString('status', 'sold')
-  //auction.setAddress('buyer', event.winner)
-  //auction.setU256('price', event.totalPrice)
-  //database.update('Auction', event.id.toHex(), auction)
+  let auctionId = event.id.toHex()
+  let parcelId = event.assetId.toHex()
+
+  // Mark the auction as sold
+  let auction = new Entity()
+  auction.setString('status', 'sold')
+  auction.setAddress('buyer', event.winner)
+  auction.setU256('price', event.totalPrice)
+  // TODO: auction.setU256('blockTimeCreatedAt', event.blockTime)
+  database.update('Auction', auctionId, auction)
+
+  // Update the parcel owner and active auction
+  let parcel = new Entity()
+  parcel.setAddress('owner', event.winner)
+  parcel.set('activeAuction', Value.fromNull())
+  database.update('Parcel', parcelId, parcel)
 }

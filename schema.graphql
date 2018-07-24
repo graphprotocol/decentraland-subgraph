@@ -49,7 +49,7 @@ type Parcel {
   auctionOwner: String # Bytes
   auctionPrice: Int # BigInt!
   activeAuction: Auction
-  auctions: [Auction!] @deriveFrom(field: "parcel")
+  auctions: [Auction!] @derivedFrom(field: "parcel")
   createdAt: String! # BigInt!
   updatedAt: String # BigInt
 

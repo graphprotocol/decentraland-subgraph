@@ -48,9 +48,8 @@ export function handleLandTransfer(event: Transfer): void {
   let parcel = new Entity()
   parcel.setString('id', parcelId)
   parcel.setString('owner', event.to.toHex())
-  parcel.setString('lastTransferredAt', '?')
-  // TODO: parcel.setU256('createdAt', event.blockTime)
-  database.create('Parcel', parcelId, parcel)
+  // TODO: parcel.setString('lastTransferredAt', event.blockTime)
+  database.update('Parcel', parcelId, parcel)
 }
 
 export function handleLandUpdate(event: Update): void {

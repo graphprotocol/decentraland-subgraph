@@ -35,8 +35,8 @@ type District {
 
 type Parcel {
   id: ID!
-  x: Int # BigInt
-  y: Int # BigInt
+  x: String! # BigInt!
+  y: String! # BigInt!
   auctionPrice: Int # BigInt
   district: District
   owner: String! # Bytes

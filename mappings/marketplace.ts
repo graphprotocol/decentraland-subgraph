@@ -35,12 +35,14 @@ export function handleAuctionCancelled(event: AuctionCancelled): void {
 
   // Mark the auction as cancelled
   let auction = new Entity()
+  auction.setString('id', auctionId)
   auction.setString('status', 'cancelled')
   // TODO: auction.setU256('blockTimeUpdatedAt', event.blockTime)
   database.update('Auction', auctionId, auction)
 
   // Clear the active auction of the parcel
   let parcel = new Entity()
+  parcel.setString('id', parcelId)
   parcel.set('activeAuction', Value.fromNull())
   database.update('Parcel', parcelId, parcel)
 }
@@ -51,6 +53,7 @@ export function handleAuctionSuccessful(event: AuctionSuccessful): void {
 
   // Mark the auction as sold
   let auction = new Entity()
+  auction.setString('id', auctionId)
   auction.setString('status', 'sold')
   auction.setAddress('buyer', event.winner)
   auction.setU256('price', event.totalPrice)
@@ -59,6 +62,7 @@ export function handleAuctionSuccessful(event: AuctionSuccessful): void {
 
   // Update the parcel owner and active auction
   let parcel = new Entity()
+  parcel.setString('id', parcelId)
   parcel.setAddress('owner', event.winner)
   parcel.set('activeAuction', Value.fromNull())
   database.update('Parcel', parcelId, parcel)

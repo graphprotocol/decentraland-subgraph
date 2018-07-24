@@ -53,7 +53,11 @@ export function handleLandTransfer(event: Transfer): void {
 }
 
 export function handleLandUpdate(event: Update): void {
+  // Bind LANDRegistry contract
+  let registry = LANDRegistry.bind(event.address, event.blockHash)
+
   let parcelId = event.assetId.toHex()
+  let coordinate = registry.decodeTokenId(event.assetId)
 
   // Create ParcelData entity
   let dataString = event.data.toString()
@@ -84,6 +88,8 @@ export function handleLandUpdate(event: Update): void {
   // Create Parcel entity
   let parcel = new Entity()
   parcel.setString('id', parcelId)
+  parcel.setI256('x', coordinate.value0)
+  parcel.setI256('y', coordinate.value1)
   parcel.setString('data', dataId)
   // TODO: parcel.setU256('updatedAt', event.blockTime)
 

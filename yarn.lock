@@ -35,12 +35,12 @@ asn1.js@^5.0.0:
     inherits "^2.0.1"
     minimalistic-assert "^1.0.0"
 
-"assemblyscript@https://github.com/AssemblyScript/assemblyscript/":
+"assemblyscript@https://github.com/AssemblyScript/assemblyscript#c4ebc8c291c1068da73ddf1a381eab93e1f69e11":
   version "0.5.0"
-  resolved "https://github.com/AssemblyScript/assemblyscript/#298a8f1688ef6fe6eef6d133c3a3d38182c094a2"
+  resolved "https://github.com/AssemblyScript/assemblyscript#c4ebc8c291c1068da73ddf1a381eab93e1f69e11"
   dependencies:
     "@protobufjs/utf8" "^1.1.0"
-    binaryen "49.0.0-nightly.20180718"
+    binaryen "48.0.0-nightly.20180627"
     long "^4.0.0"
 
 async@^2.5.0, async@^2.6.0, async@^2.6.1:
@@ -67,9 +67,9 @@ bignumber.js@^6.0.0:
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/bignumber.js/-/bignumber.js-6.0.0.tgz#bbfa047644609a5af093e9cbd83b0461fa3f6002"
 
-binaryen@49.0.0-nightly.20180718:
-  version "49.0.0-nightly.20180718"
-  resolved "https://registry.yarnpkg.com/binaryen/-/binaryen-49.0.0-nightly.20180718.tgz#f2dc871fa65c2e22ba7e3adb8fb301c26dadc1d2"
+binaryen@48.0.0-nightly.20180627:
+  version "48.0.0-nightly.20180627"
+  resolved "https://registry.yarnpkg.com/binaryen/-/binaryen-48.0.0-nightly.20180627.tgz#605e42c7db752922560d7f2582d5c9dcaa2f4822"
 
 bindings@^1.2.1:
   version "1.3.0"
@@ -395,6 +395,22 @@ glob@^7.1.2:
 graceful-fs@^4.1.2, graceful-fs@^4.1.6:
   version "4.1.11"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.1.11.tgz#0e8bdfe4d1ddb8854d64e04ea7c00e2a026e5658"
+
+"graph-cli@ssh://git@github.com:graphprotocol/graph-cli.git":
+  version "0.1.0"
+  resolved "ssh://git@github.com:graphprotocol/graph-cli.git#556eec59e4012d25380fb0dafb4abff2392b7c0b"
+  dependencies:
+    assemblyscript "https://github.com/AssemblyScript/assemblyscript#c4ebc8c291c1068da73ddf1a381eab93e1f69e11"
+    chalk "^2.4.1"
+    commander "^2.15.1"
+    debug "^3.1.0"
+    fs-extra "^6.0.1"
+    glob "^7.1.2"
+    immutable "^3.8.2"
+    ipfs-api "^22.2.1"
+    js-yaml "^3.12.0"
+    prettier "^1.13.5"
+    winston "^3.0.0"
 
 has-flag@^3.0.0:
   version "3.0.0"
@@ -1116,22 +1132,6 @@ tar-stream@^1.6.1:
 text-hex@1.0.x:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/text-hex/-/text-hex-1.0.0.tgz#69dc9c1b17446ee79a92bf5b884bb4b9127506f5"
-
-"the-graph-wasm@ssh://git@github.com:graphprotocol/the-graph-wasm":
-  version "0.1.0"
-  resolved "ssh://git@github.com:graphprotocol/the-graph-wasm#2c2cc5ab636403686f420c7472d9e60d6ac72057"
-  dependencies:
-    assemblyscript "https://github.com/AssemblyScript/assemblyscript/"
-    chalk "^2.4.1"
-    commander "^2.15.1"
-    debug "^3.1.0"
-    fs-extra "^6.0.1"
-    glob "^7.1.2"
-    immutable "^3.8.2"
-    ipfs-api "^22.2.1"
-    js-yaml "^3.12.0"
-    prettier "^1.13.5"
-    winston "^3.0.0"
 
 through2@^2.0.2, through2@^2.0.3:
   version "2.0.3"

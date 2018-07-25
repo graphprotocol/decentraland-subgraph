@@ -1,3 +1,4 @@
+# Defined in the REST API, source unclear
 type Contribution {
   id: ID!
   address: Bytes!
@@ -19,18 +20,18 @@ type District {
   disabled: Boolean!
 }
 
-# Source?
+# Defined in the REST API, source unclear
+#
 # type Estate {
 #   id: ID!
 #   owner: Bytes!
 #   data: EstateData!
-#   lastTransferredAt: String! # BigInt
+#   lastTransferredAt: BigInt
 # }
-
-# Source?
+#
 # type EstateData {
 #   id: ID!
-#   # ?
+#   ...
 # }
 
 type Parcel {
@@ -38,13 +39,11 @@ type Parcel {
   x: BigInt!
   y: BigInt!
   district: District
+  # Source unclear
+  # estate: Estate
   owner: Bytes!
   data: ParcelData!
   lastTransferredAt: BigInt
-  # Source?
-  # tags: [ParcelTag!]
-  # Source?
-  # inEstate: Boolean!
   auctionOwner: Bytes
   auctionPrice: BigInt
   activeAuction: Auction
@@ -52,8 +51,8 @@ type Parcel {
   createdAt: BigInt!
   updatedAt: BigInt
 
-  # Source?
-  # in_district: Boolean!
+  # Defined in the REST API, source unclear
+  # tags: [ParcelTag!]
 }
 
 type ParcelData {
@@ -65,16 +64,18 @@ type ParcelData {
   ipns: String
 }
 
-type ParcelTag {
-  id: ID!
-  # ?
-}
+# Defined in the REST API, source unclear
+#
+# type ParcelTag {
+#   id: ID!
+#   # ...
+# }
 
 type Auction {
   id: ID!
   type: AuctionType
   parcel: Parcel
-  # Source?
+  # Defined in the REST API, source unclear:
   # estate: Estate
   txHash: Bytes!
   txStatus: TransactionStatus
@@ -82,15 +83,12 @@ type Auction {
   price: BigInt!
   status: AuctionStatus
   buyer: Bytes
-  contract: String! # Is this a contract hash?
+  contract: Bytes!
   blockNumber: BigInt!
   expiresAt: BigInt!
   blockTimeCreatedAt: BigInt!
   blockTimeUpdatedAt: BigInt
-  marketplace: String! # Is this a contract hash or a district-related ID?
-
-  # Source?
-  # is_sold: Boolean!
+  marketplace: Bytes!
 }
 
 enum AuctionType {
@@ -109,6 +107,8 @@ enum TransactionStatus {
   pending
 }
 
+# Defined in contracts that are not deployed on mainnet yet:
+#
 # type Mortgage {
 #   id: ID!
 #   txHash: Bytes!

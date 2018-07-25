@@ -1,14 +1,12 @@
 {
   "name": "decentraland",
   "scripts": {
-    "codegen": "the-graph-wasm generate-types data-source.yaml",
-    "build": "the-graph-wasm compile data-source.yaml",
-    "build-ipfs": "the-graph-wasm compile --ipfs 127.0.0.1 data-source.yaml",
-    "build-wast": "the-graph-wasm compile -t wast data-source.yaml"
+    "codegen": "graph codegen data-source.yaml",
+    "build": "graph build data-source.yaml",
+    "build-ipfs": "graph build --ipfs /ip4/127.0.0.1/tcp/5001 data-source.yaml",
+    "build-wast": "graph build -t wast data-source.yaml"
   },
-  "devDependencies": {},
-  "dependencies": {
-    "the-graph-wasm":
-      "git+ssh://git@github.com/graphprotocol/the-graph-wasm.git#jannis/fixes"
+  "devDependencies": {
+    "the-graph-wasm": "ssh://git@github.com:graphprotocol/the-graph-wasm"
   }
 }

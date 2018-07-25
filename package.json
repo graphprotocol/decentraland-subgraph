@@ -7,6 +7,6 @@
     "build-wast": "graph build -t wast data-source.yaml"
   },
   "devDependencies": {
-    "the-graph-wasm": "ssh://git@github.com:graphprotocol/the-graph-wasm"
+    "graph-cli": "ssh://git@github.com:graphprotocol/graph-cli.git"
   }
 }

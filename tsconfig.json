@@ -1,6 +1,6 @@
 {
-  "extend": "./node_modules/the-graph-wasm/tsconfig.json",
+  "extend": "./node_modules/graph-cli/tsconfig.json",
   "compilerOptions": {
-    "types": ["the-graph-wasm"]
+    "types": ["graph-cli"]
   }
 }

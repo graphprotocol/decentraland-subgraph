@@ -50,9 +50,9 @@ export function handleLandTransfer(event: Transfer): void {
   parcel.setString('owner', event.to.toHex())
   // TODO: parcel.setString('lastTransferredAt', event.blockTime)
 
-  // Apply database updates
-  let db = Database.bind(event.blockHash)
-  db.update('Parcel', parcelId, parcel)
+  // Apply store updates
+  let store = Store.bind(event.blockHash)
+  store.set('Parcel', parcelId, parcel)
 }
 
 export function handleLandUpdate(event: Update): void {
@@ -96,8 +96,8 @@ export function handleLandUpdate(event: Update): void {
   parcel.setString('data', dataId)
   // TODO: parcel.setU256('updatedAt', event.blockTime)
 
-  // Apply database updates
-  let db = Database.bind(event.blockHash)
-  db.update('ParcelData', dataId, data)
-  db.update('Parcel', parcelId, parcel)
+  // Apply store updates
+  let store = Store.bind(event.blockHash)
+  store.set('ParcelData', dataId, data)
+  store.set('Parcel', parcelId, parcel)
 }

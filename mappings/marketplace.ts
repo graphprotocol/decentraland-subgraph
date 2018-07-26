@@ -26,10 +26,10 @@ export function handleAuctionCreated(event: AuctionCreated): void {
   parcel.setAddress('auctionOwner', event.seller)
   parcel.setU256('auctionPrice', event.priceInWei)
 
-  // Apply database updates
-  let db = Database.bind(event.blockHash)
-  db.create('Auction', auctionId, auction)
-  db.update('Parcel', parcelId, parcel)
+  // Apply store updates
+  let store = Store.bind(event.blockHash)
+  store.set('Auction', auctionId, auction)
+  store.set('Parcel', parcelId, parcel)
 }
 
 export function handleAuctionCancelled(event: AuctionCancelled): void {
@@ -50,10 +50,10 @@ export function handleAuctionCancelled(event: AuctionCancelled): void {
   parcel.set('auctionOwner', Value.fromNull())
   parcel.set('auctionPrice', Value.fromNull())
 
-  // Apply database updates
-  let db = Database.bind(event.blockHash)
-  db.update('Auction', auctionId, auction)
-  db.update('Parcel', parcelId, parcel)
+  // Apply store updates
+  let store = Store.bind(event.blockHash)
+  store.set('Auction', auctionId, auction)
+  store.set('Parcel', parcelId, parcel)
 }
 
 export function handleAuctionSuccessful(event: AuctionSuccessful): void {
@@ -77,8 +77,8 @@ export function handleAuctionSuccessful(event: AuctionSuccessful): void {
   parcel.set('auctionOwner', Value.fromNull())
   parcel.set('auctionPrice', Value.fromNull())
 
-  // Apply database updates
-  let db = Database.bind(event.blockHash)
-  db.update('Auction', auctionId, auction)
-  db.update('Parcel', parcelId, parcel)
+  // Apply store updates
+  let store = Store.bind(event.blockHash)
+  store.set('Auction', auctionId, auction)
+  store.set('Parcel', parcelId, parcel)
 }

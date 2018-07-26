@@ -18,9 +18,6 @@ export function handleAuctionCreated(event: AuctionCreated): void {
   // TODO: auction.setU256('blockNumber', event.blockNumber)
   // TODO: auction.setU256('blockTimeCreatedAt', event.blockTime)
   auction.setAddress('marketplace', event.address)
-  // This is the contract address of the marketplace contract; we
-  // should probably make that available here
-  database.create('Auction', auctionId, auction)
 
   // Set the active auction of the parcel
   let parcel = new Entity()
@@ -28,7 +25,11 @@ export function handleAuctionCreated(event: AuctionCreated): void {
   parcel.setString('activeAuction', auctionId)
   parcel.setAddress('auctionOwner', event.seller)
   parcel.setU256('auctionPrice', event.priceInWei)
-  database.update('Parcel', parcelId, parcel)
+
+  // Apply database updates
+  let db = Database.bind(event.blockHash)
+  db.create('Auction', auctionId, auction)
+  db.update('Parcel', parcelId, parcel)
 }
 
 export function handleAuctionCancelled(event: AuctionCancelled): void {
@@ -41,7 +42,6 @@ export function handleAuctionCancelled(event: AuctionCancelled): void {
   auction.setString('type', 'parcel')
   auction.setString('status', 'cancelled')
   // TODO: auction.setU256('blockTimeUpdatedAt', event.blockTime)
-  database.update('Auction', auctionId, auction)
 
   // Clear the active auction of the parcel
   let parcel = new Entity()
@@ -49,7 +49,11 @@ export function handleAuctionCancelled(event: AuctionCancelled): void {
   parcel.set('activeAuction', Value.fromNull())
   parcel.set('auctionOwner', Value.fromNull())
   parcel.set('auctionPrice', Value.fromNull())
-  database.update('Parcel', parcelId, parcel)
+
+  // Apply database updates
+  let db = Database.bind(event.blockHash)
+  db.update('Auction', auctionId, auction)
+  db.update('Parcel', parcelId, parcel)
 }
 
 export function handleAuctionSuccessful(event: AuctionSuccessful): void {
@@ -64,7 +68,6 @@ export function handleAuctionSuccessful(event: AuctionSuccessful): void {
   auction.setAddress('buyer', event.winner)
   auction.setU256('price', event.totalPrice)
   // TODO: auction.setU256('blockTimeCreatedAt', event.blockTime)
-  database.update('Auction', auctionId, auction)
 
   // Update the parcel owner and active auction
   let parcel = new Entity()
@@ -73,5 +76,9 @@ export function handleAuctionSuccessful(event: AuctionSuccessful): void {
   parcel.set('activeAuction', Value.fromNull())
   parcel.set('auctionOwner', Value.fromNull())
   parcel.set('auctionPrice', Value.fromNull())
-  database.update('Parcel', parcelId, parcel)
+
+  // Apply database updates
+  let db = Database.bind(event.blockHash)
+  db.update('Auction', auctionId, auction)
+  db.update('Parcel', parcelId, parcel)
 }

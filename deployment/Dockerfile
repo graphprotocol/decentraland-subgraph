@@ -59,7 +59,7 @@ COPY --chown=postgres graph-cli graph-cli
 # Copy, build and deploy the Decentraland data source
 COPY --chown=postgres decentraland decentraland
 RUN cd decentraland \
-    && git checkout jannis/improvement
+    && git checkout master
 
 # Start The Graph on startup
 ADD start-node.sh /usr/local/bin

@@ -15,12 +15,12 @@ fi
 
 set -x
 
-if [[ -d the-graph-network ]]; then
-    pushd the-graph-network
+if [[ -d graph-node ]]; then
+    pushd graph-node
     git pull --rebase origin master
     popd
 else
-    git clone git@github.com:graphprotocol/the-graph-network the-graph-network
+    git clone git@github.com:graphprotocol/graph-node graph-node
 fi
 
 if [[ -d graph-cli ]]; then

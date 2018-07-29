@@ -49,8 +49,8 @@ RUN curl https://sh.rustup.rs -sSf > /tmp/rustup \
     && /tmp/rustup -y
 
 # Copy, build and install The Graph
-COPY --chown=postgres the-graph-network the-graph-network
-RUN cd the-graph-network/node \
+COPY --chown=postgres graph-node graph-node
+RUN cd graph-node/node \
     && $HOME/.cargo/bin/cargo install --bins --locked
 
 # Copy The Graph CLI

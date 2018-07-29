@@ -17,16 +17,16 @@ pushd decentraland
 yarn add --dev ../graph-cli
 yarn
 yarn build-ipfs --verbosity debug \
-    | grep "Data source:" \
+    | grep "Subgraph:" \
     | cut -d: -f2 \
     | xargs echo -n \
-    > $HOME/data-source-id
+    > $HOME/subgraph-id
 popd
 
 # Start The Graph node
 export PATH="$PATH:$HOME/.cargo/bin"
-thegraph-node \
+graph-node \
     --postgres-url postgresql://decentraland:decentraland@localhost:5432/decentraland \
     --ethereum-ws wss://mainnet.infura.io/_ws \
     --ipfs 127.0.0.1:5001 \
-    --data-source "$(cat $HOME/data-source-id)"
+    --subgraph "$(cat $HOME/subgraph-id)"

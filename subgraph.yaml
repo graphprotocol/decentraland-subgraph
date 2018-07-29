@@ -1,0 +1,48 @@
+specVersion: 0.0.1
+schema:
+  file: ./schema.graphql
+dataSources:
+- kind: ethereum/contract
+  name: LANDRegistry
+  source:
+    address: "f87e31492faf9a91b02ee0deaad50d51d56d5d4d"
+    abi: LANDRegistry
+  mapping:
+    kind: ethereum/events
+    apiVersion: 0.0.1
+    language: wasm/assemblyscript
+    entities:
+    - Parcel
+    - ParcelData
+    abis:
+    - name: LANDRegistry
+      file: ./abis/LANDRegistry.json
+    eventHandlers:
+    - event: Transfer(address,address,uint256,address,bytes)
+      handler: handleLandTransfer
+    - event: Update(uint256,address,address,string)
+      handler: handleLandUpdate
+    file: ./mappings/land-registry.ts
+- kind: ethereum/contract
+  name: Marketplace
+  source:
+    address: "b3bca6f5052c7e24726b44da7403b56a8a1b98f8"
+    abi: Marketplace
+  mapping:
+    kind: ethereum/events
+    apiVersion: 0.0.1
+    language: wasm/assemblyscript
+    entities:
+    - Auction
+    - Parcel
+    abis:
+    - name: Marketplace
+      file: ./abis/Marketplace.json
+    eventHandlers:
+    - event: AuctionCreated(bytes32,uint256,address,uint256,uint256)
+      handler: handleAuctionCreated
+    - event: AuctionCancelled(bytes32,uint256,address)
+      handler: handleAuctionCancelled
+    - event: AuctionSuccessful(bytes32,uint256,address,uint256,address)
+      handler: handleAuctionSuccessful
+    file: ./mappings/marketplace.ts

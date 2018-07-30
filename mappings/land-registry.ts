@@ -42,12 +42,12 @@ function parseCSV(csv: string): Array<string> {
 }
 
 export function handleLandTransfer(event: Transfer): void {
-  let parcelId = event.assetId.toHex()
+  let parcelId = event.params.assetId.toHex()
   let registry = LANDRegistry.bind(event.address, event.blockHash)
 
   let parcel = new Entity()
   parcel.setString('id', parcelId)
-  parcel.setString('owner', event.to.toHex())
+  parcel.setString('owner', event.params.to.toHex())
   // TODO: parcel.setString('lastTransferredAt', event.blockTime)
 
   // Apply store updates
@@ -59,11 +59,11 @@ export function handleLandUpdate(event: Update): void {
   // Bind LANDRegistry contract
   let registry = LANDRegistry.bind(event.address, event.blockHash)
 
-  let parcelId = event.assetId.toHex()
-  let coordinate = registry.decodeTokenId(event.assetId)
+  let parcelId = event.params.assetId.toHex()
+  let coordinate = registry.decodeTokenId(event.params.assetId)
 
   // Create ParcelData entity
-  let dataString = event.data.toString()
+  let dataString = event.params.data.toString()
   let data = new Entity()
   let dataId = parcelId + '-data'
   data.setString('id', dataId)

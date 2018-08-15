@@ -1,0 +1,150 @@
+# Defined in the REST API, source unclear
+type Contribution {
+  id: ID!
+  address: Bytes!
+  district: District!
+  landCount: BigInt!
+  timestamp: BigInt!
+}
+
+type District {
+  id: ID!
+  name: String!
+  description: String
+  link: String!
+  public: Boolean!
+  parcelCount: BigInt!
+  parcels: [Parcel!]
+  center: String!
+  priority: String # Is this the real type?
+  disabled: Boolean!
+}
+
+# Defined in the REST API, source unclear
+#
+# type Estate {
+#   id: ID!
+#   owner: Bytes!
+#   data: EstateData!
+#   lastTransferredAt: BigInt
+# }
+#
+# type EstateData {
+#   id: ID!
+#   ...
+# }
+
+type Parcel {
+  id: ID!
+  x: BigInt!
+  y: BigInt!
+  district: District
+  # Source unclear
+  # estate: Estate
+  owner: Bytes!
+  data: ParcelData!
+  lastTransferredAt: BigInt
+  auctionOwner: Bytes
+  auctionPrice: BigInt
+  activeAuction: Auction
+  auctions: [Auction!] @derivedFrom(field: "parcel")
+  createdAt: BigInt!
+  updatedAt: BigInt
+
+  # Defined in the REST API, source unclear
+  # tags: [ParcelTag!]
+}
+
+type ParcelData {
+  id: ID!
+  parcel: Parcel!
+  version: String
+  name: String!
+  description: String
+  ipns: String
+}
+
+# Defined in the REST API, source unclear
+#
+# type ParcelTag {
+#   id: ID!
+#   # ...
+# }
+
+type Auction {
+  id: ID!
+  type: AuctionType
+  parcel: Parcel
+  # Defined in the REST API, source unclear:
+  # estate: Estate
+  txHash: Bytes!
+  txStatus: TransactionStatus
+  owner: Bytes!
+  price: BigInt!
+  status: AuctionStatus
+  buyer: Bytes
+  contract: Bytes!
+  blockNumber: BigInt!
+  expiresAt: BigInt!
+  blockTimeCreatedAt: BigInt!
+  blockTimeUpdatedAt: BigInt
+  marketplace: Bytes!
+}
+
+enum AuctionType {
+  parcel
+  estate
+}
+
+enum AuctionStatus {
+  open
+  sold
+  cancelled
+}
+
+enum TransactionStatus {
+  confirmed
+  pending
+}
+
+# Defined in contracts that are not deployed on mainnet yet:
+#
+# type Mortgage {
+#   id: ID!
+#   txHash: Bytes!
+#   txStatus: TransactionStatus!
+#   blockNumber: BigInt!
+#   status: MortgageStatus
+#   type: MortgageType
+#   parcel: Parcel
+#   estate: Estate
+#   borrower: Bytes
+#   lender: Bytes!
+#   loan_id: String!
+#   mortgage_id: String!
+#   amount: BigInt!
+#   expiresAt: BigInt!
+#   isDueAt: BigInt!
+#   payableAt: BigInt!
+#   startedAt: BigInt!
+#   paid: BigInt!
+#   interestRate: BigInt!
+#   punitoryInterestRate: BigInt!
+#   outstandingAmount: BigInt!
+#   blockTimeCreatedAt: BigInt!
+#   blockTimeUpdatedAt: BigInt
+# }
+#
+# enum MortgageType {
+#   estate
+#   parcel
+# }
+#
+# enum MortgageStatus {
+#   pending
+#   cancelled
+#   ongoing
+#   paid
+#   defaulted
+#   claimed
+# }

@@ -14,7 +14,7 @@ export function handleAuctionCreated(event: AuctionCreated): void {
   auction.unset('buyer')
   auction.setU256('price', event.params.priceInWei)
   auction.setU256('expiresAt', event.params.expiresAt)
-  auction.setAddress('contract', event.params.id)
+  auction.setAddress('contract', event.params.id as Address)
   // TODO: auction.setU256('blockNumber', event.blockNumber)
   // TODO: auction.setU256('blockTimeCreatedAt', event.blockTime)
   auction.setAddress('marketplace', event.address)
@@ -27,7 +27,6 @@ export function handleAuctionCreated(event: AuctionCreated): void {
   parcel.setU256('auctionPrice', event.params.priceInWei)
 
   // Apply store updates
-  let store = Store.bind(event.blockHash)
   store.set('Auction', auctionId, auction)
   store.set('Parcel', parcelId, parcel)
 }
@@ -51,7 +50,6 @@ export function handleAuctionCancelled(event: AuctionCancelled): void {
   parcel.set('auctionPrice', Value.fromNull())
 
   // Apply store updates
-  let store = Store.bind(event.blockHash)
   store.set('Auction', auctionId, auction)
   store.set('Parcel', parcelId, parcel)
 }
@@ -78,7 +76,6 @@ export function handleAuctionSuccessful(event: AuctionSuccessful): void {
   parcel.set('auctionPrice', Value.fromNull())
 
   // Apply store updates
-  let store = Store.bind(event.blockHash)
   store.set('Auction', auctionId, auction)
   store.set('Parcel', parcelId, parcel)
 }

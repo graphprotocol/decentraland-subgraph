@@ -51,7 +51,6 @@ export function handleLandTransfer(event: Transfer): void {
   // TODO: parcel.setString('lastTransferredAt', event.blockTime)
 
   // Apply store updates
-  let store = Store.bind(event.blockHash)
   store.set('Parcel', parcelId, parcel)
 }
 
@@ -97,7 +96,6 @@ export function handleLandUpdate(event: Update): void {
   // TODO: parcel.setU256('updatedAt', event.blockTime)
 
   // Apply store updates
-  let store = Store.bind(event.blockHash)
   store.set('ParcelData', dataId, data)
   store.set('Parcel', parcelId, parcel)
 }

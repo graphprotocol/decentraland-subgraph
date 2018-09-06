@@ -1,5 +1,5 @@
 # Defined in the REST API, source unclear
-type Contribution {
+type Contribution @entity {
   id: ID!
   address: Bytes!
   district: District!
@@ -7,7 +7,7 @@ type Contribution {
   timestamp: BigInt!
 }
 
-type District {
+type District @entity {
   id: ID!
   name: String!
   description: String
@@ -22,19 +22,19 @@ type District {
 
 # Defined in the REST API, source unclear
 #
-# type Estate {
+# type Estate @entity {
 #   id: ID!
 #   owner: Bytes!
 #   data: EstateData!
 #   lastTransferredAt: BigInt
 # }
 #
-# type EstateData {
+# type EstateData @entity {
 #   id: ID!
 #   ...
 # }
 
-type Parcel {
+type Parcel @entity {
   id: ID!
   x: BigInt!
   y: BigInt!
@@ -55,7 +55,7 @@ type Parcel {
   # tags: [ParcelTag!]
 }
 
-type ParcelData {
+type ParcelData @entity {
   id: ID!
   parcel: Parcel!
   version: String
@@ -66,12 +66,12 @@ type ParcelData {
 
 # Defined in the REST API, source unclear
 #
-# type ParcelTag {
+# type ParcelTag @entity {
 #   id: ID!
 #   # ...
 # }
 
-type Auction {
+type Auction @entity {
   id: ID!
   type: AuctionType
   parcel: Parcel
@@ -91,25 +91,25 @@ type Auction {
   marketplace: Bytes!
 }
 
-enum AuctionType {
+enum AuctionType @entity {
   parcel
   estate
 }
 
-enum AuctionStatus {
+enum AuctionStatus @entity {
   open
   sold
   cancelled
 }
 
-enum TransactionStatus {
+enum TransactionStatus @entity {
   confirmed
   pending
 }
 
 # Defined in contracts that are not deployed on mainnet yet:
 #
-# type Mortgage {
+# type Mortgage @entity {
 #   id: ID!
 #   txHash: Bytes!
 #   txStatus: TransactionStatus!
@@ -135,12 +135,12 @@ enum TransactionStatus {
 #   blockTimeUpdatedAt: BigInt
 # }
 #
-# enum MortgageType {
+# enum MortgageType @entity {
 #   estate
 #   parcel
 # }
 #
-# enum MortgageStatus {
+# enum MortgageStatus @entity {
 #   pending
 #   cancelled
 #   ongoing

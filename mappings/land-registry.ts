@@ -1,7 +1,7 @@
 enum CSVState {
   BETWEEN,
   UNQUOTED_VALUE,
-  QUOTED_VALUE,
+  QUOTED_VALUE
 }
 
 /**
@@ -43,7 +43,7 @@ function parseCSV(csv: string): Array<string> {
 
 export function handleLandTransfer(event: Transfer): void {
   let parcelId = event.params.assetId.toHex()
-  let registry = LANDRegistry.bind(event.address, event.blockHash)
+  let registry = LANDRegistry.bind(event.address)
 
   let parcel = new Entity()
   parcel.setString('id', parcelId)
@@ -56,7 +56,7 @@ export function handleLandTransfer(event: Transfer): void {
 
 export function handleLandUpdate(event: Update): void {
   // Bind LANDRegistry contract
-  let registry = LANDRegistry.bind(event.address, event.blockHash)
+  let registry = LANDRegistry.bind(event.address)
 
   let parcelId = event.params.assetId.toHex()
   let coordinate = registry.decodeTokenId(event.params.assetId)

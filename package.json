@@ -4,9 +4,11 @@
     "codegen": "graph codegen subgraph.yaml",
     "build": "graph build subgraph.yaml",
     "build-ipfs": "graph build --ipfs /ip4/127.0.0.1/tcp/5001 subgraph.yaml",
-    "build-wast": "graph build -t wast subgraph.yaml"
+    "build-wast": "graph build -t wast subgraph.yaml",
+    "deploy":
+      "graph deploy subgraph.yaml --watch --verbosity debug --node http://127.0.0.1:8020/ --ipfs /ip4/127.0.0.1/tcp/8030 --subgraph-name decentraland"
   },
   "devDependencies": {
-    "@graphprotocol/graph-cli": "^0.2.5"
+    "@graphprotocol/graph-cli": "^0.2.9"
   }
 }

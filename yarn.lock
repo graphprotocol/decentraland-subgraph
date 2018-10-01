@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@graphprotocol/graph-cli@^0.2.5":
-  version "0.2.5"
-  resolved "https://registry.yarnpkg.com/@graphprotocol/graph-cli/-/graph-cli-0.2.5.tgz#99d315f057e8650de82f861f261fc2d2989fc174"
+"@graphprotocol/graph-cli@^0.2.9":
+  version "0.2.9"
+  resolved "https://registry.yarnpkg.com/@graphprotocol/graph-cli/-/graph-cli-0.2.9.tgz#d2c3e6f2f2eacadb8aa567a2fd55c9a8c6fbb954"
   dependencies:
     assemblyscript "https://github.com/AssemblyScript/assemblyscript#c4ebc8c291c1068da73ddf1a381eab93e1f69e11"
     chalk "^2.4.1"

@@ -6,7 +6,7 @@
     "build-ipfs": "graph build --ipfs /ip4/127.0.0.1/tcp/5001 subgraph.yaml",
     "build-wast": "graph build -t wast subgraph.yaml",
     "deploy":
-      "graph deploy subgraph.yaml --watch --verbosity debug --node http://127.0.0.1:8020/ --ipfs /ip4/127.0.0.1/tcp/8030 --subgraph-name decentraland"
+      "graph deploy --ipfs /ip4/127.0.0.1/tcp/5001 --node http://127.0.0.1:8020 -n decentraland subgraph.yaml"
   },
   "devDependencies": {
     "@graphprotocol/graph-cli": "^0.2.9"

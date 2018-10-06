@@ -1,7 +1,13 @@
+import 'allocator/arena'
+export { allocate_memory }
+
+import { Entity, store } from '@graphprotocol/graph-ts'
+import { LANDRegistry, Transfer, Update } from './types/LANDRegistry/LANDRegistry'
+
 enum CSVState {
   BETWEEN,
   UNQUOTED_VALUE,
-  QUOTED_VALUE
+  QUOTED_VALUE,
 }
 
 /**

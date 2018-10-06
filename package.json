@@ -1,14 +1,14 @@
 {
   "name": "decentraland",
   "scripts": {
-    "codegen": "graph codegen subgraph.yaml",
+    "codegen": "graph codegen --output-dir src/types subgraph.yaml",
     "build": "graph build subgraph.yaml",
     "build-ipfs": "graph build --ipfs /ip4/127.0.0.1/tcp/5001 subgraph.yaml",
     "build-wast": "graph build -t wast subgraph.yaml",
-    "deploy":
-      "graph deploy subgraph.yaml --watch --verbosity debug --node http://127.0.0.1:8020/ --ipfs /ip4/127.0.0.1/tcp/8030 --subgraph-name decentraland"
+    "deploy": "graph deploy subgraph.yaml --watch --verbosity debug --node http://127.0.0.1:8020/ --ipfs /ip4/127.0.0.1/tcp/5001 --subgraph-name decentraland"
   },
   "devDependencies": {
-    "@graphprotocol/graph-cli": "^0.2.9"
+    "@graphprotocol/graph-cli": "^0.3.2",
+    "@graphprotocol/graph-ts": "^0.3.2"
   }
 }

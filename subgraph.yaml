@@ -5,7 +5,7 @@ dataSources:
 - kind: ethereum/contract
   name: LANDRegistry
   source:
-    address: "f87e31492faf9a91b02ee0deaad50d51d56d5d4d"
+    address: "0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d"
     abi: LANDRegistry
   mapping:
     kind: ethereum/events
@@ -22,11 +22,11 @@ dataSources:
       handler: handleLandTransfer
     - event: Update(uint256,address,address,string)
       handler: handleLandUpdate
-    file: ./mappings/land-registry.ts
+    file: ./src/land-registry.ts
 - kind: ethereum/contract
   name: Marketplace
   source:
-    address: "b3bca6f5052c7e24726b44da7403b56a8a1b98f8"
+    address: "0xb3bca6f5052c7e24726b44da7403b56a8a1b98f8"
     abi: Marketplace
   mapping:
     kind: ethereum/events
@@ -45,4 +45,4 @@ dataSources:
       handler: handleAuctionCancelled
     - event: AuctionSuccessful(bytes32,uint256,address,uint256,address)
       handler: handleAuctionSuccessful
-    file: ./mappings/marketplace.ts
+    file: ./src/marketplace.ts

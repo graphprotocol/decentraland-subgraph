@@ -1,3 +1,13 @@
+import 'allocator/arena'
+export { allocate_memory }
+
+import { Address, Entity, Value, store } from '@graphprotocol/graph-ts'
+import {
+  AuctionCreated,
+  AuctionCancelled,
+  AuctionSuccessful,
+} from './types/Marketplace/Marketplace'
+
 export function handleAuctionCreated(event: AuctionCreated): void {
   let auctionId = event.params.id.toHex()
   let parcelId = event.params.assetId.toHex()

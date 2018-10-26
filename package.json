@@ -8,7 +8,7 @@
     "deploy": "graph deploy subgraph.yaml --watch --verbosity debug --node http://127.0.0.1:8020/ --ipfs /ip4/127.0.0.1/tcp/5001 --subgraph-name decentraland"
   },
   "devDependencies": {
-    "@graphprotocol/graph-cli": "^0.3.2",
-    "@graphprotocol/graph-ts": "^0.3.3"
+    "@graphprotocol/graph-cli": "^0.4.0",
+    "@graphprotocol/graph-ts": "^0.4.0"
   }
 }

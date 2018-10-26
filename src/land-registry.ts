@@ -3,6 +3,7 @@ export { allocate_memory }
 
 import { Entity, store } from '@graphprotocol/graph-ts'
 import { LANDRegistry, Transfer, Update } from './types/LANDRegistry/LANDRegistry'
+import { Parcel, ParcelData } from './types/schema'
 
 enum CSVState {
   BETWEEN,
@@ -51,10 +52,9 @@ export function handleLandTransfer(event: Transfer): void {
   let parcelId = event.params.assetId.toHex()
   let registry = LANDRegistry.bind(event.address)
 
-  let parcel = new Entity()
-  parcel.setString('id', parcelId)
-  parcel.setString('owner', event.params.to.toHex())
-  // TODO: parcel.setString('lastTransferredAt', event.blockTime)
+  let parcel = new Parcel()
+  parcel.owner = event.params.to
+  parcel.lastTransferredAt = event.block.timestamp
 
   // Apply store updates
   store.set('Parcel', parcelId, parcel)
@@ -69,37 +69,35 @@ export function handleLandUpdate(event: Update): void {
 
   // Create ParcelData entity
   let dataString = event.params.data.toString()
-  let data = new Entity()
+  let data = new ParcelData()
   let dataId = parcelId + '-data'
-  data.setString('id', dataId)
-  data.setString('parcel', parcelId)
+  data.parcel = parcelId
 
   // Parse CSV data
   if (dataString.charAt(0) == '0') {
     let values = parseCSV(dataString)
     if (values.length > 0) {
-      data.setString('version', values[0])
+      data.version = values[0]
     }
     if (values.length > 1) {
-      data.setString('name', values[1])
+      data.name = values[1]
     }
     if (values.length > 2) {
-      data.setString('description', values[2])
+      data.description = values[2]
     }
     if (values.length > 3) {
-      data.setString('ipns', values[3])
+      data.ipns = values[3]
     }
   } else {
     return // Unsupported version
   }
 
   // Create Parcel entity
-  let parcel = new Entity()
-  parcel.setString('id', parcelId)
-  parcel.setI256('x', coordinate.value0)
-  parcel.setI256('y', coordinate.value1)
-  parcel.setString('data', dataId)
-  // TODO: parcel.setU256('updatedAt', event.blockTime)
+  let parcel = new Parcel()
+  parcel.x = coordinate.value0
+  parcel.y = coordinate.value1
+  parcel.data = dataId
+  parcel.updatedAt = event.block.timestamp
 
   // Apply store updates
   store.set('ParcelData', dataId, data)

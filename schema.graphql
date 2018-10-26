@@ -12,7 +12,7 @@ type District @entity {
   name: String!
   description: String
   link: String!
-  public: Boolean!
+  isPublic: Boolean!
   parcelCount: BigInt!
   parcels: [Parcel!]
   center: String!

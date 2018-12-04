@@ -1,4 +1,6 @@
 specVersion: 0.0.1
+description: Decentraland subgraph
+repository: https://github.com/graphprotocol/decentraland-subgraph
 schema:
   file: ./schema.graphql
 dataSources:

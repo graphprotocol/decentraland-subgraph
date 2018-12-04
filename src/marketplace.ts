@@ -1,7 +1,7 @@
 import 'allocator/arena'
 export { allocate_memory }
 
-import { Address, Entity, Value, store } from '@graphprotocol/graph-ts'
+import { Address, Value } from '@graphprotocol/graph-ts'
 import {
   AuctionCreated,
   AuctionCancelled,
@@ -15,7 +15,7 @@ export function handleAuctionCreated(event: AuctionCreated): void {
   let parcelId = event.params.assetId.toHex()
 
   // Create the auction
-  let auction = new Auction()
+  let auction = new Auction(auctionId)
   auction.type = 'parcel'
   auction.parcel = parcelId
   auction.status = 'open'
@@ -29,16 +29,14 @@ export function handleAuctionCreated(event: AuctionCreated): void {
   auction.blockNumber = event.block.number
   auction.blockTimeCreatedAt = event.block.timestamp
   auction.marketplace = event.address
+  auction.save()
 
   // Set the active auction of the parcel
-  let parcel = new Parcel()
+  let parcel = new Parcel(parcelId)
   parcel.activeAuction = auctionId
   parcel.auctionOwner = event.params.seller
   parcel.auctionPrice = event.params.priceInWei
-
-  // Apply store updates
-  store.set('Auction', auctionId, auction)
-  store.set('Parcel', parcelId, parcel)
+  parcel.save()
 }
 
 export function handleAuctionCancelled(event: AuctionCancelled): void {
@@ -46,20 +44,18 @@ export function handleAuctionCancelled(event: AuctionCancelled): void {
   let parcelId = event.params.assetId.toHex()
 
   // Mark the auction as cancelled
-  let auction = new Auction()
+  let auction = new Auction(auctionId)
   auction.type = 'parcel'
   auction.status = 'cancelled'
   auction.blockTimeUpdatedAt = event.block.timestamp
+  auction.save()
 
   // Clear the active auction of the parcel
-  let parcel = new Parcel()
+  let parcel = new Parcel(parcelId)
   parcel.activeAuction = null
   parcel.auctionOwner = null
   parcel.auctionPrice = null
-
-  // Apply store updates
-  store.set('Auction', auctionId, auction)
-  store.set('Parcel', parcelId, parcel)
+  parcel.save()
 }
 
 export function handleAuctionSuccessful(event: AuctionSuccessful): void {
@@ -67,21 +63,19 @@ export function handleAuctionSuccessful(event: AuctionSuccessful): void {
   let parcelId = event.params.assetId.toHex()
 
   // Mark the auction as sold
-  let auction = new Auction()
+  let auction = new Auction(auctionId)
   auction.type = 'parcel'
   auction.status = 'sold'
   auction.buyer = event.params.winner
   auction.price = event.params.totalPrice
   auction.blockTimeCreatedAt = event.block.timestamp
+  auction.save()
 
   // Update the parcel owner and active auction
-  let parcel = new Parcel()
+  let parcel = new Parcel(parcelId)
   parcel.owner = event.params.winner
   parcel.activeAuction = null
   parcel.auctionOwner = null
   parcel.auctionPrice = null
-
-  // Apply store updates
-  store.set('Auction', auctionId, auction)
-  store.set('Parcel', parcelId, parcel)
+  parcel.save()
 }

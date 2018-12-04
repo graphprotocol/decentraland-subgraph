@@ -1,7 +1,6 @@
 import 'allocator/arena'
 export { allocate_memory }
 
-import { Entity, store } from '@graphprotocol/graph-ts'
 import { LANDRegistry, Transfer, Update } from './types/LANDRegistry/LANDRegistry'
 import { Parcel, ParcelData } from './types/schema'
 
@@ -52,12 +51,10 @@ export function handleLandTransfer(event: Transfer): void {
   let parcelId = event.params.assetId.toHex()
   let registry = LANDRegistry.bind(event.address)
 
-  let parcel = new Parcel()
+  let parcel = new Parcel(parcelId)
   parcel.owner = event.params.to
   parcel.lastTransferredAt = event.block.timestamp
-
-  // Apply store updates
-  store.set('Parcel', parcelId, parcel)
+  parcel.save()
 }
 
 export function handleLandUpdate(event: Update): void {
@@ -69,8 +66,8 @@ export function handleLandUpdate(event: Update): void {
 
   // Create ParcelData entity
   let dataString = event.params.data.toString()
-  let data = new ParcelData()
   let dataId = parcelId + '-data'
+  let data = new ParcelData(dataId)
   data.parcel = parcelId
 
   // Parse CSV data
@@ -92,14 +89,13 @@ export function handleLandUpdate(event: Update): void {
     return // Unsupported version
   }
 
+  data.save()
+
   // Create Parcel entity
-  let parcel = new Parcel()
+  let parcel = new Parcel(parcelId)
   parcel.x = coordinate.value0
   parcel.y = coordinate.value1
   parcel.data = dataId
   parcel.updatedAt = event.block.timestamp
-
-  // Apply store updates
-  store.set('ParcelData', dataId, data)
-  store.set('Parcel', parcelId, parcel)
+  parcel.save()
 }

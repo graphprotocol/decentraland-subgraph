@@ -2,12 +2,33 @@ import {
   TypedMap,
   Entity,
   Value,
+  ValueKind,
+  store,
   Address,
   Bytes,
   BigInt
 } from "@graphprotocol/graph-ts";
 
 export class Contribution extends Entity {
+  constructor(id: string) {
+    this.set("id", Value.fromString(id));
+    return this;
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save Contribution entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save Contribution entity with non-string ID"
+    );
+    store.set("Contribution", id.toString(), this);
+  }
+
+  static load(id: string): Contribution | null {
+    return store.get("Contribution", id) as Contribution | null;
+  }
+
   get id(): string {
     let value = this.get("id");
     if (value === null) {
@@ -95,6 +116,25 @@ export class Contribution extends Entity {
 }
 
 export class District extends Entity {
+  constructor(id: string) {
+    this.set("id", Value.fromString(id));
+    return this;
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save District entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save District entity with non-string ID"
+    );
+    store.set("District", id.toString(), this);
+  }
+
+  static load(id: string): District | null {
+    return store.get("District", id) as District | null;
+  }
+
   get id(): string {
     let value = this.get("id");
     if (value === null) {
@@ -267,6 +307,25 @@ export class District extends Entity {
 }
 
 export class Parcel extends Entity {
+  constructor(id: string) {
+    this.set("id", Value.fromString(id));
+    return this;
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save Parcel entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save Parcel entity with non-string ID"
+    );
+    store.set("Parcel", id.toString(), this);
+  }
+
+  static load(id: string): Parcel | null {
+    return store.get("Parcel", id) as Parcel | null;
+  }
+
   get id(): string {
     let value = this.get("id");
     if (value === null) {
@@ -490,6 +549,25 @@ export class Parcel extends Entity {
 }
 
 export class ParcelData extends Entity {
+  constructor(id: string) {
+    this.set("id", Value.fromString(id));
+    return this;
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save ParcelData entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save ParcelData entity with non-string ID"
+    );
+    store.set("ParcelData", id.toString(), this);
+  }
+
+  static load(id: string): ParcelData | null {
+    return store.get("ParcelData", id) as ParcelData | null;
+  }
+
   get id(): string {
     let value = this.get("id");
     if (value === null) {
@@ -594,6 +672,25 @@ export class ParcelData extends Entity {
 }
 
 export class Auction extends Entity {
+  constructor(id: string) {
+    this.set("id", Value.fromString(id));
+    return this;
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save Auction entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save Auction entity with non-string ID"
+    );
+    store.set("Auction", id.toString(), this);
+  }
+
+  static load(id: string): Auction | null {
+    return store.get("Auction", id) as Auction | null;
+  }
+
   get id(): string {
     let value = this.get("id");
     if (value === null) {

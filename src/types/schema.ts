@@ -20,7 +20,8 @@ export class Contribution extends Entity {
     assert(id !== null, "Cannot save Contribution entity without an ID");
     assert(
       id.kind == ValueKind.STRING,
-      "Cannot save Contribution entity with non-string ID"
+      "Cannot save Contribution entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
     );
     store.set("Contribution", id.toString(), this);
   }
@@ -126,7 +127,8 @@ export class District extends Entity {
     assert(id !== null, "Cannot save District entity without an ID");
     assert(
       id.kind == ValueKind.STRING,
-      "Cannot save District entity with non-string ID"
+      "Cannot save District entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
     );
     store.set("District", id.toString(), this);
   }
@@ -317,7 +319,8 @@ export class Parcel extends Entity {
     assert(id !== null, "Cannot save Parcel entity without an ID");
     assert(
       id.kind == ValueKind.STRING,
-      "Cannot save Parcel entity with non-string ID"
+      "Cannot save Parcel entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
     );
     store.set("Parcel", id.toString(), this);
   }
@@ -559,7 +562,8 @@ export class ParcelData extends Entity {
     assert(id !== null, "Cannot save ParcelData entity without an ID");
     assert(
       id.kind == ValueKind.STRING,
-      "Cannot save ParcelData entity with non-string ID"
+      "Cannot save ParcelData entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
     );
     store.set("ParcelData", id.toString(), this);
   }
@@ -682,7 +686,8 @@ export class Auction extends Entity {
     assert(id !== null, "Cannot save Auction entity without an ID");
     assert(
       id.kind == ValueKind.STRING,
-      "Cannot save Auction entity with non-string ID"
+      "Cannot save Auction entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
     );
     store.set("Auction", id.toString(), this);
   }

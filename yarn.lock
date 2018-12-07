@@ -2,12 +2,12 @@
 # yarn lockfile v1
 
 
-"@graphprotocol/graph-cli@^0.4.0", "@graphprotocol/graph-cli@^0.4.1":
-  version "0.4.1"
-  resolved "https://registry.yarnpkg.com/@graphprotocol/graph-cli/-/graph-cli-0.4.1.tgz#22fade7b5f1d5455980e4ced284f14c0420fad36"
-  integrity sha512-dXAJBSqkoAVNj9haqI3tL+ECx1N28e3xV7Fbe3vCT/DWTekDyUAkkc65s9FG4PvFymHUzA2VwjJz8awlwY3zuA==
+"@graphprotocol/graph-cli@^0.5.0":
+  version "0.5.0"
+  resolved "https://registry.npmjs.org/@graphprotocol/graph-cli/-/graph-cli-0.5.0.tgz#566ae0bb29c091897bc60cacc946531b5f01da39"
+  integrity sha512-lkkt9MbYgKiEVvjs/JonQ3G1EuYRtv3YH4vZKUmnO41r8nhI5POSo/V0jAnh1Y+fjY4dWtOGBpstmHWj07bhSQ==
   dependencies:
-    assemblyscript "https://github.com/AssemblyScript/assemblyscript#c4ebc8c291c1068da73ddf1a381eab93e1f69e11"
+    assemblyscript "https://github.com/AssemblyScript/assemblyscript#ced01216f88a3037d0657a45255dc6df646ff10c"
     chalk "^2.4.1"
     chokidar "^2.0.4"
     commander "^2.18.0"
@@ -25,12 +25,12 @@
     request "^2.88.0"
     winston "^3.0.0"
 
-"@graphprotocol/graph-ts@^0.4.0", "@graphprotocol/graph-ts@^0.4.2":
-  version "0.4.2"
-  resolved "https://registry.yarnpkg.com/@graphprotocol/graph-ts/-/graph-ts-0.4.2.tgz#d111eb5b505a6ae5825ef976c40055056646383e"
-  integrity sha512-z19vLZ8fw04EcSu7alWdvvmNG05yFbfdJIAKBWDloctmCm56692S0X+QIuU92p7JmkW7XHcXf97uX5HCsEc9Zg==
+"@graphprotocol/graph-ts@^0.5.0":
+  version "0.5.0"
+  resolved "https://registry.npmjs.org/@graphprotocol/graph-ts/-/graph-ts-0.5.0.tgz#e05310437ee29cd04401cc2e5ff31ac33f39cca5"
+  integrity sha512-KAb+moDMgAGjD9knxE7ac4q1XCaW0KN0kq2tHsDmFlmvUQvl8V3zwRdAIv4/SLnuoFna9klxnSQEWR4G/0cfbw==
   dependencies:
-    assemblyscript "https://github.com/AssemblyScript/assemblyscript#c4ebc8c291c1068da73ddf1a381eab93e1f69e11"
+    assemblyscript "https://github.com/AssemblyScript/assemblyscript#ced01216f88a3037d0657a45255dc6df646ff10c"
 
 "@protobufjs/utf8@^1.1.0":
   version "1.1.0"
@@ -156,20 +156,13 @@ asn1@~0.2.3:
   dependencies:
     safer-buffer "~2.1.0"
 
-"assemblyscript@git+https://github.com/AssemblyScript/assemblyscript.git#c4ebc8c291c1068da73ddf1a381eab93e1f69e11":
+"assemblyscript@git+https://github.com/AssemblyScript/assemblyscript.git#ced01216f88a3037d0657a45255dc6df646ff10c":
   version "0.5.0"
-  resolved "git+https://github.com/AssemblyScript/assemblyscript.git#c4ebc8c291c1068da73ddf1a381eab93e1f69e11"
+  resolved "git+https://github.com/AssemblyScript/assemblyscript.git#ced01216f88a3037d0657a45255dc6df646ff10c"
   dependencies:
     "@protobufjs/utf8" "^1.1.0"
-    binaryen "48.0.0-nightly.20180627"
-    long "^4.0.0"
-
-"assemblyscript@https://github.com/AssemblyScript/assemblyscript#c4ebc8c291c1068da73ddf1a381eab93e1f69e11":
-  version "0.5.0"
-  resolved "https://github.com/AssemblyScript/assemblyscript#c4ebc8c291c1068da73ddf1a381eab93e1f69e11"
-  dependencies:
-    "@protobufjs/utf8" "^1.1.0"
-    binaryen "48.0.0-nightly.20180627"
+    binaryen "55.0.0-nightly.20181130"
+    glob "^7.1.3"
     long "^4.0.0"
 
 assert-plus@1.0.0, assert-plus@^1.0.0:
@@ -268,10 +261,10 @@ binary-extensions@^1.0.0:
   resolved "https://registry.yarnpkg.com/binary-extensions/-/binary-extensions-1.12.0.tgz#c2d780f53d45bba8317a8902d4ceeaf3a6385b14"
   integrity sha512-DYWGk01lDcxeS/K9IHPGWfT8PsJmbXRtRd2Sx72Tnb8pcYZQFF1oSDb8hJtS1vhp212q1Rzi5dUf9+nq0o9UIg==
 
-binaryen@48.0.0-nightly.20180627:
-  version "48.0.0-nightly.20180627"
-  resolved "https://registry.yarnpkg.com/binaryen/-/binaryen-48.0.0-nightly.20180627.tgz#605e42c7db752922560d7f2582d5c9dcaa2f4822"
-  integrity sha512-ZBXSVMoXb+LDiPX3Epdis57KJIqhSkvC3y8i0SEMCkOtErrAlEiS//UBrXBDUaqB12h0qU9gjNSC9iD987w7QQ==
+binaryen@55.0.0-nightly.20181130:
+  version "55.0.0-nightly.20181130"
+  resolved "https://registry.npmjs.org/binaryen/-/binaryen-55.0.0-nightly.20181130.tgz#67159e12073d8195813057714754727320521b3d"
+  integrity sha512-RfMiI0vavw7Sy7KX8h1xOs4D3zp9nehmtE87DSfY6nXyd2EAdMwJ97tWdepuhOc6JWZsntOfzUA2fqu/sYTTLg==
 
 bindings@^1.2.1:
   version "1.3.0"
@@ -994,7 +987,7 @@ glob-parent@^3.1.0:
     is-glob "^3.1.0"
     path-dirname "^1.0.0"
 
-glob@^7.0.5, glob@^7.1.2:
+glob@^7.0.5, glob@^7.1.2, glob@^7.1.3:
   version "7.1.3"
   resolved "https://registry.yarnpkg.com/glob/-/glob-7.1.3.tgz#3960832d3f1574108342dafd3a67b332c0969df1"
   integrity sha512-vcfuiIxogLV4DlGBHIUOwI0IbrJ8HWPc4MU7HzviGeNho/UJDfi6B5p3sHeWIQ0KGIU0Jpxi5ZHxemQfLkkAwQ==

@@ -1,7 +1,4 @@
-import 'allocator/arena'
-export { allocate_memory }
-
-import { Address, Value } from '@graphprotocol/graph-ts'
+import { Address } from '@graphprotocol/graph-ts'
 import {
   AuctionCreated,
   AuctionCancelled,

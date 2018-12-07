@@ -1,13 +1,10 @@
-import 'allocator/arena'
-export { allocate_memory }
-
 import { LANDRegistry, Transfer, Update } from './types/LANDRegistry/LANDRegistry'
 import { Parcel, ParcelData } from './types/schema'
 
 enum CSVState {
-  BETWEEN,
-  UNQUOTED_VALUE,
-  QUOTED_VALUE,
+  BETWEEN = 0,
+  UNQUOTED_VALUE = 1,
+  QUOTED_VALUE = 2,
 }
 
 /**

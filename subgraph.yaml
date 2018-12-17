@@ -1,11 +1,12 @@
 specVersion: 0.0.1
-description: Decentraland subgraph
+description: A decentralized virtual world that runs on open standards. Find districts, parcels, auctions, and more.
 repository: https://github.com/graphprotocol/decentraland-subgraph
 schema:
   file: ./schema.graphql
 dataSources:
 - kind: ethereum/contract
   name: LANDRegistry
+  network: mainnet
   source:
     address: "0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d"
     abi: LANDRegistry

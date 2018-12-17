@@ -6,6 +6,7 @@ schema:
 dataSources:
 - kind: ethereum/contract
   name: LANDRegistry
+  network: mainnet
   source:
     address: "0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d"
     abi: LANDRegistry
@@ -27,6 +28,7 @@ dataSources:
     file: ./src/land-registry.ts
 - kind: ethereum/contract
   name: Marketplace
+  network: mainnet
   source:
     address: "0xb3bca6f5052c7e24726b44da7403b56a8a1b98f8"
     abi: Marketplace

@@ -10,7 +10,7 @@
     "build-ipfs": "graph build --ipfs http://localhost:5001 subgraph.yaml",
     "build-wast": "graph build -t wast subgraph.yaml",
     "deploy": "graph deploy decentraland --debug --ipfs http://localhost:5001 --node http://127.0.0.1:8020/",
-    "watch": "graph deploy decentraland --watch --debug --node http://127.0.0.1:8020/ --ipfs http://localhost:5001",
+    "watch": "graph deploy decentraland --watch --debug --node http://127.0.0.1:8020/ --ipfs http://localhost:5001"
   },
   "devDependencies": {
     "@graphprotocol/graph-cli": "https://github.com/graphprotocol/graph-cli",

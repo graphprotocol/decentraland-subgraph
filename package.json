@@ -11,8 +11,6 @@
     "build-wast": "graph build -t wast subgraph.yaml",
     "deploy": "graph deploy decentraland --debug --ipfs http://localhost:5001 --node http://127.0.0.1:8020/",
     "watch": "graph deploy decentraland --watch --debug --node http://127.0.0.1:8020/ --ipfs http://localhost:5001",
-    "deploy-hosted": "graph deploy --debug graphprotocol/decentraland --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/ --access-token <ENTER_ACCESS_TOKEN>",
-    "deploy-staging": "graph deploy --debug davekaj/decentraland --ipfs https://api.staging.thegraph.com/ipfs/ --node https://api.staging.thegraph.com/deploy/ --access-token <ENTER_ACCESS_TOKEN>"
   },
   "devDependencies": {
     "@graphprotocol/graph-cli": "https://github.com/graphprotocol/graph-cli",

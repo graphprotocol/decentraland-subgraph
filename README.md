@@ -1,115 +1,62 @@
-# Decentraland
+# Decentraland Subgraph
+[Decentraland](https://github.com/graphprotocol/decentraland-subgraph) is a decentralized virtual world that runs on open standards.
 
-[Decentraland](https://decentraland.org) subgraph for [The Graph](https://thegraph.com).
+## Events and Contracts
 
-## Usage
+The Decentraland smart contracts where events are being sourced are `LANDRegistry.sol` and `Marketplace.sol`.
 
-The process of running a graph node locally and loading a subgraph is
-described in the [graph-node repository](https://github.com/graphprotocol/graph-node)
-and in the [Getting Started Guide](https://github.com/graphprotocol/graph-node/blob/master/docs/getting-started.md).
+This subgraph can be used for Decentraland on the mainnet, and all testnets. In order to run it for a testnet, the `subgraph.yaml` file will need to have the contract addresses changed to point to the correct address for each respective network.
 
-If you already know how to run a graph node and all you want to do is build
-the Decentraland subgraph, simply clone this repository and run:
+The subgraph takes about 4 hours to sync. 
+## Brief Description of The Graph Node Setup
 
-```bash
-yarn && yarn build-ipfs --verbosity debug
+A Graph Node can run multiple subgraphs. The subgraph ingests event data and contract storage by calling to Infura through https. It can connect to any geth or parity node that accepts RPC calls. Fast synced geth nodes work. To use parity, the `--no-warp` flag must be used. Setting up a local Ethereum node results in faster queries, but Infura allows for quickly starting, and meets most needs.
+
+This subgraph has three types of files which tell the Graph Node to ingest events from specific contracts. They are:
+* The subgraph manifest             (subgraph.yaml)
+* A GraphQL schema                  (schema.graphql)
+* Typescript Mapping scripts        (land-registry.ts, marketplace.ts) 
+
+This repository has these files created and ready to compile, so a user can start this subgraph on their own. The only thing that needs to be edited is the contract addresses in the `subgraph.yaml` file to change between mainnet and testnets.  
+
+This doc provides a quick guide on how to start up the Decentraland subgraph graph node. If these steps aren't descriptive enough, the [getting started guide](https://github.com/graphprotocol/graph-node/blob/master/docs/getting-started.md) has in depth details on running a subgraph. 
+
+## Steps to get the Decentraland Subgraph Running 
+  1. Install IPFS and run `ipfs init` followed by `ipfs daemon`
+  2. Install PostgreSQL and run `initdb -D .postgres` followed by `pg_ctl -D .postgres start` and `createdb decentraland-mainnet` (note this db name is used in the commands below for the mainnet examples)
+  3. If using Ubuntu, you may need to install additional packages: `sudo apt-get install -y clang libpq-dev libssl-dev pkg-config`
+  4. Clone this repository, and run the following:
+     * `yarn`
+     * `yarn codegen` 
+  5. Clone https://github.com/graphprotocol/graph-node from master and `cargo build` (this might take a while)
+  6. a) Now that all the dependencies are running, you can run the following command to connect to Infura mainnet (it may take a few minutes for Rust to compile). PASSWORD might be optional, it depends on your postgres setup:
+
+```
+  cargo run -p graph-node --release -- \
+  --postgres-url postgresql://USERNAME:[PASSWORD]@localhost:5432/decentraland-mainnet \
+  --ipfs 127.0.0.1:5001 \
+  --ethereum-rpc mainnet-infura:https://mainnet.infura.io --debug
+```
+  6. b) Or Mainnet Local:
+```
+  cargo run -p graph-node --release -- \
+  --postgres-url postgresql://USERNAME:[PASSWORD]@localhost:5432/decentraland-mainnet \
+  --ipfs 127.0.0.1:5001 \
+  --ethereum-rpc mainnet-local:http://127.0.0.1:8545 
 ```
 
-Then, use the output IPFS hash to load the subgraph with `graph-node` as described
-[here](https://github.com/graphprotocol/graph-node#running-a-local-graph-node).
+ 7. Now create the subgraph locally on The Graph Node with `yarn create-subgraph`. (On The Graph Hosted service, creating the subgraph is done in the web broswer). 
+  
+ 8. Now deploy the Decentralnad subgraph to The Graph Node with `yarn deploy`. You should see a lot of blocks being skipped in the `graph-node` terminal, and then it will start ingesting events from the moment the contracts were uploaded to the network. 
 
-## Gaps between the subgraph and the Decentraland REST server
+Now that the subgraph is running you may open a [Graphiql](https://github.com/graphql/graphiql) browser at `127.0.0.1:8000` and get started with querying.
 
-### Districts
+## Querying the subgraph
+The query below shows all the information that is possible to query, with a few filters. There are many other filtering options that can be used, just check out the [querying api](https://github.com/graphprotocol/graph-node/blob/master/docs/graphql-api.md).
 
-Districts are missing in the subgraph.
+```graphql
+todo
 
-**Reason:** Districts are neither stored on chain nor on IPFS.
-
-**Possible solution (easy):** Put the district definitions on IPFS and have a
-one-shot IPFS data source that loads them up and pushes entities
-for them into the store.
-
-### Estates
-
-Estates are missing in the subgraph.
-
-**Reason:** According to the overview of [Decentraland contract addresses](https://contracts.decentraland.org/addresses.json), the _EstateRegistry_
-contract is only deployed to mainnet at this point. We don't currently support indexing contracts on different networks at the
-same time.
-
-**Possible solution (hard):** Allow data sources to be network-specific and add support
-for indexing across multiple networks at the same time in `graph-node`.
-
-**Possible solution (easy):** Wait until _EstateRegistry_ is deployed to mainnet,
-then add a data source for this contract.
-
-### Mortgages, MANA and other contracts
-
-Out of the _MANAToken_, _LANDRegistry_, _LANDProxy_, _TerraformReserve_,
-_ReturnVesting_, _Marketplace_, _ServiceLocator_, _MortgageHelper_,
-_MortgageManager_, _RCNEngine_ and _DecentralandInvite_ contracts that are
-deployed to mainnet, we currently only index two:
-
-- LANDRegistry
-- Marketplace
-
-**Reason:** Last time we checked, not all of the above contracts were deployed
-to mainnet.
-
-**Possible solution (medium):** Agree on a schema with the Decentraland team, then
-add data sources for all contracts to the subgraph.
-
-### Maps
-
-The subgraph's GraphQL API does cover any of the following map-related requests:
-
-```http
-GET /map.png
-GET /parcels/:x/:y/map.png
-GET /estates/:id/map.png
 ```
+The command above can be copy pasted into the Graphiql interface in your browser at `127.0.0.1:8000`.
 
-**Reason:** Unless images of the global map, the map for each estate and the
-maps for all valid coordinates are stored on chain or on IPFS, we cannot serve
-them as part of the GraphQL API.
-
-**Possible solution:** A separate service?
-
-### Translations
-
-The subgraph's GraphQL API does not support fetching translations, specifically:
-
-```http
-GET /translations/:locale
-```
-
-**Reason:** The translations are not stored on IPFS. If they were, we could create
-a schema for them and fetch them from IPFS.
-
-**Possible solution (medium):** Put the translations for all locales on IPFS, add
-a schema for translations and use one-shot IPFS data sources to load them.
-
-### Tags
-
-Tags used in e.g. parcels (see
-[this example](https://docs.decentraland.org/decentraland/api/#response-example-3))
-are not supported in the subgraph.
-
-**Reason:** We couldn't find a specification for the tags.
-
-**Possible solution (medium):** Agree on a schema with the Decentraland team and
-index tags properly.
-
-### Block timestamps
-
-The `last_transferred_at` field of parcels, as well as a few other fields, are
-derived from block timestamps: see [parcelReducer.js](https://github.com/decentraland/marketplace/blob/master/monitor/reducers/parcelReducer.js#L36).
-This is currently not accounted for in the subgraph.
-
-**Reason:** Event handlers currently have no access to information about the block.
-
-**Possible solution (medium):** Either pass block data in to handlers as the second
-parameter, add an `event.getBlock(): EthereumBlock` method or add a completely
-separate `ethereum` host module with `getBlock(hash: H256): EthereumBlock` function.
-Use this to obtain meta data for the block, such as the block timestamp.

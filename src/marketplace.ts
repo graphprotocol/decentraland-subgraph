@@ -3,7 +3,6 @@ import {
   AuctionCreated,
   AuctionCancelled,
   AuctionSuccessful,
-  PauseParams,
 } from './types/Marketplace/Marketplace'
 import { Auction, Parcel } from './types/schema'
 

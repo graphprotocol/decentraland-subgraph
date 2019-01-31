@@ -11,8 +11,8 @@ import {
 
 export class Contribution extends Entity {
   constructor(id: string) {
+    this.entries = new Array(0);
     this.set("id", Value.fromString(id));
-    return this;
   }
 
   save(): void {
@@ -32,94 +32,54 @@ export class Contribution extends Entity {
 
   get id(): string {
     let value = this.get("id");
-    if (value === null) {
-      return null;
-    } else {
-      return value.toString() as string;
-    }
+    return value.toString();
   }
 
   set id(value: string) {
-    if (value === null) {
-      this.unset("id");
-    } else {
-      this.set("id", Value.fromString(value as string));
-    }
+    this.set("id", Value.fromString(value));
   }
 
   get address(): Bytes {
     let value = this.get("address");
-    if (value === null) {
-      return null;
-    } else {
-      return value.toBytes() as Bytes;
-    }
+    return value.toBytes();
   }
 
   set address(value: Bytes) {
-    if (value === null) {
-      this.unset("address");
-    } else {
-      this.set("address", Value.fromBytes(value as Bytes));
-    }
+    this.set("address", Value.fromBytes(value));
   }
 
   get district(): string {
     let value = this.get("district");
-    if (value === null) {
-      return null;
-    } else {
-      return value.toString() as string;
-    }
+    return value.toString();
   }
 
   set district(value: string) {
-    if (value === null) {
-      this.unset("district");
-    } else {
-      this.set("district", Value.fromString(value as string));
-    }
+    this.set("district", Value.fromString(value));
   }
 
   get landCount(): BigInt {
     let value = this.get("landCount");
-    if (value === null) {
-      return null;
-    } else {
-      return value.toBigInt() as BigInt;
-    }
+    return value.toBigInt();
   }
 
   set landCount(value: BigInt) {
-    if (value === null) {
-      this.unset("landCount");
-    } else {
-      this.set("landCount", Value.fromBigInt(value as BigInt));
-    }
+    this.set("landCount", Value.fromBigInt(value));
   }
 
   get timestamp(): BigInt {
     let value = this.get("timestamp");
-    if (value === null) {
-      return null;
-    } else {
-      return value.toBigInt() as BigInt;
-    }
+    return value.toBigInt();
   }
 
   set timestamp(value: BigInt) {
-    if (value === null) {
-      this.unset("timestamp");
-    } else {
-      this.set("timestamp", Value.fromBigInt(value as BigInt));
-    }
+    this.set("timestamp", Value.fromBigInt(value));
   }
 }
 
 export class District extends Entity {
   constructor(id: string) {
+    this.entries = new Array(0);
     this.set("id", Value.fromString(id));
-    return this;
   }
 
   save(): void {
@@ -139,36 +99,20 @@ export class District extends Entity {
 
   get id(): string {
     let value = this.get("id");
-    if (value === null) {
-      return null;
-    } else {
-      return value.toString() as string;
-    }
+    return value.toString();
   }
 
   set id(value: string) {
-    if (value === null) {
-      this.unset("id");
-    } else {
-      this.set("id", Value.fromString(value as string));
-    }
+    this.set("id", Value.fromString(value));
   }
 
   get name(): string {
     let value = this.get("name");
-    if (value === null) {
-      return null;
-    } else {
-      return value.toString() as string;
-    }
+    return value.toString();
   }
 
   set name(value: string) {
-    if (value === null) {
-      this.unset("name");
-    } else {
-      this.set("name", Value.fromString(value as string));
-    }
+    this.set("name", Value.fromString(value));
   }
 
   get description(): string | null {
@@ -176,7 +120,7 @@ export class District extends Entity {
     if (value === null) {
       return null;
     } else {
-      return value.toString() as string | null;
+      return value.toString();
     }
   }
 
@@ -190,53 +134,29 @@ export class District extends Entity {
 
   get link(): string {
     let value = this.get("link");
-    if (value === null) {
-      return null;
-    } else {
-      return value.toString() as string;
-    }
+    return value.toString();
   }
 
   set link(value: string) {
-    if (value === null) {
-      this.unset("link");
-    } else {
-      this.set("link", Value.fromString(value as string));
-    }
+    this.set("link", Value.fromString(value));
   }
 
   get isPublic(): boolean {
     let value = this.get("isPublic");
-    if (value === null) {
-      return false;
-    } else {
-      return value.toBoolean() as boolean;
-    }
+    return value.toBoolean();
   }
 
   set isPublic(value: boolean) {
-    if (value === null) {
-      this.unset("isPublic");
-    } else {
-      this.set("isPublic", Value.fromBoolean(value as boolean));
-    }
+    this.set("isPublic", Value.fromBoolean(value));
   }
 
   get parcelCount(): BigInt {
     let value = this.get("parcelCount");
-    if (value === null) {
-      return null;
-    } else {
-      return value.toBigInt() as BigInt;
-    }
+    return value.toBigInt();
   }
 
   set parcelCount(value: BigInt) {
-    if (value === null) {
-      this.unset("parcelCount");
-    } else {
-      this.set("parcelCount", Value.fromBigInt(value as BigInt));
-    }
+    this.set("parcelCount", Value.fromBigInt(value));
   }
 
   get parcels(): Array<string> | null {
@@ -244,7 +164,7 @@ export class District extends Entity {
     if (value === null) {
       return null;
     } else {
-      return value.toStringArray() as Array<string> | null;
+      return value.toStringArray();
     }
   }
 
@@ -258,19 +178,11 @@ export class District extends Entity {
 
   get center(): string {
     let value = this.get("center");
-    if (value === null) {
-      return null;
-    } else {
-      return value.toString() as string;
-    }
+    return value.toString();
   }
 
   set center(value: string) {
-    if (value === null) {
-      this.unset("center");
-    } else {
-      this.set("center", Value.fromString(value as string));
-    }
+    this.set("center", Value.fromString(value));
   }
 
   get priority(): string | null {
@@ -278,7 +190,7 @@ export class District extends Entity {
     if (value === null) {
       return null;
     } else {
-      return value.toString() as string | null;
+      return value.toString();
     }
   }
 
@@ -292,26 +204,18 @@ export class District extends Entity {
 
   get disabled(): boolean {
     let value = this.get("disabled");
-    if (value === null) {
-      return false;
-    } else {
-      return value.toBoolean() as boolean;
-    }
+    return value.toBoolean();
   }
 
   set disabled(value: boolean) {
-    if (value === null) {
-      this.unset("disabled");
-    } else {
-      this.set("disabled", Value.fromBoolean(value as boolean));
-    }
+    this.set("disabled", Value.fromBoolean(value));
   }
 }
 
 export class Parcel extends Entity {
   constructor(id: string) {
+    this.entries = new Array(0);
     this.set("id", Value.fromString(id));
-    return this;
   }
 
   save(): void {
@@ -331,19 +235,11 @@ export class Parcel extends Entity {
 
   get id(): string {
     let value = this.get("id");
-    if (value === null) {
-      return null;
-    } else {
-      return value.toString() as string;
-    }
+    return value.toString();
   }
 
   set id(value: string) {
-    if (value === null) {
-      this.unset("id");
-    } else {
-      this.set("id", Value.fromString(value as string));
-    }
+    this.set("id", Value.fromString(value));
   }
 
   get x(): BigInt | null {
@@ -351,7 +247,7 @@ export class Parcel extends Entity {
     if (value === null) {
       return null;
     } else {
-      return value.toBigInt() as BigInt | null;
+      return value.toBigInt();
     }
   }
 
@@ -368,7 +264,7 @@ export class Parcel extends Entity {
     if (value === null) {
       return null;
     } else {
-      return value.toBigInt() as BigInt | null;
+      return value.toBigInt();
     }
   }
 
@@ -385,7 +281,7 @@ export class Parcel extends Entity {
     if (value === null) {
       return null;
     } else {
-      return value.toString() as string | null;
+      return value.toString();
     }
   }
 
@@ -397,16 +293,16 @@ export class Parcel extends Entity {
     }
   }
 
-  get owner(): Bytes {
+  get owner(): Bytes | null {
     let value = this.get("owner");
     if (value === null) {
       return null;
     } else {
-      return value.toBytes() as Bytes;
+      return value.toBytes();
     }
   }
 
-  set owner(value: Bytes) {
+  set owner(value: Bytes | null) {
     if (value === null) {
       this.unset("owner");
     } else {
@@ -419,7 +315,7 @@ export class Parcel extends Entity {
     if (value === null) {
       return null;
     } else {
-      return value.toString() as string | null;
+      return value.toString();
     }
   }
 
@@ -436,7 +332,7 @@ export class Parcel extends Entity {
     if (value === null) {
       return null;
     } else {
-      return value.toBigInt() as BigInt | null;
+      return value.toBigInt();
     }
   }
 
@@ -453,7 +349,7 @@ export class Parcel extends Entity {
     if (value === null) {
       return null;
     } else {
-      return value.toBytes() as Bytes | null;
+      return value.toBytes();
     }
   }
 
@@ -470,7 +366,7 @@ export class Parcel extends Entity {
     if (value === null) {
       return null;
     } else {
-      return value.toBigInt() as BigInt | null;
+      return value.toBigInt();
     }
   }
 
@@ -487,7 +383,7 @@ export class Parcel extends Entity {
     if (value === null) {
       return null;
     } else {
-      return value.toString() as string | null;
+      return value.toString();
     }
   }
 
@@ -504,7 +400,7 @@ export class Parcel extends Entity {
     if (value === null) {
       return null;
     } else {
-      return value.toStringArray() as Array<string> | null;
+      return value.toStringArray();
     }
   }
 
@@ -516,16 +412,16 @@ export class Parcel extends Entity {
     }
   }
 
-  get createdAt(): BigInt {
+  get createdAt(): BigInt | null {
     let value = this.get("createdAt");
     if (value === null) {
       return null;
     } else {
-      return value.toBigInt() as BigInt;
+      return value.toBigInt();
     }
   }
 
-  set createdAt(value: BigInt) {
+  set createdAt(value: BigInt | null) {
     if (value === null) {
       this.unset("createdAt");
     } else {
@@ -538,7 +434,7 @@ export class Parcel extends Entity {
     if (value === null) {
       return null;
     } else {
-      return value.toBigInt() as BigInt | null;
+      return value.toBigInt();
     }
   }
 
@@ -553,8 +449,8 @@ export class Parcel extends Entity {
 
 export class ParcelData extends Entity {
   constructor(id: string) {
+    this.entries = new Array(0);
     this.set("id", Value.fromString(id));
-    return this;
   }
 
   save(): void {
@@ -574,36 +470,20 @@ export class ParcelData extends Entity {
 
   get id(): string {
     let value = this.get("id");
-    if (value === null) {
-      return null;
-    } else {
-      return value.toString() as string;
-    }
+    return value.toString();
   }
 
   set id(value: string) {
-    if (value === null) {
-      this.unset("id");
-    } else {
-      this.set("id", Value.fromString(value as string));
-    }
+    this.set("id", Value.fromString(value));
   }
 
   get parcel(): string {
     let value = this.get("parcel");
-    if (value === null) {
-      return null;
-    } else {
-      return value.toString() as string;
-    }
+    return value.toString();
   }
 
   set parcel(value: string) {
-    if (value === null) {
-      this.unset("parcel");
-    } else {
-      this.set("parcel", Value.fromString(value as string));
-    }
+    this.set("parcel", Value.fromString(value));
   }
 
   get version(): string | null {
@@ -611,7 +491,7 @@ export class ParcelData extends Entity {
     if (value === null) {
       return null;
     } else {
-      return value.toString() as string | null;
+      return value.toString();
     }
   }
 
@@ -628,7 +508,7 @@ export class ParcelData extends Entity {
     if (value === null) {
       return null;
     } else {
-      return value.toString() as string | null;
+      return value.toString();
     }
   }
 
@@ -645,7 +525,7 @@ export class ParcelData extends Entity {
     if (value === null) {
       return null;
     } else {
-      return value.toString() as string | null;
+      return value.toString();
     }
   }
 
@@ -662,7 +542,7 @@ export class ParcelData extends Entity {
     if (value === null) {
       return null;
     } else {
-      return value.toString() as string | null;
+      return value.toString();
     }
   }
 
@@ -677,8 +557,8 @@ export class ParcelData extends Entity {
 
 export class Auction extends Entity {
   constructor(id: string) {
+    this.entries = new Array(0);
     this.set("id", Value.fromString(id));
-    return this;
   }
 
   save(): void {
@@ -698,19 +578,11 @@ export class Auction extends Entity {
 
   get id(): string {
     let value = this.get("id");
-    if (value === null) {
-      return null;
-    } else {
-      return value.toString() as string;
-    }
+    return value.toString();
   }
 
   set id(value: string) {
-    if (value === null) {
-      this.unset("id");
-    } else {
-      this.set("id", Value.fromString(value as string));
-    }
+    this.set("id", Value.fromString(value));
   }
 
   get type(): string | null {
@@ -718,7 +590,7 @@ export class Auction extends Entity {
     if (value === null) {
       return null;
     } else {
-      return value.toString() as string | null;
+      return value.toString();
     }
   }
 
@@ -735,7 +607,7 @@ export class Auction extends Entity {
     if (value === null) {
       return null;
     } else {
-      return value.toString() as string | null;
+      return value.toString();
     }
   }
 
@@ -749,19 +621,11 @@ export class Auction extends Entity {
 
   get txHash(): Bytes {
     let value = this.get("txHash");
-    if (value === null) {
-      return null;
-    } else {
-      return value.toBytes() as Bytes;
-    }
+    return value.toBytes();
   }
 
   set txHash(value: Bytes) {
-    if (value === null) {
-      this.unset("txHash");
-    } else {
-      this.set("txHash", Value.fromBytes(value as Bytes));
-    }
+    this.set("txHash", Value.fromBytes(value));
   }
 
   get txStatus(): string | null {
@@ -769,7 +633,7 @@ export class Auction extends Entity {
     if (value === null) {
       return null;
     } else {
-      return value.toString() as string | null;
+      return value.toString();
     }
   }
 
@@ -783,36 +647,20 @@ export class Auction extends Entity {
 
   get owner(): Bytes {
     let value = this.get("owner");
-    if (value === null) {
-      return null;
-    } else {
-      return value.toBytes() as Bytes;
-    }
+    return value.toBytes();
   }
 
   set owner(value: Bytes) {
-    if (value === null) {
-      this.unset("owner");
-    } else {
-      this.set("owner", Value.fromBytes(value as Bytes));
-    }
+    this.set("owner", Value.fromBytes(value));
   }
 
   get price(): BigInt {
     let value = this.get("price");
-    if (value === null) {
-      return null;
-    } else {
-      return value.toBigInt() as BigInt;
-    }
+    return value.toBigInt();
   }
 
   set price(value: BigInt) {
-    if (value === null) {
-      this.unset("price");
-    } else {
-      this.set("price", Value.fromBigInt(value as BigInt));
-    }
+    this.set("price", Value.fromBigInt(value));
   }
 
   get status(): string | null {
@@ -820,7 +668,7 @@ export class Auction extends Entity {
     if (value === null) {
       return null;
     } else {
-      return value.toString() as string | null;
+      return value.toString();
     }
   }
 
@@ -837,7 +685,7 @@ export class Auction extends Entity {
     if (value === null) {
       return null;
     } else {
-      return value.toBytes() as Bytes | null;
+      return value.toBytes();
     }
   }
 
@@ -851,70 +699,38 @@ export class Auction extends Entity {
 
   get contract(): Bytes {
     let value = this.get("contract");
-    if (value === null) {
-      return null;
-    } else {
-      return value.toBytes() as Bytes;
-    }
+    return value.toBytes();
   }
 
   set contract(value: Bytes) {
-    if (value === null) {
-      this.unset("contract");
-    } else {
-      this.set("contract", Value.fromBytes(value as Bytes));
-    }
+    this.set("contract", Value.fromBytes(value));
   }
 
   get blockNumber(): BigInt {
     let value = this.get("blockNumber");
-    if (value === null) {
-      return null;
-    } else {
-      return value.toBigInt() as BigInt;
-    }
+    return value.toBigInt();
   }
 
   set blockNumber(value: BigInt) {
-    if (value === null) {
-      this.unset("blockNumber");
-    } else {
-      this.set("blockNumber", Value.fromBigInt(value as BigInt));
-    }
+    this.set("blockNumber", Value.fromBigInt(value));
   }
 
   get expiresAt(): BigInt {
     let value = this.get("expiresAt");
-    if (value === null) {
-      return null;
-    } else {
-      return value.toBigInt() as BigInt;
-    }
+    return value.toBigInt();
   }
 
   set expiresAt(value: BigInt) {
-    if (value === null) {
-      this.unset("expiresAt");
-    } else {
-      this.set("expiresAt", Value.fromBigInt(value as BigInt));
-    }
+    this.set("expiresAt", Value.fromBigInt(value));
   }
 
   get blockTimeCreatedAt(): BigInt {
     let value = this.get("blockTimeCreatedAt");
-    if (value === null) {
-      return null;
-    } else {
-      return value.toBigInt() as BigInt;
-    }
+    return value.toBigInt();
   }
 
   set blockTimeCreatedAt(value: BigInt) {
-    if (value === null) {
-      this.unset("blockTimeCreatedAt");
-    } else {
-      this.set("blockTimeCreatedAt", Value.fromBigInt(value as BigInt));
-    }
+    this.set("blockTimeCreatedAt", Value.fromBigInt(value));
   }
 
   get blockTimeUpdatedAt(): BigInt | null {
@@ -922,7 +738,7 @@ export class Auction extends Entity {
     if (value === null) {
       return null;
     } else {
-      return value.toBigInt() as BigInt | null;
+      return value.toBigInt();
     }
   }
 
@@ -936,18 +752,85 @@ export class Auction extends Entity {
 
   get marketplace(): Bytes {
     let value = this.get("marketplace");
-    if (value === null) {
-      return null;
-    } else {
-      return value.toBytes() as Bytes;
-    }
+    return value.toBytes();
   }
 
   set marketplace(value: Bytes) {
+    this.set("marketplace", Value.fromBytes(value));
+  }
+}
+
+export class Estate extends Entity {
+  constructor(id: string) {
+    this.entries = new Array(0);
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save Estate entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save Estate entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("Estate", id.toString(), this);
+  }
+
+  static load(id: string): Estate | null {
+    return store.get("Estate", id) as Estate | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get owner(): Bytes {
+    let value = this.get("owner");
+    return value.toBytes();
+  }
+
+  set owner(value: Bytes) {
+    this.set("owner", Value.fromBytes(value));
+  }
+
+  get operator(): Bytes {
+    let value = this.get("operator");
+    return value.toBytes();
+  }
+
+  set operator(value: Bytes) {
+    this.set("operator", Value.fromBytes(value));
+  }
+
+  get metaData(): string {
+    let value = this.get("metaData");
+    return value.toString();
+  }
+
+  set metaData(value: string) {
+    this.set("metaData", Value.fromString(value));
+  }
+
+  get land(): Array<string> | null {
+    let value = this.get("land");
     if (value === null) {
-      this.unset("marketplace");
+      return null;
     } else {
-      this.set("marketplace", Value.fromBytes(value as Bytes));
+      return value.toStringArray();
+    }
+  }
+
+  set land(value: Array<string> | null) {
+    if (value === null) {
+      this.unset("land");
+    } else {
+      this.set("land", Value.fromStringArray(value as Array<string>));
     }
   }
 }

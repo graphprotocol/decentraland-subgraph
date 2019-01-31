@@ -20,20 +20,6 @@ type District @entity {
   disabled: Boolean!
 }
 
-# Defined in the REST API, source unclear
-#
-# type Estate @entity {
-#   id: ID!
-#   owner: Bytes!
-#   data: EstateData!
-#   lastTransferredAt: BigInt
-# }
-#
-# type EstateData @entity {
-#   id: ID!
-#   ...
-# }
-
 type Parcel @entity {
   id: ID!
   x: BigInt
@@ -148,3 +134,22 @@ enum TransactionStatus @entity {
 #   defaulted
 #   claimed
 # }
+
+# NEWWWWWWW BELOWWWWW HEREEEEE
+
+# todo - estates can be added, districts still not needed,
+
+# api - get : districts, estates, contributions, map (returns parcels), map.png (returns png), parcels, txHash, mortages ??? :O
+
+# possible things to add - publication, tags -> proximity -> plaza -> road, data (of a parcel)
+
+type Estate @entity {
+  id: ID!       # estate ID (based on total supply of estates)
+  owner: Bytes!
+  operator: Bytes!
+  metaData: String! # eUpdate can change it
+  land: [String!]   # AddLand and TransferLand events (need to indexOf and drop)
+
+
+
+}

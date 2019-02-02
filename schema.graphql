@@ -146,10 +146,18 @@ enum TransactionStatus @entity {
 type Estate @entity {
   id: ID!       # estate ID (based on total supply of estates)
   owner: Bytes!
-  operator: Bytes!
-  metaData: String! # eUpdate can change it
-  land: [String!]   # AddLand and TransferLand events (need to indexOf and drop)
+  operator: Bytes
+  metaData: String  # Todo - make ! when not broken
+  land: [BigInt!]   # AddLand and TransferLand events (need to indexOf and drop)
+  size: BigInt!
+  tx: Bytes
+  sizeArray: Int!
+}
 
-
-
+type Order @entity {
+  id: ID!
+  seller: Bytes!
+  nftAddress: Bytes!
+  price: BigInt!
+  expiresAt: BigInt!
 }

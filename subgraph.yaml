@@ -4,33 +4,33 @@ repository: https://github.com/graphprotocol/decentraland-subgraph
 schema:
   file: ./schema.graphql
 dataSources:
+#- kind: ethereum/contract
+#  name: LANDRegistry
+#  network: mainnet
+#  source:
+#    address: "0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d"
+#    abi: LANDRegistry
+#  mapping:
+#    kind: ethereum/events
+#    apiVersion: 0.0.1
+#    language: wasm/assemblyscript
+#    entities:
+#    - Parcel
+#    - ParcelData
+#    abis:
+#    - name: LANDRegistry
+#      file: ./abis/LANDRegistry.json
+#    eventHandlers:
+#    - event: Transfer(address,address,uint256,address,bytes)
+#      handler: handleLandTransfer
+#    - event: Update(uint256,address,address,string)
+#      handler: handleLandUpdate
+#    file: ./src/land-registry.ts
 - kind: ethereum/contract
-  name: LANDRegistry
-  network: mainnet
-  source:
-    address: "0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d"
-    abi: LANDRegistry
-  mapping:
-    kind: ethereum/events
-    apiVersion: 0.0.1
-    language: wasm/assemblyscript
-    entities:
-    - Parcel
-    - ParcelData
-    abis:
-    - name: LANDRegistry
-      file: ./abis/LANDRegistry.json
-    eventHandlers:
-    - event: Transfer(address,address,uint256,address,bytes)
-      handler: handleLandTransfer
-    - event: Update(uint256,address,address,string)
-      handler: handleLandUpdate
-    file: ./src/land-registry.ts
-- kind: ethereum/contract
-  name: Marketplace
+  name: LegacyMarketplace
   source:
     address: "0xb3bca6f5052c7e24726b44da7403b56a8a1b98f8"
-    abi: Marketplace
+    abi: LegacyMarketplace
   mapping:
     kind: ethereum/events
     apiVersion: 0.0.1
@@ -39,7 +39,7 @@ dataSources:
     - Auction
     - Parcel
     abis:
-    - name: Marketplace
+    - name: LegacyMarketplace
       file: ./abis/Marketplace.json
     eventHandlers:
     - event: AuctionCreated(bytes32,uint256,address,uint256,uint256)
@@ -48,6 +48,36 @@ dataSources:
       handler: handleAuctionCancelled
     - event: AuctionSuccessful(bytes32,uint256,address,uint256,address)
       handler: handleAuctionSuccessful
+    file: ./src/legacy-marketplace.ts
+- kind: ethereum/contract
+  name: Marketplace
+  source:
+    address: "0x19a8ed4860007a66805782ed7e0bed4e44fc6717"
+    abi: Marketplace
+  mapping:
+    kind: ethereum/events
+    apiVersion: 0.0.1
+    language: wasm/assemblyscript
+    entities:
+      - Auction
+      - Parcel
+      - Order
+    abis:
+      - name: Marketplace
+        file: ./abis/Marketplace.json
+    eventHandlers:
+      - event: OrderCreated(bytes32,uint256,address,address,uint256,uint256)
+        handler: handleOrderCreated
+      - event: OrderSuccessful(bytes32,uint256,address,address,uint256,address)
+        handler: handleOrderSuccessful
+      - event: OrderCancelled(bytes32,uint256,address,address)
+        handler: handleOrderCancelled
+      - event: AuctionCreated(bytes32,uint256,address,uint256,uint256)
+        handler: handleAuctionCreated
+      - event: AuctionCancelled(bytes32,uint256,address)
+        handler: handleAuctionCancelled
+      - event: AuctionSuccessful(bytes32,uint256,address,uint256,address)
+        handler: handleAuctionSuccessful
     file: ./src/marketplace.ts
 - kind: ethereum/contract
   name: EstateRegistry
@@ -70,8 +100,8 @@ dataSources:
         handler: handleAddLand
       - event: RemoveLand(uint256,uint256,address)
         handler: handleRemoveLand
-      - event: Update(uint256,address,address,string)
-        handler: handleUpdate
+#      - event: Update(uint256,address,address,string)
+#        handler: handleEstate
       - event: UpdateOperator(uint256,address)
         handler: handleUpdateOperator
     file: ./src/estate.ts

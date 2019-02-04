@@ -25,7 +25,7 @@ dataSources:
       handler: handleLandTransfer
     - event: Update(uint256,address,address,string)
       handler: handleLandUpdate
-    file: ./src/land-registry.ts
+    file: ./src/mappings/land-registry.ts
 - kind: ethereum/contract
   name: LegacyMarketplace
   source:
@@ -43,11 +43,11 @@ dataSources:
       file: ./abis/Marketplace.json
     eventHandlers:
     - event: AuctionCreated(bytes32,uint256,address,uint256,uint256)
-      handler: handleAuctionCreated
+      handler: handleLegacyAuctionCreated
     - event: AuctionCancelled(bytes32,uint256,address)
-      handler: handleAuctionCancelled
+      handler: handleLegacyAuctionCancelled
     - event: AuctionSuccessful(bytes32,uint256,address,uint256,address)
-      handler: handleAuctionSuccessful
+      handler: handleLegacyAuctionSuccessful
     file: ./src/mappings/legacy-marketplace.ts
 - kind: ethereum/contract
   name: Marketplace

@@ -30,10 +30,10 @@ type Parcel @entity {
   owner: Bytes
   data: ParcelData
   lastTransferredAt: BigInt
-  auctionOwner: Bytes
-  auctionPrice: BigInt
-  activeAuction: Auction
-  auctions: [Auction!] @derivedFrom(field: "parcel")
+  orderOwner: Bytes
+  orderPrice: BigInt
+  activeOrder: Order
+  orders: [Order!] @derivedFrom(field: "parcel")
   createdAt: BigInt
   updatedAt: BigInt
 
@@ -57,9 +57,9 @@ type ParcelData @entity {
 #   # ...
 # }
 
-type Auction @entity {
+type Order @entity {
   id: ID!
-  type: AuctionType
+  type: OrderType
   parcel: Parcel
   # Defined in the REST API, source unclear:
   # estate: Estate # TODO
@@ -67,7 +67,7 @@ type Auction @entity {
   txStatus: TransactionStatus
   owner: Bytes!
   price: BigInt!
-  status: AuctionStatus
+  status: OrderStatus
   buyer: Bytes
   contract: Bytes!
   blockNumber: BigInt!
@@ -75,14 +75,18 @@ type Auction @entity {
   blockTimeCreatedAt: BigInt!
   blockTimeUpdatedAt: BigInt
   marketplace: Bytes!
+
+  # New addition on top of Legacy 'Auction'
+  nftAddress: Bytes!
+
 }
 
-enum AuctionType @entity {
+enum OrderType @entity {
   parcel
   estate
 }
 
-enum AuctionStatus @entity {
+enum OrderStatus @entity {
   open
   sold
   cancelled
@@ -138,6 +142,7 @@ enum TransactionStatus @entity {
 # NEWWWWWWW BELOWWWWW HEREEEEE
 
 # todo - estates can be added, districts still not needed,
+# note, Orders added above
 
 # api - get : districts, estates, contributions, map (returns parcels), map.png (returns png), parcels, txHash, mortages ??? :O
 
@@ -152,12 +157,4 @@ type Estate @entity {
   size: BigInt!
   tx: Bytes
   sizeArray: Int!
-}
-
-type Order @entity {
-  id: ID!
-  seller: Bytes!
-  nftAddress: Bytes!
-  price: BigInt!
-  expiresAt: BigInt!
 }

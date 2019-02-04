@@ -4,14 +4,18 @@ import {
   AuctionCancelled,
   AuctionSuccessful,
 } from '../types/Marketplace/Marketplace'
-import { Auction, Parcel } from '../types/schema'
+import { Order, Parcel } from '../types/schema'
 
-export function handleAuctionCreated(event: AuctionCreated): void {
+/*
+Note - the variable name 'auction` is kept throughout, even through we are creating new Order entities. This is to more clearly seperate legacy marketplace from marketplace.
+ */
+
+export function handleLegacyAuctionCreated(event: AuctionCreated): void {
   let auctionId = event.params.id.toHex()
   let parcelId = event.params.assetId.toHex()
 
   // Create the auction
-  let auction = new Auction(auctionId)
+  let auction = new Order(auctionId)
   auction.type = 'parcel'
   auction.parcel = parcelId
   auction.status = 'open'
@@ -29,18 +33,18 @@ export function handleAuctionCreated(event: AuctionCreated): void {
 
   // Set the active auction of the parcel
   let parcel = new Parcel(parcelId)
-  parcel.activeAuction = auctionId
-  parcel.auctionOwner = event.params.seller
-  parcel.auctionPrice = event.params.priceInWei
+  parcel.activeOrder = auctionId
+  parcel.orderOwner = event.params.seller
+  parcel.orderPrice = event.params.priceInWei
   parcel.save()
 }
 
-export function handleAuctionCancelled(event: AuctionCancelled): void {
+export function handleLegacyAuctionCancelled(event: AuctionCancelled): void {
   let auctionId = event.params.id.toHex()
   let parcelId = event.params.assetId.toHex()
 
   // Mark the auction as cancelled
-  let auction = new Auction(auctionId)
+  let auction = new Order(auctionId)
   auction.type = 'parcel'
   auction.status = 'cancelled'
   auction.blockTimeUpdatedAt = event.block.timestamp
@@ -48,18 +52,18 @@ export function handleAuctionCancelled(event: AuctionCancelled): void {
 
   // Clear the active auction of the parcel
   let parcel = new Parcel(parcelId)
-  parcel.activeAuction = null
-  parcel.auctionOwner = null
-  parcel.auctionPrice = null
+  parcel.activeOrder = null
+  parcel.orderOwner = null
+  parcel.orderPrice = null
   parcel.save()
 }
 
-export function handleAuctionSuccessful(event: AuctionSuccessful): void {
+export function handleLegacyAuctionSuccessful(event: AuctionSuccessful): void {
   let auctionId = event.params.id.toHex()
   let parcelId = event.params.assetId.toHex()
 
   // Mark the auction as sold
-  let auction = new Auction(auctionId)
+  let auction = new Order(auctionId)
   auction.type = 'parcel'
   auction.status = 'sold'
   auction.buyer = event.params.winner
@@ -70,8 +74,8 @@ export function handleAuctionSuccessful(event: AuctionSuccessful): void {
   // Update the parcel owner and active auction
   let parcel = new Parcel(parcelId)
   parcel.owner = event.params.winner
-  parcel.activeAuction = null
-  parcel.auctionOwner = null
-  parcel.auctionPrice = null
+  parcel.activeOrder = null
+  parcel.orderOwner = null
+  parcel.orderPrice = null
   parcel.save()
 }

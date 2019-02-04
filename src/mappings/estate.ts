@@ -30,11 +30,14 @@ export function handleAddLand(event: AddLand): void {
   estate.size = estate.size.plus(BigInt.fromI32(1))
   estate.save()
 
-  // TODO - link parcel to its Estate here as well
+  let landParcel = Parcel.load(event.params._landId.toHex())
+  landParcel.estate = id
+  landParcel.save()
+
+
 }
 
 // TODO - i got dragon city at 6485 parcels, decentralands got it at 5248. IT could be that im missing estate stuff. BUT MORE THAN LIKELY I AM MISSING AUCTION STUFF!
-//
 export function handleRemoveLand(event: RemoveLand): void {
   let id = event.params._estateId.toHex()
   let estate = Estate.load(id)
@@ -47,11 +50,10 @@ export function handleRemoveLand(event: RemoveLand): void {
   estate.sizeArray = estate.land.length
   estate.save()
 
-  // let landParcel = Parcel.load(event.params._landId.toHex())
-  // landParcel.owner = event.params._destinatary
-  // landParcel.save()
-
-  // TODO - remove parcel from its estate
+  let landParcel = Parcel.load(event.params._landId.toHex())
+  landParcel.owner = event.params._destinatary
+  landParcel.estate = null
+  landParcel.save()
 }
 
 

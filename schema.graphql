@@ -20,13 +20,13 @@ type District @entity {
   disabled: Boolean!
 }
 
+# aka land
 type Parcel @entity {
   id: ID!
   x: BigInt
   y: BigInt
   district: District
-  # Source unclear
-  # estate: Estate
+  estate: Estate
   owner: Bytes
   data: ParcelData
   lastTransferredAt: BigInt
@@ -62,7 +62,7 @@ type Auction @entity {
   type: AuctionType
   parcel: Parcel
   # Defined in the REST API, source unclear:
-  # estate: Estate
+  # estate: Estate # TODO
   txHash: Bytes!
   txStatus: TransactionStatus
   owner: Bytes!

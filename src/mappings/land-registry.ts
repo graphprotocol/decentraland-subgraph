@@ -96,3 +96,5 @@ export function handleLandUpdate(event: Update): void {
   parcel.updatedAt = event.block.timestamp
   parcel.save()
 }
+
+// tODO - add following of event UpdateOperator

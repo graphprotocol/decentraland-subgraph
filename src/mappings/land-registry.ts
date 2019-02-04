@@ -1,5 +1,5 @@
-import { LANDRegistry, Transfer, Update } from './types/LANDRegistry/LANDRegistry'
-import { Parcel, ParcelData } from './types/schema'
+import { LANDRegistry, Transfer, Update } from '../types/LANDRegistry/LANDRegistry'
+import { Parcel, ParcelData } from '../types/schema'
 
 enum CSVState {
   BETWEEN = 0,

@@ -6,8 +6,8 @@ import {
   AuctionCreated,
   AuctionSuccessful,
   AuctionCancelled,
-} from './types/Marketplace/Marketplace'
-import {Order, Parcel, Auction} from './types/schema'
+} from '../types/Marketplace/Marketplace'
+import {Order, Parcel, Auction} from '../types/schema'
 
 export function handleOrderCreated(event: OrderCreated): void {
 

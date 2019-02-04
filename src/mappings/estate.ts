@@ -5,8 +5,8 @@ import {
   RemoveLand,
   UpdateOperator,
   Update
-} from './types/EstateRegistry/Estate'
-import {Estate, Parcel} from './types/schema'
+} from '../types/EstateRegistry/Estate'
+import {Estate, Parcel} from '../types/schema'
 
 export function handleCreateEstate(event: CreateEstate): void {
   let id = event.params._estateId.toHex()
@@ -33,7 +33,8 @@ export function handleAddLand(event: AddLand): void {
   // TODO - link parcel to its Estate here as well
 }
 
-// TODO - i got dragon city at 6485 parcels, decentralands got it at 5248
+// TODO - i got dragon city at 6485 parcels, decentralands got it at 5248. IT could be that im missing estate stuff. BUT MORE THAN LIKELY I AM MISSING AUCTION STUFF!
+//
 export function handleRemoveLand(event: RemoveLand): void {
   let id = event.params._estateId.toHex()
   let estate = Estate.load(id)

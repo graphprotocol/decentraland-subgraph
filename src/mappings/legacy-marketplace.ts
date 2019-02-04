@@ -3,8 +3,8 @@ import {
   AuctionCreated,
   AuctionCancelled,
   AuctionSuccessful,
-} from './types/Marketplace/Marketplace'
-import { Auction, Parcel } from './types/schema'
+} from '../types/Marketplace/Marketplace'
+import { Auction, Parcel } from '../types/schema'
 
 export function handleAuctionCreated(event: AuctionCreated): void {
   let auctionId = event.params.id.toHex()

@@ -19,9 +19,11 @@ dataSources:
     - ParcelData
     abis:
     - name: LANDRegistry
-      file: ./abis/LANDRegistry.json
+      file: ./abis/UpdatedLANDRegistry.json
     eventHandlers:
     - event: Transfer(address,address,uint256,address,bytes)
+      handler: handleLegacyLandTransfer
+    - event: Transfer(address,address,uint256)
       handler: handleLandTransfer
     - event: Update(uint256,address,address,string)
       handler: handleLandUpdate

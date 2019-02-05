@@ -5,12 +5,27 @@
 
 The Decentraland smart contracts use upgradeability and proxies. These are important to consider when building the subgraph. With upgradeability, it means that we must carefully make sure every instance of a contract does get tracked by the subgraph, and that if any events are added or removed along the way, the subgraph mappings are written to ensure no data is missing. Proxies provide a benefit in that the proxy addresses often emit all of the events. For example, the `EstateProxy` emits all the important events for Estates, and the `EstateRegistry` has been updated multiple times, yet we only have to ingest from the proxy address. Care does need to be taken, in that we must examine every `EstateRegistry` on mainnet, in case an event has been removed from a previous version that does not show up on the current version. 
 
+### Important Notes on Contract Upgrades that Affect the Mappings
+* The `Transfer` event for LANDRegistry.sol has been updated. The first instance had five fields, the current one has 3 (and is the ERC721 standard). Both need to be tracked.
+
+
 Most events are ingested by the Graph Node, but some are purposely left out since they do not contribute a lot to to data sources we are interested in. They are listed below:
 
 *MarketplaceStorage.sol*
 * `ChangedPublicationFee`
 * `ChangedOwnerCutPerMillion`
 * `ChangeLegacyNFTAddress`
+
+*LandRegistry.sol*
+* `DeployAuthorized`
+* `DeployForbidden`
+* `Approval`
+* `ApprovalForAll`
+* `EstateRegistrySet`
+
+*EstateRegistry.sol*
+* `SetLANDRegistry`
+
 
 This subgraph can be used for Decentraland on mainnet, and all testnets. In order to run it for a 
 testnet, the `subgraph.yaml` file will need to have the contract addresses changed to point to the 

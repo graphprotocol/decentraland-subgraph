@@ -39,8 +39,10 @@ type Parcel @entity {
 
   # Defined in the REST API, source unclear
   # tags: [ParcelTag!]
-}
 
+  operators: [Bytes!]
+}
+update adi, update readme, fix trasnfer, add in update operator
 type ParcelData @entity {
   id: ID!
   parcel: Parcel!

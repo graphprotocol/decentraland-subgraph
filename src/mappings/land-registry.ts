@@ -1,4 +1,10 @@
-import { LANDRegistry, Transfer, Update } from '../types/LANDRegistry/LANDRegistry'
+import {
+  LANDRegistry,
+  Transfer,
+  Update,
+  UpdateOperator,
+  Transfer2
+} from '../types/LANDRegistry/LANDRegistry'
 import { Parcel, ParcelData } from '../types/schema'
 
 enum CSVState {
@@ -44,11 +50,27 @@ function parseCSV(csv: string): Array<string> {
   return values
 }
 
-export function handleLandTransfer(event: Transfer): void {
+// Legacy handles the old transfer with 5 fields
+// legacy address: 0xf540a0606498cfcde73f0c8a6276ad44f1930b1a
+export function handleLegacyLandTransfer(event: Transfer): void {
   let parcelId = event.params.assetId.toHex()
-  let registry = LANDRegistry.bind(event.address)
+  let parcel = Parcel.load(parcelId)
+  if (parcel == null) {
+    parcel = new Parcel(parcelId)
+  }
+  parcel.owner = event.params.to
+  parcel.lastTransferredAt = event.block.timestamp
+  parcel.save()
+}
 
-  let parcel = new Parcel(parcelId)
+// New LANDRegistry at block 6,240,242
+// address : 0x46fbCfd32eA671CAa21897C09072CB6cb44C0bc9
+export function handleLandTransfer(event: Transfer2): void {
+  let parcelId = event.params.assetId.toHex()
+  let parcel = Parcel.load(parcelId)
+  if (parcel == null) {
+    parcel = new Parcel(parcelId)
+  }
   parcel.owner = event.params.to
   parcel.lastTransferredAt = event.block.timestamp
   parcel.save()
@@ -97,4 +119,17 @@ export function handleLandUpdate(event: Update): void {
   parcel.save()
 }
 
-// tODO - add following of event UpdateOperator
+// Technical you can assign many operators, as it is just approval for
+// another address to trade your ERC721 land token.
+export function handleUpdateOperator(event: UpdateOperator):void{
+  let parcelId = event.params.assetId.toHex()
+  let parcel = Parcel.load(parcelId)
+
+  let operators = parcel.operators
+  if (operators == null) {
+    operators = []
+  }
+  operators.push(event.params.operator)
+  parcel.operators = operators
+
+}

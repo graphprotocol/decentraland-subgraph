@@ -18,6 +18,8 @@ Note - a legacy auction is very similar to an order. an order is updated to incl
        if it was legacy.
  */
 
+// TODO should be loading parcels in the handlers, except for creation
+
 export function handleOrderCreated(event: OrderCreated): void {
   let orderID = event.params.id.toHex()
   let assetID = event.params.assetId.toHex() // ID of the published NFT

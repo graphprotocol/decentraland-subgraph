@@ -10,6 +10,9 @@ import { Order, Parcel } from '../types/schema'
 Note - the variable name 'auction` is kept throughout, even through we are creating new Order entities. This is to more clearly seperate legacy marketplace from marketplace.
  */
 
+// TODO should be loading parcels in the handlers, except for creation
+
+
 export function handleLegacyAuctionCreated(event: AuctionCreated): void {
   let auctionId = event.params.id.toHex()
   let parcelId = event.params.assetId.toHex()

@@ -42,10 +42,10 @@ type Parcel @entity {
 
   operators: [Bytes!]
 }
-update adi, update readme, fix trasnfer, add in update operator
+
 type ParcelData @entity {
   id: ID!
-  parcel: Parcel!
+  parcel: Parcel! # Todo, does this need to be cahnged? it seems weird, like they are recursively referencing each other. or maybe you just dont query it
   version: String
   name: String
   description: String
@@ -66,7 +66,6 @@ type Order @entity {
   # Defined in the REST API, source unclear:
   # estate: Estate # TODO
   txHash: Bytes!
-  txStatus: TransactionStatus
   owner: Bytes!
   price: BigInt!
   status: OrderStatus
@@ -79,10 +78,11 @@ type Order @entity {
   marketplace: Bytes!
 
   # New addition on top of Legacy 'Auction'
-  nftAddress: Bytes!
+  nftAddress: Bytes
 
 }
 
+# TODO - are all these enums needed? OrderType-estate doesnt get used
 enum OrderType @entity {
   parcel
   estate
@@ -94,17 +94,11 @@ enum OrderStatus @entity {
   cancelled
 }
 
-enum TransactionStatus @entity {
-  confirmed
-  pending
-}
-
 # Defined in contracts that are not deployed on mainnet yet:
 #
 # type Mortgage @entity {
 #   id: ID!
 #   txHash: Bytes!
-#   txStatus: TransactionStatus!
 #   blockNumber: BigInt!
 #   status: MortgageStatus
 #   type: MortgageType

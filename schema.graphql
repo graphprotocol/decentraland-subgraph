@@ -179,20 +179,10 @@ type Estate @entity {
    estate: Estate
 
    # Get from loan (through engine) TODO
-   lender: Bytes
-   loanAmount: BigInt
-   paidOff: BigInt # event PaidMortgage (QUESTION - TOTAL, ACCUMULATED?)
-
-
-
-
-#   expiresAt: BigInt!
-#   isDueAt: BigInt!
-#   payableAt: BigInt!
-#   mortgage_id: String!
-#   interestRate: BigInt!
-#   punitoryInterestRate: BigInt!
-#   outstandingAmount: BigInt!
+   lender: Bytes!
+   loanAmount: BigInt!
+   dueTime: Int!
+   # Other data could be grabbed from the loan, but none of it seems necessary
  }
 
  enum MortgageStatus @entity {

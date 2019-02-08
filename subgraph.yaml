@@ -121,6 +121,8 @@ dataSources:
     abis:
       - name: MortgageManager
         file: ./abis/mortageManager.json
+      - name: RCNLoanEngine
+        file: ./abis/RCNLoanEngine.json
     eventHandlers:
       - event: RequestedMortgage(uint256,address,address,uint256,address,uint256,uint256,address)
         handler: handleRequestedMortgage

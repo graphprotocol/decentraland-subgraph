@@ -7,6 +7,7 @@ import {
   DefaultedMortgage,
   MortgageManager
 } from '../types/MortgageManager/MortgageManager'
+import { RCNLoanEngine } from "../types/MortgageManager/RCNLoanEngine";
 import {Mortgage, Parcel} from '../types/schema'
 
 export function handleRequestedMortgage(event: RequestedMortgage): void{
@@ -38,6 +39,15 @@ export function handleRequestedMortgage(event: RequestedMortgage): void{
   // mortgage.parcel = event.params._landId.toHex()
   // let parcel = Parcel.load(mortgage.parcel)
   // mortgage.estate = parcel.estate
+
+  // grab from the loan contract
+  let engineContract = RCNLoanEngine.bind(event.params._engine)
+  let lender = engineContract.getCreator(event.params._id)
+  let amount = engineContract.getAmount(event.params._id)
+  let dueTime = engineContract.getDueTime(event.params._id).toI32()
+  mortgage.lender = lender
+  mortgage.loanAmount = amount
+  mortgage.dueTime = dueTime
 
   mortgage.save()
 }

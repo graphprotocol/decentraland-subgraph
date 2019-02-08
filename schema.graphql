@@ -192,3 +192,9 @@ type Estate @entity {
    paid
    defaulted
  }
+
+type Invite @entity {
+  id: ID!   # eth user addr
+  inviteBalance: BigInt!
+  invites: [BigInt!]! # can own multiple invites, which are each ERC721 tokens
+}

@@ -22,6 +22,9 @@ Most events are ingested by the Graph Node, but some are purposely left out sinc
 *EstateRegistry.sol*
 * `SetLANDRegistry`
 
+*Invite.sol (DecentralandInvite)*
+* `URIUpdated`
+
 
 This subgraph can be used for Decentraland on mainnet, and all testnets. In order to run it for a 
 testnet, the `subgraph.yaml` file will need to have the contract addresses changed to point to the 
@@ -60,6 +63,38 @@ Events not used:
 * `SetEngine`
 * `UpdatedLandData` - this event is emitted by `LandRegistry.sol`, and appears to just emit duplicate information from the `MortgageManager.sol` contract, so we leave it out. 
 
+#### RCNEngine (NanoLoanEngine.sol)
+
+It isn't used directly as a source in the manifest, but it does get called by  `mortgageManager.ts` to get loan data.
+
+#### Decentraland Invite (Invite.sol)
+
+Code exists [here](https://github.com/decentraland/gate/blob/master/contracts/Invite.sol). This contract was deployed 4 different times, at the following addresses:
+
+* `0xCE55f653B5B7a112bfe2ef55fa5621ABDab16D39`
+* `0x2b6a877fafd33cd3ee98e772acafe7b6cff7c33b`
+* `0x399caff06e6419a8a3a6d4d1d2b94cb14ddeda87`
+* `0xf886313f213c198458eba7ae9329525e64eb763a`
+
+Only the last address is ingested by the subgraph. This is because there is no proxy for this contract, so it is assumed the first three contracts can be considered abandoned
+
+#### Contracts not tracked at all
+
+* `MANAToken`
+* `TerraformReserve`
+* `ReturnVesting`
+* `ServiceLocator`
+* `MortgageHelper`
+* `RCNToken`
+* `KyberOracle`
+* `LANDAuction`
+* `MANABurner`
+* `MultiSigWallet`
+* `Nobody`
+
+#### RCNToken.sol
+
+Not tracked.
 
 ## Brief Description of The Graph Node Setup
 

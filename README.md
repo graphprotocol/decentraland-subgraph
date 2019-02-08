@@ -5,10 +5,6 @@
 
 The Decentraland smart contracts use upgradeability and proxies. These are important to consider when building the subgraph. With upgradeability, it means that we must carefully make sure every instance of a contract does get tracked by the subgraph, and that if any events are added or removed along the way, the subgraph mappings are written to ensure no data is missing. Proxies provide a benefit in that the proxy addresses often emit all of the events. For example, the `EstateProxy` emits all the important events for Estates, and the `EstateRegistry` has been updated multiple times, yet we only have to ingest from the proxy address. Care does need to be taken, in that we must examine every `EstateRegistry` on mainnet, in case an event has been removed from a previous version that does not show up on the current version. 
 
-### Important Notes on Contract Upgrades that Affect the Mappings
-* The `Transfer` event for LANDRegistry.sol has been updated. The first instance had five fields, the current one has 3 (and is the ERC721 standard). Both need to be tracked.
-
-
 Most events are ingested by the Graph Node, but some are purposely left out since they do not contribute a lot to to data sources we are interested in. They are listed below:
 
 *MarketplaceStorage.sol*
@@ -32,6 +28,37 @@ testnet, the `subgraph.yaml` file will need to have the contract addresses chang
 correct address for each respective network.
 
 The subgraph takes a long time to sync. Somewhere between 10-20 hours, depending on your machine. 
+
+### Important Notes on Contract Upgrades that Affect the Mappings
+* The `Transfer` event for LANDRegistry.sol has been updated. The first instance had five fields, the current one has 3 (and is the ERC721 standard). Both need to be tracked.
+
+### Information That Has Not Been Added to the Subgraph
+
+`Districts` show up in the Decentraland Marketplace App. Unfortunately these are not stored on chain, they are stored by Decentraland in their own server. For now, these can't be added to a subgraph, unless they are put on chain, or sourced on IPFS and referenced on chain.
+
+> note TODO - address all contracts that havent been added, for all parties future reference. also mention tags, translations, maps (from jannis before). 
+> also address all the duplicate contracts i.e. track in the README the state of all upgrades 
+> note - mortages come from ripio network https://github.com/ripio/rcn-mortgages
+
+#### MortageHelper.sol
+
+This contract code lives here https://github.com/ripio/rcn-mortgages. There were three instances of it shown to exist on etherscan from https://github.com/decentraland/contracts :
+* 0x59ccfc50bd19dcd4f40a25459f2075084eebc11e - appears to be a typo, as this is not a contract address
+* 0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376 - Has seven events emitted, mostly setting global variables, and one Mortage. Seems depricated, so was left out of analysis
+* 0x90263Ea5C57Dc6603CA7202920735A6E31235bB9 - The current live contract. Oddly only has one event emitted. So this isn't tracked in the subgraph either
+
+#### MortageManager.sol
+
+This contract code lives here https://github.com/ripio/rcn-mortgages. There were three instances of it shown to exist on etherscan from https://github.com/decentraland/contracts :
+* 0xea06746f1bd82412f9f243f6bee0b8194d67a67d - appears to be a typo, as this is not a contract address
+* 0x0bdaf0d7eb72cac0e0c8defcbe83ccc06c66a602 - Only 4 events, appears it has been abandoned, so it isn't tracked in the subgraph
+* 0x9abf1295086afa0e49c60e95c437aa400c5333b8 - 100 transactions, with over 25 event logs, so this is tracked
+
+Events not used:
+* `ReadedOracle` 
+* `SetCreator`
+* `SetEngine`
+
 
 ## Brief Description of The Graph Node Setup
 

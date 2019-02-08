@@ -82,7 +82,6 @@ export function handleLandUpdate(event: Update): void {
 
   let parcelId = event.params.assetId.toHex()
   let coordinate = registry.decodeTokenId(event.params.assetId)
-
   // Create ParcelData entity
   let dataString = event.params.data.toString()
   let dataId = parcelId + '-data'

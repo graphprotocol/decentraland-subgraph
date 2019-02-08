@@ -154,3 +154,42 @@ type Estate @entity {
   tx: Bytes
   sizeArray: Int!
 }
+
+ type Mortgage @entity {
+   id: ID!                          # mortage ID
+   txHash: Bytes!
+   blockNumber: BigInt!
+   status: MortgageStatus
+   type: MortgageType
+   parcel: Parcel
+   estate: Estate
+   borrower: Bytes!
+   lender: Bytes
+   loan_id: String!
+#   mortgage_id: String!
+   amount: BigInt!                  # deposit???????????
+#   expiresAt: BigInt!
+#   isDueAt: BigInt!
+#   payableAt: BigInt!
+   startedAt: BigInt
+   paidOff: BigInt!                   #
+#   interestRate: BigInt!
+#   punitoryInterestRate: BigInt!
+#   outstandingAmount: BigInt!
+   blockTimeCreatedAt: BigInt!
+   blockTimeUpdatedAt: BigInt
+ }
+
+ enum MortgageType @entity {
+   estate
+   parcel
+ }
+
+ enum MortgageStatus @entity {
+   pending
+   cancelled
+   ongoing
+   paid
+   defaulted
+   claimed
+ }

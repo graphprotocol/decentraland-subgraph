@@ -58,6 +58,7 @@ Events not used:
 * `ReadedOracle` 
 * `SetCreator`
 * `SetEngine`
+* `UpdatedLandData` - this event is emitted by `LandRegistry.sol`, and appears to just emit duplicate information from the `MortgageManager.sol` contract, so we leave it out. 
 
 
 ## Brief Description of The Graph Node Setup

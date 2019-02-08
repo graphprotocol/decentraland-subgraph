@@ -158,31 +158,38 @@ type Estate @entity {
  type Mortgage @entity {
    id: ID!                          # mortage ID
    txHash: Bytes!
-   blockNumber: BigInt!
-   status: MortgageStatus
-   type: MortgageType
+   createdAt: BigInt!
+   startedAt: BigInt
+   lastUpdatedAt: BigInt!
+   status: MortgageStatus!
+
+   borrower: Bytes!
+   rcnEngine: Bytes!
+   loan_id: BigInt!
+   landMarket: Bytes!
+   landID: BigInt!
+   deposit: BigInt!                 # User deposit in MANA (collateral)
+   tokenConverter: Bytes!
+
+   # Get Estate from Parcel.load()
    parcel: Parcel
    estate: Estate
-   borrower: Bytes!
+
+   # Get from loan (through engine) TODO
    lender: Bytes
-   loan_id: String!
-#   mortgage_id: String!
-   amount: BigInt!                  # deposit???????????
+   loanAmount: BigInt
+   paidOff: BigInt # event PaidMortgage (QUESTION - TOTAL, ACCUMULATED?)
+
+
+
+
 #   expiresAt: BigInt!
 #   isDueAt: BigInt!
 #   payableAt: BigInt!
-   startedAt: BigInt
-   paidOff: BigInt!                   #
+#   mortgage_id: String!
 #   interestRate: BigInt!
 #   punitoryInterestRate: BigInt!
 #   outstandingAmount: BigInt!
-   blockTimeCreatedAt: BigInt!
-   blockTimeUpdatedAt: BigInt
- }
-
- enum MortgageType @entity {
-   estate
-   parcel
  }
 
  enum MortgageStatus @entity {

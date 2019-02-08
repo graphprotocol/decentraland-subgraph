@@ -171,6 +171,9 @@ type Estate @entity {
    deposit: BigInt!                 # User deposit in MANA (collateral)
    tokenConverter: Bytes!
 
+   # Get from Storage
+   landCost: BigInt!
+
    # Get Estate from Parcel.load()
    parcel: Parcel
    estate: Estate
@@ -198,5 +201,4 @@ type Estate @entity {
    ongoing
    paid
    defaulted
-   claimed
  }

@@ -5,31 +5,12 @@ import {
   CanceledMortgage,
   PaidMortgage,
   DefaultedMortgage,
-  UpdatedLandData
+  MortgageManager
 } from '../types/MortgageManager/MortgageManager'
-import {Estate, Mortgage, Parcel} from '../types/schema'
-
-
-// event RequestedMortgage(
-//   uint256 _id,
-//   address _borrower,
-//   address _engine,
-//   uint256 _loanId,
-//   address _landMarket,
-//   uint256 _landId,
-//   uint256 _deposit,
-//   address _tokenConverter
-// );
-//
-// event StartedMortgage(uint256 _id);
-// event CanceledMortgage(address _from, uint256 _id);
-// event PaidMortgage(address _from, uint256 _id); IS THIS ONE PAYMENT , or fully paid
-// event DefaultedMortgage(uint256 _id);
-// event UpdatedLandData(address _updater, uint256 _parcel, string _data);
-
+import {Mortgage, Parcel} from '../types/schema'
 
 export function handleRequestedMortgage(event: RequestedMortgage): void{
-  let id = event.params._id.toHex()
+  let id = event.params._id.toString()
   let mortgage = new Mortgage(id)
 
   // block fields
@@ -47,10 +28,13 @@ export function handleRequestedMortgage(event: RequestedMortgage): void{
   mortgage.deposit = event.params._deposit
   mortgage.tokenConverter = event.params._tokenConverter
 
-  // tODO - get the landCost by mortages[event.params._id)
+  // can only grab landCost from storage
+  let contract = MortgageManager.bind(event.address)
+  let storage = contract.mortgages(event.params._id)
+  mortgage.landCost = storage.value6
 
-
-  // get estate from loading the parcel // TODO - cant fully test until a full sync
+  // get estate from loading the parcel
+  // TODO - cant fully test until a full sync
   // mortgage.parcel = event.params._landId.toHex()
   // let parcel = Parcel.load(mortgage.parcel)
   // mortgage.estate = parcel.estate
@@ -59,31 +43,36 @@ export function handleRequestedMortgage(event: RequestedMortgage): void{
 }
 
 export function handleStartedMortgage(event: StartedMortgage): void{
-
-  //ongoing
-  // time started at
-  // last updated at
-  // note, nothing else is really updated in the Mortgage
-
+  let id = event.params._id.toString()
+  let mortgage = Mortgage.load(id)
+  mortgage.lastUpdatedAt = event.block.timestamp
+  mortgage.status = "ongoing"
+  mortgage.startedAt = event.block.timestamp
+  mortgage.save()
 }
 
 export function handleCanceledMortgage(event: CanceledMortgage): void{
-
-  // update it to cancelled , dont owrry about the _from
-
+  let id = event.params._id.toString()
+  let mortgage = Mortgage.load(id)
+  mortgage.lastUpdatedAt = event.block.timestamp
+  mortgage.status = "cancelled"
+  mortgage.save()
 }
 
 // Note this means it fully paid, and the mortgage token is deleted. NOT partial payment
 export function handlePaidMortgage(event: PaidMortgage): void{
-
-  //last updated at (implies it has been paid)
-  // update status to paid
-
+  let id = event.params._id.toString()
+  let mortgage = Mortgage.load(id)
+  mortgage.lastUpdatedAt = event.block.timestamp
+  mortgage.status = "paid"
+  mortgage.save()
 }
 
 // Note - has not been emitted on mainnet, so haven't confirmed it works
 export function handleDefaultedMortgage(event: DefaultedMortgage): void{
-
-  //last updated at (implies it has been paid)
-  // update status to defaulted
+  let id = event.params._id.toString()
+  let mortgage = Mortgage.load(id)
+  mortgage.lastUpdatedAt = event.block.timestamp
+  mortgage.status = "defaulted"
+  mortgage.save()
 }

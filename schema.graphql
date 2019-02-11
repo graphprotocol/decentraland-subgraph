@@ -30,7 +30,7 @@ type Order @entity {
   type: OrderType
   parcel: Parcel
   # Defined in the REST API, source unclear:
-  # estate: Estate # TODO - realted to broken Estat below
+  # estate: Estate # TODO - realted to broken Estate below
   txHash: Bytes!
   owner: Bytes!
   price: BigInt!

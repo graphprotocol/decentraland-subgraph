@@ -1,16 +1,15 @@
-import { Address } from '@graphprotocol/graph-ts'
+import {Address} from '@graphprotocol/graph-ts'
 import {
   AuctionCreated,
   AuctionCancelled,
   AuctionSuccessful,
 } from '../types/Marketplace/Marketplace'
-import { Order, Parcel } from '../types/schema'
+import {Order, Parcel} from '../types/schema'
 
 /*
 Note - the variable name 'auction` is kept throughout, even through we are creating new Order entities. This is to more clearly seperate legacy marketplace from marketplace.
  */
 
-// TODO should be loading parcels in the handlers, except for creation
 export function handleLegacyAuctionCreated(event: AuctionCreated): void {
   let auctionId = event.params.id.toHex()
   let parcelId = event.params.assetId.toHex()
@@ -32,7 +31,10 @@ export function handleLegacyAuctionCreated(event: AuctionCreated): void {
   auction.save()
 
   // Set the active auction of the parcel
-  let parcel = new Parcel(parcelId)
+  let parcel = Parcel.load(parcelId)
+  if (parcel == null) {
+    parcel = new Parcel(parcelId)
+  }
   parcel.activeOrder = auctionId
   parcel.orderOwner = event.params.seller
   parcel.orderPrice = event.params.priceInWei
@@ -51,7 +53,10 @@ export function handleLegacyAuctionCancelled(event: AuctionCancelled): void {
   auction.save()
 
   // Clear the active auction of the parcel
-  let parcel = new Parcel(parcelId)
+  let parcel = Parcel.load(parcelId)
+  if (parcel == null) {
+    parcel = new Parcel(parcelId)
+  }
   parcel.activeOrder = null
   parcel.orderOwner = null
   parcel.orderPrice = null
@@ -72,7 +77,10 @@ export function handleLegacyAuctionSuccessful(event: AuctionSuccessful): void {
   auction.save()
 
   // Update the parcel owner and active auction
-  let parcel = new Parcel(parcelId)
+  let parcel = Parcel.load(parcelId)
+  if (parcel == null) {
+    parcel = new Parcel(parcelId)
+  }
   parcel.owner = event.params.winner
   parcel.activeOrder = null
   parcel.orderOwner = null

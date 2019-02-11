@@ -228,13 +228,13 @@ Below are a few ways to show how to query the Decentraland Subgraph for data. Th
     size
     sizeArray
     tx
-  }
+}
 ```
 
 ### Querying Mortgages
 ```graphql
 {
-  estates {
+  mortgages {
     id
     txHash
     createdAt
@@ -259,15 +259,16 @@ Below are a few ways to show how to query the Decentraland Subgraph for data. Th
     loanAmount
     dueTime
     }
-  }
+}
 ```
 
 ### Querying Decentraland Invites
 ```graphql
 {
-  invite {
+  invites {
     id
     inviteBalance
     invites
   }
+}
 ```

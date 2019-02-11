@@ -18,8 +18,6 @@ Note - a legacy auction is very similar to an order. an order is updated to incl
        if it was legacy.
  */
 
-// TODO should be loading parcels in the handlers, except for creation
-
 export function handleOrderCreated(event: OrderCreated): void {
   let orderID = event.params.id.toHex()
   let assetID = event.params.assetId.toHex() // ID of the published NFT
@@ -42,7 +40,10 @@ export function handleOrderCreated(event: OrderCreated): void {
   order.save()
 
   // Set the active order of the parcel
-  let parcel = new Parcel(assetID)
+  let parcel = Parcel.load(assetID)
+  if (parcel == null) {
+    parcel = new Parcel(assetID)
+  }
   parcel.activeOrder = orderID
   parcel.orderOwner = event.params.seller
   parcel.orderPrice = event.params.priceInWei
@@ -64,7 +65,10 @@ export function handleOrderSuccessful(event: OrderSuccessful): void {
   order.save()
 
   // Update the parcel owner and active order
-  let parcel = new Parcel(parcelId)
+  let parcel = Parcel.load(parcelId)
+  if (parcel == null) {
+    parcel = new Parcel(parcelId)
+  }
   parcel.owner = event.params.buyer
   parcel.activeOrder = null
   parcel.orderOwner = null
@@ -85,7 +89,10 @@ export function handleOrderCancelled(event: OrderCancelled): void {
   order.save()
 
   // Clear the active order of the parcel
-  let parcel = new Parcel(parcelId)
+  let parcel = Parcel.load(parcelId)
+  if (parcel == null) {
+    parcel = new Parcel(parcelId)
+  }
   parcel.activeOrder = null
   parcel.orderOwner = null
   parcel.orderPrice = null
@@ -114,7 +121,10 @@ export function handleAuctionCreated(event: AuctionCreated): void {
   order.save()
 
   // Set the active order of the parcel
-  let parcel = new Parcel(parcelId)
+  let parcel = Parcel.load(parcelId)
+  if (parcel == null) {
+    parcel = new Parcel(parcelId)
+  }
   parcel.activeOrder = orderID
   parcel.orderOwner = event.params.seller
   parcel.orderPrice = event.params.priceInWei
@@ -134,7 +144,11 @@ export function handleAuctionCancelled(event: AuctionCancelled): void {
   order.save()
 
   // Clear the active order of the parcel
-  let parcel = new Parcel(parcelId)
+  let parcel = Parcel.load(parcelId)
+  if (parcel == null) {
+    parcel = new Parcel(parcelId)
+  }
+
   parcel.activeOrder = null
   parcel.orderOwner = null
   parcel.orderPrice = null
@@ -156,7 +170,10 @@ export function handleAuctionSuccessful(event: AuctionSuccessful): void {
   order.save()
 
   // Update the parcel owner and active orderID
-  let parcel = new Parcel(parcelId)
+  let parcel = Parcel.load(parcelId)
+  if (parcel == null) {
+    parcel = new Parcel(parcelId)
+  }
   parcel.owner = event.params.winner
   parcel.activeOrder = null
   parcel.orderOwner = null

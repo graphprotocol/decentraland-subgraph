@@ -11,8 +11,6 @@ Note - the variable name 'auction` is kept throughout, even through we are creat
  */
 
 // TODO should be loading parcels in the handlers, except for creation
-
-
 export function handleLegacyAuctionCreated(event: AuctionCreated): void {
   let auctionId = event.params.id.toHex()
   let parcelId = event.params.assetId.toHex()
@@ -22,7 +20,6 @@ export function handleLegacyAuctionCreated(event: AuctionCreated): void {
   auction.type = 'parcel'
   auction.parcel = parcelId
   auction.status = 'open'
-  auction.txStatus = 'confirmed'
   auction.txHash = event.transaction.hash
   auction.owner = event.params.seller
   auction.unset('buyer')

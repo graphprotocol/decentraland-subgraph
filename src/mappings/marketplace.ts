@@ -29,7 +29,6 @@ export function handleOrderCreated(event: OrderCreated): void {
   order.type = 'parcel'
   order.parcel = assetID
   order.status = 'open'
-  order.txStatus = 'confirmed'
   order.txHash = event.transaction.hash
   order.owner = event.params.seller
   order.unset('buyer')
@@ -91,9 +90,6 @@ export function handleOrderCancelled(event: OrderCancelled): void {
   parcel.orderOwner = null
   parcel.orderPrice = null
   parcel.save()
-
-
-
 }
 
 // Where event AuctionCreated creates an Order - the updated name
@@ -106,7 +102,6 @@ export function handleAuctionCreated(event: AuctionCreated): void {
   order.type = 'parcel'
   order.parcel = parcelId
   order.status = 'open'
-  order.txStatus = 'confirmed'
   order.txHash = event.transaction.hash
   order.owner = event.params.seller
   order.unset('buyer')

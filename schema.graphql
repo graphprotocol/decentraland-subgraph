@@ -1,31 +1,8 @@
-# Defined in the REST API, source unclear
-type Contribution @entity {
-  id: ID!
-  address: Bytes!
-  district: District!
-  landCount: BigInt!
-  timestamp: BigInt!
-}
-
-type District @entity {
-  id: ID!
-  name: String!
-  description: String
-  link: String!
-  isPublic: Boolean!
-  parcelCount: BigInt!
-  parcels: [Parcel!]
-  center: String!
-  priority: String # Is this the real type?
-  disabled: Boolean!
-}
-
-# aka land
+# aka LAND
 type Parcel @entity {
   id: ID!
   x: BigInt
   y: BigInt
-  district: District
   estate: Estate
   owner: Bytes
   data: ParcelData
@@ -36,35 +13,24 @@ type Parcel @entity {
   orders: [Order!] @derivedFrom(field: "parcel")
   createdAt: BigInt
   updatedAt: BigInt
-
-  # Defined in the REST API, source unclear
-  # tags: [ParcelTag!]
-
   operators: [Bytes!]
 }
 
 type ParcelData @entity {
   id: ID!
-  parcel: Parcel! # Todo, does this need to be cahnged? it seems weird, like they are recursively referencing each other. or maybe you just dont query it
+  parcel: Parcel!
   version: String
   name: String
   description: String
   ipns: String
 }
 
-# Defined in the REST API, source unclear
-#
-# type ParcelTag @entity {
-#   id: ID!
-#   # ...
-# }
-
 type Order @entity {
   id: ID!
   type: OrderType
   parcel: Parcel
   # Defined in the REST API, source unclear:
-  # estate: Estate # TODO
+  # estate: Estate # TODO - realted to broken Estat below
   txHash: Bytes!
   owner: Bytes!
   price: BigInt!
@@ -79,10 +45,8 @@ type Order @entity {
 
   # New addition on top of Legacy 'Auction'
   nftAddress: Bytes
-
 }
 
-# TODO - are all these enums needed? OrderType-estate doesnt get used
 enum OrderType @entity {
   parcel
   estate
@@ -94,62 +58,12 @@ enum OrderStatus @entity {
   cancelled
 }
 
-# Defined in contracts that are not deployed on mainnet yet:
-#
-# type Mortgage @entity {
-#   id: ID!
-#   txHash: Bytes!
-#   blockNumber: BigInt!
-#   status: MortgageStatus
-#   type: MortgageType
-#   parcel: Parcel
-#   estate: Estate
-#   borrower: Bytes
-#   lender: Bytes!
-#   loan_id: String!
-#   mortgage_id: String!
-#   amount: BigInt!
-#   expiresAt: BigInt!
-#   isDueAt: BigInt!
-#   payableAt: BigInt!
-#   startedAt: BigInt!
-#   paid: BigInt!
-#   interestRate: BigInt!
-#   punitoryInterestRate: BigInt!
-#   outstandingAmount: BigInt!
-#   blockTimeCreatedAt: BigInt!
-#   blockTimeUpdatedAt: BigInt
-# }
-#
-# enum MortgageType @entity {
-#   estate
-#   parcel
-# }
-#
-# enum MortgageStatus @entity {
-#   pending
-#   cancelled
-#   ongoing
-#   paid
-#   defaulted
-#   claimed
-# }
-
-# NEWWWWWWW BELOWWWWW HEREEEEE
-
-# todo - estates can be added, districts still not needed,
-# note, Orders added above
-
-# api - get : districts, estates, contributions, map (returns parcels), map.png (returns png), parcels, txHash, mortages ??? :O
-
-# possible things to add - publication, tags -> proximity -> plaza -> road, data (of a parcel)
-
 type Estate @entity {
-  id: ID!       # estate ID (based on total supply of estates)
+  id: ID!           # estate ID (based on total supply of estates)
   owner: Bytes!
   operator: Bytes
-  metaData: String  # Todo - make ! when not broken
-  land: [BigInt!]   # AddLand and TransferLand events (need to indexOf and drop)
+  metaData: String  # TODO - broken, could be reading CSV that is needed (see other example)
+  land: [BigInt!]   # AddLand and TransferLand events
   size: BigInt!
   tx: Bytes
   sizeArray: Int!
@@ -178,11 +92,11 @@ type Estate @entity {
    parcel: Parcel
    estate: Estate
 
-   # Get from loan (through engine) TODO
+   # Get from loan
+   # Note - Other data could be grabbed from the loan, but none of it seems necessary
    lender: Bytes!
    loanAmount: BigInt!
    dueTime: Int!
-   # Other data could be grabbed from the loan, but none of it seems necessary
  }
 
  enum MortgageStatus @entity {
@@ -194,7 +108,7 @@ type Estate @entity {
  }
 
 type Invite @entity {
-  id: ID!   # eth user addr
-  inviteBalance: BigInt!
-  invites: [BigInt!]! # can own multiple invites, which are each ERC721 tokens
+  id: ID!                 # eth user addr
+  inviteBalance: BigInt!  # amount of invites user can hand out
+  invites: [BigInt!]!     # can own multiple invites, which are each ERC721 tokens
 }

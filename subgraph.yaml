@@ -102,8 +102,8 @@ dataSources:
         handler: handleAddLand
       - event: RemoveLand(uint256,uint256,address)
         handler: handleRemoveLand
-#      - event: Update(uint256,address,address,string)
-#        handler: handleEstate
+      - event: Update(uint256,address,address,string)
+        handler: handleEstate
       - event: UpdateOperator(uint256,address)
         handler: handleUpdateOperator
     file: ./src/mappings/estate.ts

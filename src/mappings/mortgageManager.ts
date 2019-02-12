@@ -34,10 +34,10 @@ export function handleRequestedMortgage(event: RequestedMortgage): void{
   let storage = contract.mortgages(event.params._id)
   mortgage.landCost = storage.value6
 
-  // get estate from loading the parcel   // TODO - cant fully test until a full sync
-  // mortgage.parcel = event.params._landId.toHex()
-  // let parcel = Parcel.load(mortgage.parcel)
-  // mortgage.estate = parcel.estate
+  // get estate from loading the parcel
+  mortgage.parcel = event.params._landId.toHex()
+  let parcel = Parcel.load(mortgage.parcel)
+  mortgage.estate = parcel.estate
 
   // grab from the loan contract
   let engineContract = RCNLoanEngine.bind(event.params._engine)

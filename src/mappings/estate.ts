@@ -61,13 +61,9 @@ export function handleUpdateOperator(event: UpdateOperator): void {
   estate.save()
 }
 
-
-// TODO - Graph node isn't working on this right now, need to decypher the bug
-// POTENTIAL SOLUTION - it might need to be parsed like a csv, like the LandRegistry thing
-// Only updates the metadata
-// export function handleEstate(event: Update): void {
-//     let id = event.params._assetId.toHex()
-//     let estate = Estate.load(id)
-//     estate.metaData = event.params._data
-//     estate.save()
-// }
+export function handleEstate(event: Update): void {
+    let id = event.params._assetId.toHex()
+    let estate = Estate.load(id)
+    estate.metaData = event.params._data
+    estate.save()
+}

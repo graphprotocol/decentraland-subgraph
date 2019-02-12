@@ -30,7 +30,7 @@ type Order @entity {
   type: OrderType
   parcel: Parcel
   # Defined in the REST API, source unclear:
-  # estate: Estate # TODO - realted to broken Estate below
+  estate: Estate
   txHash: Bytes!
   owner: Bytes!
   price: BigInt!
@@ -62,7 +62,7 @@ type Estate @entity {
   id: ID!           # estate ID (based on total supply of estates)
   owner: Bytes!
   operator: Bytes
-  metaData: String  # TODO - broken, could be reading CSV that is needed (see other example)
+  metaData: String!
   land: [BigInt!]   # AddLand and TransferLand events
   size: BigInt!
   tx: Bytes

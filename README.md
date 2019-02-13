@@ -141,7 +141,7 @@ When you first start out, you will likely want to do a lot of local testing, to 
   --ipfs 127.0.0.1:5001 \
   --ethereum-rpc mainnet-infura:https://mainnet.infura.io --debug
 ```
-  6. b) Or Mainnet with a Local Ethereum node. This is very common if you are working with brand new contracts, and you have deployed them to a testnet environment like *ganache* (note that ganache commonly uses port 9545 rather than 8545).:
+  6. b) Or Mainnet with a Local Ethereum node. This is very common if you are working with brand new contracts, and you have deployed them to a testnet environment like *ganache* (note that ganache commonly uses port 9545 rather than 8545):
 ```
   cargo run -p graph-node --release -- \
   --postgres-url postgresql://USERNAME:[PASSWORD]@localhost:5432/graph-node \
@@ -157,17 +157,17 @@ When you first start out, you will likely want to do a lot of local testing, to 
 
 ```
   
- 7. Now create the subgraph locally on The Graph Node with `yarn create-subgraph`. On The Graph Hosted service, creating the subgraph is done in the web broswer. 
+ 7. Now create the subgraph locally on The Graph Node with `yarn create-local`. On The Graph Hosted service, creating the subgraph is done in the web broswer. 
 
  8. Now deploy the Decentraland subgraph to The Graph Node with `yarn deploy --debug`. You should see a lot of blocks being skipped in the `graph-node` terminal, and then it will start ingesting events from the moment the contracts were uploaded to the network. 
 
 Now that you have subgraph is running you may open a [Graphiql](https://github.com/graphql/graphiql) browser at `127.0.0.1:8000` and get started with querying.
 
-## Seeing the Subgraph on the Graph Hosted Service
+## Viewing the Subgraph on the Graph Hosted Service
 This subgraph has already been deploy to the hosted service, and you can see it under on [The Graph Explorer](https://thegraph.com/explorer/). To understand how deploying to the hosted service works, check out the [Deploying Instructions](https://thegraph.com/docs/deploy-a-subgraph) in the official documentation. The most important part of deploying to the hosted service is ensuring that the npm script for `deploy` is updated to the correct name that you want to deploy with. 
 
 ## Getting started with querying 
-Below are a few ways to show how to query the Decentraland Subgraph for data. The queries show most of the information that is queryable, but there are many other filtering options that can be used, just check out the [querying api](https://github.com/graphprotocol/graph-node/blob/master/docs/graphql-api.md). These can be used locally or in The Graph Explorer playground.
+Below are a few ways to show how to query the Decentraland Subgraph for data. The queries show most of the information that is queryable, but there are many other filtering options that can be used, just check out the [querying api](https://github.com/graphprotocol/graph-node/blob/master/docs/graphql-api.md). These queries can be used locally or in The Graph Explorer playground.
 
 ### Querying Parcels
 ```graphql

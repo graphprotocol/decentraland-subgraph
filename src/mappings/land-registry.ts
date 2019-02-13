@@ -123,6 +123,9 @@ export function handleLandUpdate(event: Update): void {
 export function handleUpdateOperator(event: UpdateOperator):void{
   let parcelId = event.params.assetId.toHex()
   let parcel = Parcel.load(parcelId)
+  if (parcel == null) {
+    parcel = new Parcel(parcelId)
+  }
 
   let operators = parcel.operators
   if (operators == null) {

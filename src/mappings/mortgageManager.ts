@@ -37,6 +37,9 @@ export function handleRequestedMortgage(event: RequestedMortgage): void{
   // get estate from loading the parcel
   mortgage.parcel = event.params._landId.toHex()
   let parcel = Parcel.load(mortgage.parcel)
+  if (parcel == null) {
+    parcel = new Parcel(mortgage.parcel)
+  }
   mortgage.estate = parcel.estate
 
   // grab from the loan contract

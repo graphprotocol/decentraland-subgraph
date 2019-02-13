@@ -8,6 +8,9 @@ import {Invite} from '../types/schema'
 export function handleInvited(event: Invited): void {
   let senderID = event.params.who.toHex()
   let sender = Invite.load(senderID)
+  if (sender == null){
+    sender = new Invite(senderID)
+  }
   sender.inviteBalance = sender.inviteBalance.minus(BigInt.fromI32(1))
   sender.save()
 

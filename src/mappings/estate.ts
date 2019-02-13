@@ -31,6 +31,11 @@ export function handleAddLand(event: AddLand): void {
   estate.save()
 
   let landParcel = Parcel.load(event.params._landId.toHex())
+  // Would expect that this isn't needed, but it is here for safety, since failing at block 6,000,000 slows down iterative testing
+  // Because if land parcel doesn't exist, we get a crashed node
+  if (landParcel == null) {
+    landParcel = new Parcel(event.params._landId.toHex())
+  }
   landParcel.estate = id
   landParcel.save()
 }
@@ -48,6 +53,11 @@ export function handleRemoveLand(event: RemoveLand): void {
   estate.save()
 
   let landParcel = Parcel.load(event.params._landId.toHex())
+  // Would expect that this isn't needed, but it is here for safety, since failing at block 6,000,000 slows down iterative testing
+  // Because if land parcel doesn't exist, we get a crashed node
+  if (landParcel == null) {
+    landParcel = new Parcel(event.params._landId.toHex())
+  }
   landParcel.owner = event.params._destinatary
   landParcel.estate = null
   landParcel.save()

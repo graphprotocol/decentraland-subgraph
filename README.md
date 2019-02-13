@@ -150,9 +150,9 @@ When you first start out, you will likely want to do a lot of local testing, to 
 ```
   6. c) Or Infura Ropsten _(NOTE: Infura testnets are not reliable right now, we get inconsistent results returned. If Ropsten data is needed, it is suggested to run your own Ropsten node)_
 ```
-    cargo run -p graph-node --release --   
-    --postgres-url postgresql://USERNAME:[PASSWORD]@localhost:5432/graph-node
-    --ipfs 127.0.0.1:5001
+    cargo run -p graph-node --release --   \
+    --postgres-url postgresql://USERNAME:[PASSWORD]@localhost:5432/graph-node \
+    --ipfs 127.0.0.1:5001 \
     --ethereum-rpc ropsten-infura:https://ropsten.infura.io 
 
 ```

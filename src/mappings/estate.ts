@@ -6,7 +6,7 @@ import {
   UpdateOperator,
   Update
 } from '../types/EstateRegistry/Estate'
-import {Estate, Parcel, Decentraland} from '../types/schema'
+import {Estate, Parcel, Decentraland, User} from '../types/schema'
 import {LANDRegistry} from "../types/LANDRegistry/LANDRegistry";
 
 export function handleCreateEstate(event: CreateEstate): void {
@@ -29,6 +29,11 @@ export function handleCreateEstate(event: CreateEstate): void {
   estateLength = estateLength + 1
   decentraland.estateCount = estateLength
   decentraland.save()
+
+  let user = new User(event.params._owner.toHex())
+  user.parcels = []
+  user.estates = []
+  user.save()
 }
 
 export function handleAddLand(event: AddLand): void {

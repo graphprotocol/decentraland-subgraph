@@ -4,7 +4,7 @@ import {
   AuctionCancelled,
   AuctionSuccessful,
 } from '../types/LegacyMarketplace/LegacyMarketplace'
-import {Decentraland, Order, Parcel} from '../types/schema'
+import {Decentraland, Order, Parcel, User} from '../types/schema'
 import {LANDRegistry} from "../types/LegacyMarketplace/LANDRegistry";
 
 /*
@@ -66,6 +66,10 @@ export function handleLegacyAuctionCreated(event: AuctionCreated): void {
   parcel.orderOwner = event.params.seller
   parcel.orderPrice = event.params.priceInWei
   parcel.save()
+
+  let user = new User(event.params.seller.toHex())
+  user.parcels = []
+  user.save()
 }
 
 export function handleLegacyAuctionCancelled(event: AuctionCancelled): void {
@@ -147,4 +151,8 @@ export function handleLegacyAuctionSuccessful(event: AuctionSuccessful): void {
   parcel.orderOwner = null
   parcel.orderPrice = null
   parcel.save()
+
+  let user = new User(event.params.winner.toHex())
+  user.parcels = []
+  user.save()
 }

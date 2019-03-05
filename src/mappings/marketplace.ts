@@ -7,7 +7,7 @@ import {
   AuctionSuccessful,
   AuctionCancelled,
 } from '../types/Marketplace/Marketplace'
-import {Decentraland, Order, Parcel} from '../types/schema'
+import {Decentraland, Order, Parcel, User} from '../types/schema'
 import {Address} from "@graphprotocol/graph-ts";
 import {LANDRegistry} from "../types/LANDRegistry/LANDRegistry";
 
@@ -79,6 +79,11 @@ export function handleOrderCreated(event: OrderCreated): void {
   parcel.orderOwner = event.params.seller
   parcel.orderPrice = event.params.priceInWei
   parcel.save()
+
+  let user = new User(event.params.seller.toHex())
+  user.parcels = []
+  user.estates = []
+  user.save()
 }
 
 export function handleOrderSuccessful(event: OrderSuccessful): void {
@@ -122,6 +127,11 @@ export function handleOrderSuccessful(event: OrderSuccessful): void {
   parcel.orderOwner = null
   parcel.orderPrice = null
   parcel.save()
+
+  let user = new User(event.params.buyer.toHex())
+  user.parcels = []
+  user.estates = []
+  user.save()
 }
 
 export function handleOrderCancelled(event: OrderCancelled): void {
@@ -219,6 +229,11 @@ export function handleAuctionCreated(event: AuctionCreated): void {
   parcel.orderOwner = event.params.seller
   parcel.orderPrice = event.params.priceInWei
   parcel.save()
+
+  let user = new User(event.params.seller.toHex())
+  user.parcels = []
+  user.estates = []
+  user.save()
 }
 
 // Where event AuctionCancelled creates an Order - the updated name
@@ -304,4 +319,9 @@ export function handleAuctionSuccessful(event: AuctionSuccessful): void {
   parcel.orderOwner = null
   parcel.orderPrice = null
   parcel.save()
+
+  let user = new User(event.params.winner.toHex())
+  user.parcels = []
+  user.estates = []
+  user.save()
 }

@@ -116,14 +116,14 @@ type Invite @entity {
   invites: [BigInt!]!     # can own multiple invites, which are each ERC721 tokens
 }
 
-#type User @entity {
-#  id: ID!                                             # eth addr
-#  parcels: [Parcel] @derivedFrom(field: "owner")
-#  # contributions:                                    # NOT AVAILABLE
-#  estates: [Estate] @derivedFrom(field: "owner")
-#  mana: BigInt!                                       # amount of mana owned
-#  mortgages: [Mortgage] @derivedFrom(field: "borrower")
-#}
+type User @entity {
+  id: ID!                                             # eth addr
+  parcels: [Parcel!] @derivedFrom(field: "owner")
+  # contributions:                                    # NOT AVAILABLE
+  estates: [Estate!] @derivedFrom(field: "owner")
+  mana: BigInt                                        # amount of mana owned
+  mortgages: [Mortgage!] @derivedFrom(field: "borrower")
+}
 #
 #type Token @entity {
 #  id: ID!

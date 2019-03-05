@@ -8,7 +8,7 @@ import {
   MortgageManager
 } from '../types/MortgageManager/MortgageManager'
 import { RCNLoanEngine } from "../types/MortgageManager/RCNLoanEngine";
-import {Mortgage, Parcel} from '../types/schema'
+import {Mortgage, Parcel, User} from '../types/schema'
 
 export function handleRequestedMortgage(event: RequestedMortgage): void{
   let id = event.params._id.toString()
@@ -52,6 +52,10 @@ export function handleRequestedMortgage(event: RequestedMortgage): void{
   mortgage.dueTime = dueTime
 
   mortgage.save()
+
+  let user = new User(event.params._borrower.toHex())
+  user.mortgages = []
+  user.save()
 }
 
 export function handleStartedMortgage(event: StartedMortgage): void{

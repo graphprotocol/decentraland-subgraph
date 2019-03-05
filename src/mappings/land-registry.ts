@@ -5,7 +5,7 @@ import {
   UpdateOperator,
   Transfer2
 } from '../types/LANDRegistry/LANDRegistry'
-import {Decentraland, Parcel, ParcelData} from '../types/schema'
+import {Decentraland, Parcel, ParcelData, User} from '../types/schema'
 import {Address} from "@graphprotocol/graph-ts/index";
 
 enum CSVState {
@@ -78,6 +78,10 @@ export function handleLegacyLandTransfer(event: Transfer): void {
   parcel.updatedAt = event.block.timestamp
   parcel.lastTransferredAt = event.block.timestamp
   parcel.save()
+
+  let user = new User(event.params.to.toHex())
+  user.parcels = []
+  user.save()
 }
 
 // New LANDRegistry at block 6,240,242
@@ -107,6 +111,10 @@ export function handleLandTransfer(event: Transfer2): void {
   parcel.updatedAt = event.block.timestamp
   parcel.lastTransferredAt = event.block.timestamp
   parcel.save()
+
+  let user = new User(event.params.to.toHex())
+  user.parcels = []
+  user.save()
 }
 
 export function handleLandUpdate(event: Update): void {
@@ -163,6 +171,10 @@ export function handleLandUpdate(event: Update): void {
     landLength = landLength + 1
     decentraland.landCount = landLength
     decentraland.save()
+
+    let user = new User(event.params.holder.toHex())
+    user.parcels = []
+    user.save()
   }
 }
 

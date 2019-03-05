@@ -6,6 +6,7 @@ import {
   Transfer2
 } from '../types/LANDRegistry/LANDRegistry'
 import {Decentraland, Parcel, ParcelData} from '../types/schema'
+import {Address} from "@graphprotocol/graph-ts/index";
 
 enum CSVState {
   BETWEEN = 0,
@@ -57,7 +58,7 @@ export function handleLegacyLandTransfer(event: Transfer): void {
   let parcel = Parcel.load(parcelId)
   if (parcel == null) {
     parcel = new Parcel(parcelId)
-    let registry = LANDRegistry.bind(event.address)
+    let registry = LANDRegistry.bind(Address.fromString("0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d"))
     let coordinate = registry.decodeTokenId(event.params.assetId)
     parcel.x = coordinate.value0
     parcel.y = coordinate.value1
@@ -86,7 +87,7 @@ export function handleLandTransfer(event: Transfer2): void {
   let parcel = Parcel.load(parcelId)
   if (parcel == null) {
     parcel = new Parcel(parcelId)
-    let registry = LANDRegistry.bind(event.address)
+    let registry = LANDRegistry.bind(Address.fromString("0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d"))
     let coordinate = registry.decodeTokenId(event.params.assetId)
     parcel.x = coordinate.value0
     parcel.y = coordinate.value1
@@ -110,7 +111,7 @@ export function handleLandTransfer(event: Transfer2): void {
 
 export function handleLandUpdate(event: Update): void {
   // Bind LANDRegistry contract
-  let registry = LANDRegistry.bind(event.address)
+  let registry = LANDRegistry.bind(Address.fromString("0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d"))
 
   let parcelId = event.params.assetId.toHex()
   let coordinate = registry.decodeTokenId(event.params.assetId)
@@ -172,7 +173,7 @@ export function handleUpdateOperator(event: UpdateOperator):void{
   let parcel = Parcel.load(parcelId)
   if (parcel == null) {
     parcel = new Parcel(parcelId)
-    let registry = LANDRegistry.bind(event.address)
+    let registry = LANDRegistry.bind(Address.fromString("0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d"))
     let coordinate = registry.decodeTokenId(event.params.assetId)
     parcel.x = coordinate.value0
     parcel.y = coordinate.value1

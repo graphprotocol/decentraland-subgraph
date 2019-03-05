@@ -48,7 +48,7 @@ export function handleOrderCreated(event: OrderCreated): void {
   let parcel = Parcel.load(assetID)
   if (parcel == null) {
     parcel = new Parcel(assetID)
-    let registry = LANDRegistry.bind(event.address)
+    let registry = LANDRegistry.bind(Address.fromString("0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d"))
     let coordinate = registry.decodeTokenId(event.params.assetId)
     parcel.x = coordinate.value0
     parcel.y = coordinate.value1
@@ -99,7 +99,7 @@ export function handleOrderSuccessful(event: OrderSuccessful): void {
   let parcel = Parcel.load(parcelId)
   if (parcel == null) {
     parcel = new Parcel(parcelId)
-    let registry = LANDRegistry.bind(event.address)
+    let registry = LANDRegistry.bind(Address.fromString("0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d"))
     let coordinate = registry.decodeTokenId(event.params.assetId)
     parcel.x = coordinate.value0
     parcel.y = coordinate.value1
@@ -140,7 +140,7 @@ export function handleOrderCancelled(event: OrderCancelled): void {
   let parcel = Parcel.load(parcelId)
   if (parcel == null) {
     parcel = new Parcel(parcelId)
-    let registry = LANDRegistry.bind(event.address)
+    let registry = LANDRegistry.bind(Address.fromString("0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d"))
     let coordinate = registry.decodeTokenId(event.params.assetId)
     parcel.x = coordinate.value0
     parcel.y = coordinate.value1
@@ -188,7 +188,7 @@ export function handleAuctionCreated(event: AuctionCreated): void {
   let parcel = Parcel.load(parcelId)
   if (parcel == null) {
     parcel = new Parcel(parcelId)
-    let registry = LANDRegistry.bind(event.address)
+    let registry = LANDRegistry.bind(Address.fromString("0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d"))
     let coordinate = registry.decodeTokenId(event.params.assetId)
     parcel.x = coordinate.value0
     parcel.y = coordinate.value1
@@ -237,7 +237,7 @@ export function handleAuctionCancelled(event: AuctionCancelled): void {
   let parcel = Parcel.load(parcelId)
   if (parcel == null) {
     parcel = new Parcel(parcelId)
-    let registry = LANDRegistry.bind(event.address)
+    let registry = LANDRegistry.bind(Address.fromString("0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d"))
     let coordinate = registry.decodeTokenId(event.params.assetId)
     parcel.x = coordinate.value0
     parcel.y = coordinate.value1
@@ -281,7 +281,7 @@ export function handleAuctionSuccessful(event: AuctionSuccessful): void {
   let parcel = Parcel.load(parcelId)
   if (parcel == null) {
     parcel = new Parcel(parcelId)
-    let registry = LANDRegistry.bind(event.address)
+    let registry = LANDRegistry.bind(Address.fromString("0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d"))
     let coordinate = registry.decodeTokenId(event.params.assetId)
     parcel.x = coordinate.value0
     parcel.y = coordinate.value1

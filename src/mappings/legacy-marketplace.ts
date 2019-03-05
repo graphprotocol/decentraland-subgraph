@@ -3,9 +3,9 @@ import {
   AuctionCreated,
   AuctionCancelled,
   AuctionSuccessful,
-} from '../types/Marketplace/Marketplace'
+} from '../types/LegacyMarketplace/LegacyMarketplace'
 import {Decentraland, Order, Parcel} from '../types/schema'
-import {LANDRegistry} from "../types/LANDRegistry/LANDRegistry";
+import {LANDRegistry} from "../types/LegacyMarketplace/LANDRegistry";
 
 /*
 Note - the variable name 'auction` is kept throughout, even through we are creating new Order entities. This is to more clearly seperate legacy marketplace from marketplace.
@@ -35,7 +35,7 @@ export function handleLegacyAuctionCreated(event: AuctionCreated): void {
   let parcel = Parcel.load(parcelId)
   if (parcel == null) {
     parcel = new Parcel(parcelId)
-    let registry = LANDRegistry.bind(event.address)
+    let registry = LANDRegistry.bind(Address.fromString("0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d"))
     let coordinate = registry.decodeTokenId(event.params.assetId)
     parcel.x = coordinate.value0
     parcel.y = coordinate.value1
@@ -83,7 +83,7 @@ export function handleLegacyAuctionCancelled(event: AuctionCancelled): void {
   let parcel = Parcel.load(parcelId)
   if (parcel == null) {
     parcel = new Parcel(parcelId)
-    let registry = LANDRegistry.bind(event.address)
+    let registry = LANDRegistry.bind(Address.fromString("0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d"))
     let coordinate = registry.decodeTokenId(event.params.assetId)
     parcel.x = coordinate.value0
     parcel.y = coordinate.value1
@@ -124,7 +124,7 @@ export function handleLegacyAuctionSuccessful(event: AuctionSuccessful): void {
   let parcel = Parcel.load(parcelId)
   if (parcel == null) {
     parcel = new Parcel(parcelId)
-    let registry = LANDRegistry.bind(event.address)
+    let registry = LANDRegistry.bind(Address.fromString("0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d"))
     let coordinate = registry.decodeTokenId(event.params.assetId)
     parcel.x = coordinate.value0
     parcel.y = coordinate.value1

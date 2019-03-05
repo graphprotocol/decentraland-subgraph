@@ -44,6 +44,8 @@ dataSources:
     abis:
     - name: LegacyMarketplace
       file: ./abis/LegacyMarketplace.json
+    - name: LANDRegistry
+      file: ./abis/UpdatedLANDRegistry.json
     eventHandlers:
     - event: AuctionCreated(bytes32,uint256,address,uint256,uint256)
       handler: handleLegacyAuctionCreated

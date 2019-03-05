@@ -1,4 +1,4 @@
-import {BigInt} from '@graphprotocol/graph-ts'
+import {Address, BigInt} from '@graphprotocol/graph-ts'
 import {
   CreateEstate,
   AddLand,
@@ -45,7 +45,7 @@ export function handleAddLand(event: AddLand): void {
   // Because if land parcel doesn't exist, we get a crashed node
   if (parcel == null) {
     parcel = new Parcel(event.params._landId.toHex())
-    let registry = LANDRegistry.bind(event.address)
+    let registry = LANDRegistry.bind(Address.fromString("0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d"))
     let coordinate = registry.decodeTokenId(event.params._landId)
     parcel.x = coordinate.value0
     parcel.y = coordinate.value1
@@ -83,7 +83,7 @@ export function handleRemoveLand(event: RemoveLand): void {
   // Because if land parcel doesn't exist, we get a crashed node
   if (parcel == null) {
     parcel = new Parcel(event.params._landId.toHex())
-    let registry = LANDRegistry.bind(event.address)
+    let registry = LANDRegistry.bind(Address.fromString("0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d"))
     let coordinate = registry.decodeTokenId(event.params._landId)
     parcel.x = coordinate.value0
     parcel.y = coordinate.value1

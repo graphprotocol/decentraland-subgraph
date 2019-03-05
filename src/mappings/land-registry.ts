@@ -5,7 +5,7 @@ import {
   UpdateOperator,
   Transfer2
 } from '../types/LANDRegistry/LANDRegistry'
-import { Parcel, ParcelData } from '../types/schema'
+import {Decentraland, Parcel, ParcelData} from '../types/schema'
 
 enum CSVState {
   BETWEEN = 0,
@@ -57,8 +57,24 @@ export function handleLegacyLandTransfer(event: Transfer): void {
   let parcel = Parcel.load(parcelId)
   if (parcel == null) {
     parcel = new Parcel(parcelId)
+    let registry = LANDRegistry.bind(event.address)
+    let coordinate = registry.decodeTokenId(event.params.assetId)
+    parcel.x = coordinate.value0
+    parcel.y = coordinate.value1
+
+    let decentraland = Decentraland.load("1")
+    if (decentraland == null){
+      decentraland = new Decentraland("1")
+      decentraland.landCount = 0
+      decentraland.estateCount = 0
+    }
+    let landLength = decentraland.landCount
+    landLength = landLength + 1
+    decentraland.landCount = landLength
+    decentraland.save()
   }
   parcel.owner = event.params.to
+  parcel.updatedAt = event.block.timestamp
   parcel.lastTransferredAt = event.block.timestamp
   parcel.save()
 }
@@ -70,8 +86,24 @@ export function handleLandTransfer(event: Transfer2): void {
   let parcel = Parcel.load(parcelId)
   if (parcel == null) {
     parcel = new Parcel(parcelId)
+    let registry = LANDRegistry.bind(event.address)
+    let coordinate = registry.decodeTokenId(event.params.assetId)
+    parcel.x = coordinate.value0
+    parcel.y = coordinate.value1
+
+    let decentraland = Decentraland.load("1")
+    if (decentraland == null){
+      decentraland = new Decentraland("1")
+      decentraland.landCount = 0
+      decentraland.estateCount = 0
+    }
+    let landLength = decentraland.landCount
+    landLength = landLength + 1
+    decentraland.landCount = landLength
+    decentraland.save()
   }
   parcel.owner = event.params.to
+  parcel.updatedAt = event.block.timestamp
   parcel.lastTransferredAt = event.block.timestamp
   parcel.save()
 }
@@ -110,12 +142,27 @@ export function handleLandUpdate(event: Update): void {
   data.save()
 
   // Create Parcel entity
-  let parcel = new Parcel(parcelId)
-  parcel.x = coordinate.value0
-  parcel.y = coordinate.value1
-  parcel.data = dataId
-  parcel.updatedAt = event.block.timestamp
-  parcel.save()
+  let parcel = Parcel.load(parcelId)
+  if (parcel == null) {
+    let parcel = new Parcel(parcelId)
+    parcel.x = coordinate.value0
+    parcel.y = coordinate.value1
+    parcel.data = dataId
+    parcel.owner = event.params.holder
+    parcel.updatedAt = event.block.timestamp
+    parcel.save()
+
+    let decentraland = Decentraland.load("1")
+    if (decentraland == null) {
+      decentraland = new Decentraland("1")
+      decentraland.landCount = 0
+      decentraland.estateCount = 0
+    }
+    let landLength = decentraland.landCount
+    landLength = landLength + 1
+    decentraland.landCount = landLength
+    decentraland.save()
+  }
 }
 
 // Technical you can assign many operators, as it is just approval for
@@ -125,6 +172,21 @@ export function handleUpdateOperator(event: UpdateOperator):void{
   let parcel = Parcel.load(parcelId)
   if (parcel == null) {
     parcel = new Parcel(parcelId)
+    let registry = LANDRegistry.bind(event.address)
+    let coordinate = registry.decodeTokenId(event.params.assetId)
+    parcel.x = coordinate.value0
+    parcel.y = coordinate.value1
+
+    let decentraland = Decentraland.load("1")
+    if (decentraland == null){
+      decentraland = new Decentraland("1")
+      decentraland.landCount = 0
+      decentraland.estateCount = 0
+    }
+    let landLength = decentraland.landCount
+    landLength = landLength + 1
+    decentraland.landCount = landLength
+    decentraland.save()
   }
 
   let operators = parcel.operators
@@ -132,6 +194,8 @@ export function handleUpdateOperator(event: UpdateOperator):void{
     operators = []
   }
   operators.push(event.params.operator)
+  parcel.updatedAt = event.block.timestamp
   parcel.operators = operators
+  parcel.save()
 
 }

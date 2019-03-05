@@ -7,8 +7,9 @@ import {
   AuctionSuccessful,
   AuctionCancelled,
 } from '../types/Marketplace/Marketplace'
-import {Order, Parcel} from '../types/schema'
+import {Decentraland, Order, Parcel} from '../types/schema'
 import {Address} from "@graphprotocol/graph-ts";
+import {LANDRegistry} from "../types/LANDRegistry/LANDRegistry";
 
 /*
 Note - a legacy auction is very similar to an order. an order is updated to include
@@ -24,17 +25,21 @@ export function handleOrderCreated(event: OrderCreated): void {
 
   // Create the order
   let order = new Order(orderID)
-  order.type = 'parcel'
-  order.parcel = assetID
+  if (event.params.nftAddress.toHex() == "0x959e104e1a4db6317fa58f8295f586e1a978c297"){
+    order.type = 'estate'
+    order.estate = assetID
+  } else {
+    order.type = 'parcel'
+    order.parcel = assetID
+  }
   order.status = 'open'
   order.txHash = event.transaction.hash
   order.owner = event.params.seller
-  order.unset('buyer')
   order.price = event.params.priceInWei
   order.expiresAt = event.params.expiresAt
-  order.contract = event.params.id as Address
   order.blockNumber = event.block.number
-  order.blockTimeCreatedAt = event.block.timestamp
+  order.timeCreated = event.block.timestamp
+  order.timeUpdatedAt = event.block.timestamp
   order.marketplace = event.address
   order.nftAddress = event.params.nftAddress
   order.save()
@@ -43,7 +48,33 @@ export function handleOrderCreated(event: OrderCreated): void {
   let parcel = Parcel.load(assetID)
   if (parcel == null) {
     parcel = new Parcel(assetID)
+    let registry = LANDRegistry.bind(event.address)
+    let coordinate = registry.decodeTokenId(event.params.assetId)
+    parcel.x = coordinate.value0
+    parcel.y = coordinate.value1
+    parcel.owner = event.params.seller
+
+    let decentraland = Decentraland.load("1")
+    if (decentraland == null){
+      decentraland = new Decentraland("1")
+      decentraland.landCount = 0
+      decentraland.estateCount = 0
+    }
+    let landLength = decentraland.landCount
+    landLength = landLength + 1
+    decentraland.landCount = landLength
+    decentraland.save()
+  } else {
+    // Here we are setting old orders as cancelled, because the samrt contract allows new orders to be created
+    // and they just overwrite them in place. But the subgraph stores all orders ever
+    // you can also overwrite ones that are expired
+    let oldOrder = Order.load(parcel.activeOrder)
+    if (oldOrder != null){
+      oldOrder.status = 'cancelled'
+      oldOrder.timeUpdatedAt = event.block.timestamp
+    }
   }
+  parcel.updatedAt = event.block.timestamp
   parcel.activeOrder = orderID
   parcel.orderOwner = event.params.seller
   parcel.orderPrice = event.params.priceInWei
@@ -60,7 +91,7 @@ export function handleOrderSuccessful(event: OrderSuccessful): void {
   order.status = 'sold'
   order.buyer = event.params.buyer
   order.price = event.params.totalPrice
-  order.blockTimeCreatedAt = event.block.timestamp
+  order.timeUpdatedAt = event.block.timestamp
   order.nftAddress = event.params.nftAddress
   order.save()
 
@@ -68,8 +99,25 @@ export function handleOrderSuccessful(event: OrderSuccessful): void {
   let parcel = Parcel.load(parcelId)
   if (parcel == null) {
     parcel = new Parcel(parcelId)
+    let registry = LANDRegistry.bind(event.address)
+    let coordinate = registry.decodeTokenId(event.params.assetId)
+    parcel.x = coordinate.value0
+    parcel.y = coordinate.value1
+
+    let decentraland = Decentraland.load("1")
+    if (decentraland == null){
+      decentraland = new Decentraland("1")
+      decentraland.landCount = 0
+      decentraland.estateCount = 0
+    }
+    let landLength = decentraland.landCount
+    landLength = landLength + 1
+    decentraland.landCount = landLength
+    decentraland.save()
   }
   parcel.owner = event.params.buyer
+  parcel.updatedAt = event.block.timestamp
+  parcel.lastTransferredAt = event.block.timestamp
   parcel.activeOrder = null
   parcel.orderOwner = null
   parcel.orderPrice = null
@@ -84,7 +132,7 @@ export function handleOrderCancelled(event: OrderCancelled): void {
   let order = new Order(orderID)
   order.type = 'parcel'
   order.status = 'cancelled'
-  order.blockTimeUpdatedAt = event.block.timestamp
+  order.timeUpdatedAt = event.block.timestamp
   order.nftAddress = event.params.nftAddress
   order.save()
 
@@ -92,7 +140,24 @@ export function handleOrderCancelled(event: OrderCancelled): void {
   let parcel = Parcel.load(parcelId)
   if (parcel == null) {
     parcel = new Parcel(parcelId)
+    let registry = LANDRegistry.bind(event.address)
+    let coordinate = registry.decodeTokenId(event.params.assetId)
+    parcel.x = coordinate.value0
+    parcel.y = coordinate.value1
+    parcel.owner = event.params.seller
+
+    let decentraland = Decentraland.load("1")
+    if (decentraland == null){
+      decentraland = new Decentraland("1")
+      decentraland.landCount = 0
+      decentraland.estateCount = 0
+    }
+    let landLength = decentraland.landCount
+    landLength = landLength + 1
+    decentraland.landCount = landLength
+    decentraland.save()
   }
+  parcel.updatedAt = event.block.timestamp
   parcel.activeOrder = null
   parcel.orderOwner = null
   parcel.orderPrice = null
@@ -111,12 +176,11 @@ export function handleAuctionCreated(event: AuctionCreated): void {
   order.status = 'open'
   order.txHash = event.transaction.hash
   order.owner = event.params.seller
-  order.unset('buyer')
   order.price = event.params.priceInWei
   order.expiresAt = event.params.expiresAt
-  order.contract = event.params.id as Address
   order.blockNumber = event.block.number
-  order.blockTimeCreatedAt = event.block.timestamp
+  order.timeCreated = event.block.timestamp
+  order.timeUpdatedAt = event.block.timestamp
   order.marketplace = event.address
   order.save()
 
@@ -124,8 +188,34 @@ export function handleAuctionCreated(event: AuctionCreated): void {
   let parcel = Parcel.load(parcelId)
   if (parcel == null) {
     parcel = new Parcel(parcelId)
+    let registry = LANDRegistry.bind(event.address)
+    let coordinate = registry.decodeTokenId(event.params.assetId)
+    parcel.x = coordinate.value0
+    parcel.y = coordinate.value1
+    parcel.owner = event.params.seller
+
+    let decentraland = Decentraland.load("1")
+    if (decentraland == null){
+      decentraland = new Decentraland("1")
+      decentraland.landCount = 0
+      decentraland.estateCount = 0
+    }
+    let landLength = decentraland.landCount
+    landLength = landLength + 1
+    decentraland.landCount = landLength
+    decentraland.save()
+  } else {
+    // Here we are setting old orders as cancelled, because the samrt contract allows new orders to be created
+    // and they just overwrite them in place. But the subgraph stores all orders ever
+    // you can also overwrite ones that are expired
+    let oldOrder = Order.load(parcel.activeOrder)
+    if (oldOrder != null){
+      oldOrder.status = 'cancelled'
+      oldOrder.timeUpdatedAt = event.block.timestamp
+    }
   }
   parcel.activeOrder = orderID
+  parcel.updatedAt = event.block.timestamp
   parcel.orderOwner = event.params.seller
   parcel.orderPrice = event.params.priceInWei
   parcel.save()
@@ -140,13 +230,30 @@ export function handleAuctionCancelled(event: AuctionCancelled): void {
   let order = new Order(orderID)
   order.type = 'parcel'
   order.status = 'cancelled'
-  order.blockTimeUpdatedAt = event.block.timestamp
+  order.timeUpdatedAt = event.block.timestamp
   order.save()
 
   // Clear the active order of the parcel
   let parcel = Parcel.load(parcelId)
   if (parcel == null) {
     parcel = new Parcel(parcelId)
+    let registry = LANDRegistry.bind(event.address)
+    let coordinate = registry.decodeTokenId(event.params.assetId)
+    parcel.x = coordinate.value0
+    parcel.y = coordinate.value1
+    parcel.updatedAt = event.block.timestamp
+    parcel.owner = event.params.seller
+
+    let decentraland = Decentraland.load("1")
+    if (decentraland == null){
+      decentraland = new Decentraland("1")
+      decentraland.landCount = 0
+      decentraland.estateCount = 0
+    }
+    let landLength = decentraland.landCount
+    landLength = landLength + 1
+    decentraland.landCount = landLength
+    decentraland.save()
   }
 
   parcel.activeOrder = null
@@ -166,15 +273,33 @@ export function handleAuctionSuccessful(event: AuctionSuccessful): void {
   order.status = 'sold'
   order.buyer = event.params.winner
   order.price = event.params.totalPrice
-  order.blockTimeCreatedAt = event.block.timestamp
+  order.timeCreated = event.block.timestamp
+  order.timeUpdatedAt = event.block.timestamp
   order.save()
 
   // Update the parcel owner and active orderID
   let parcel = Parcel.load(parcelId)
   if (parcel == null) {
     parcel = new Parcel(parcelId)
+    let registry = LANDRegistry.bind(event.address)
+    let coordinate = registry.decodeTokenId(event.params.assetId)
+    parcel.x = coordinate.value0
+    parcel.y = coordinate.value1
+    parcel.updatedAt = event.block.timestamp
+
+    let decentraland = Decentraland.load("1")
+    if (decentraland == null){
+      decentraland = new Decentraland("1")
+      decentraland.landCount = 0
+      decentraland.estateCount = 0
+    }
+    let landLength = decentraland.landCount
+    landLength = landLength + 1
+    decentraland.landCount = landLength
+    decentraland.save()
   }
   parcel.owner = event.params.winner
+  parcel.lastTransferredAt = event.block.timestamp
   parcel.activeOrder = null
   parcel.orderOwner = null
   parcel.orderPrice = null

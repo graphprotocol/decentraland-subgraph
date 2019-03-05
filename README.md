@@ -5,13 +5,15 @@
 
 This subgraph can be used for Decentraland on mainnet, and all testnets. In order to run it for a testnet, the `subgraph.yaml` file will need to have the contract addresses changed to point to the correct address for each respective network.
 
-The subgraph takes a long time to sync, because Decentraland has produced a lot of data on mainnet. Somewhere between 10-20 hours, depending on your machine. 
+The subgraph takes a long time to sync, because Decentraland has produced a lot of data on mainnet. Somewhere between 5-20 hours, depending on your machine. 
 
 ## General Information on Decentraland Events and Contracts
 
 The Decentraland smart contracts use upgradeability and proxies. These are important to consider when building a subgraph. With upgradeability, it means that we must carefully make sure every instance of a contract does get tracked by the subgraph, and that if any events are added or removed along the way, the subgraph mappings are written to ensure no important data is missing. 
 
 Proxies provide a benefit in that the proxy addresses often emit all of the events. For example, the `EstateProxy` emits all the important events for Estates, and the `EstateRegistry` has been updated multiple times, yet we only have to ingest events from the proxy address. Care does need to be taken, in that we must examine every `EstateRegistry` on mainnet, in case an event has been removed or renamed from a previous version that does not show up on the current version. 
+
+If reading storage from a proxy contract, the storage is held at the proxy address as well. In order to access this kind of data, Etherscan does not work. [MyCrypto](https://mycrypto.com/contracts/interact) can be used, because you can pass any contract abi to any contract address. Etherscan will only let you use the approved ABI with the contract, and in this case, it is just a simple proxy abi, and it doesn't have the interface to interace with storage
 
 ### Important Notes on Contract Upgrades that Affect the Mappings
 * The `Transfer` event for LANDRegistry.sol has been updated. The first instance had five fields, the current one has 3 (and is the ERC721 standard). Both need to be tracked.

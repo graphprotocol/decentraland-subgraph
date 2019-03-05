@@ -1,18 +1,23 @@
+type Decentraland @entity {
+  id: ID!
+  landCount: Int!
+  estateCount: Int!
+}
+
 # aka LAND
 type Parcel @entity {
   id: ID!
-  x: BigInt
-  y: BigInt
+  x: BigInt!
+  y: BigInt!
   estate: Estate
-  owner: Bytes
+  owner: Bytes!
   data: ParcelData
-  lastTransferredAt: BigInt
+  lastTransferredAt: BigInt! # TODO , maybe remove!
   orderOwner: Bytes
   orderPrice: BigInt
   activeOrder: Order
-  orders: [Order!] @derivedFrom(field: "parcel")
-  createdAt: BigInt
-  updatedAt: BigInt
+  orders: [Order!] @derivedFrom(field: "parcel")  # history of all orders. should only ever be ONE open order. all others must be closed or sold
+  updatedAt: BigInt!
   operators: [Bytes!]
 }
 
@@ -27,21 +32,19 @@ type ParcelData @entity {
 
 type Order @entity {
   id: ID!
-  type: OrderType
-  parcel: Parcel
-  # Defined in the REST API, source unclear:
-  estate: Estate
+  type: OrderType!
+  parcel: Parcel                                # parcel ID if its a parcel, null if its an estate
+  estate: Estate                                # estate ID if its an estate, null if its a parcel
   txHash: Bytes!
   owner: Bytes!
   price: BigInt!
-  status: OrderStatus
+  status: OrderStatus!
   buyer: Bytes
-  contract: Bytes!
   blockNumber: BigInt!
   expiresAt: BigInt!
-  blockTimeCreatedAt: BigInt!
-  blockTimeUpdatedAt: BigInt
-  marketplace: Bytes!
+  timeCreated: BigInt!
+  timeUpdatedAt: BigInt!
+  marketplace: Bytes!                           # the marketplace address from which this order was created
 
   # New addition on top of Legacy 'Auction'
   nftAddress: Bytes
@@ -64,9 +67,9 @@ type Estate @entity {
   operator: Bytes
   metaData: String!
   land: [BigInt!]   # AddLand and TransferLand events
-  size: BigInt!
-  tx: Bytes
-  sizeArray: Int!
+  orders: [Order!] @derivedFrom(field: "estate")
+  size: Int!
+  createTransaction: Bytes!
 }
 
  type Mortgage @entity {
@@ -112,3 +115,20 @@ type Invite @entity {
   inviteBalance: BigInt!  # amount of invites user can hand out
   invites: [BigInt!]!     # can own multiple invites, which are each ERC721 tokens
 }
+
+#type User @entity {
+#  id: ID!                                             # eth addr
+#  parcels: [Parcel] @derivedFrom(field: "owner")
+#  # contributions:                                    # NOT AVAILABLE
+#  estates: [Estate] @derivedFrom(field: "owner")
+#  mana: BigInt!                                       # amount of mana owned
+#  mortgages: [Mortgage] @derivedFrom(field: "borrower")
+#}
+#
+#type Token @entity {
+#  id: ID!
+#  totalSupply: BigInt!
+#  decimals: Int!
+#  ticker: String!
+#  name: String!
+#}

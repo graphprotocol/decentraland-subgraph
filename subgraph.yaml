@@ -30,6 +30,7 @@ dataSources:
     file: ./src/mappings/land-registry.ts
 - kind: ethereum/contract
   name: LegacyMarketplace
+  network: mainnet
   source:
     address: "0xb3bca6f5052c7e24726b44da7403b56a8a1b98f8" # LegacyMarketplace does not emit events at a proxy, so it works differently than most conrtacts, and must be included here
     abi: LegacyMarketplace
@@ -53,6 +54,7 @@ dataSources:
     file: ./src/mappings/legacy-marketplace.ts
 - kind: ethereum/contract
   name: Marketplace
+  network: mainnet
   source:
     address: "0x8e5660b4Ab70168b5a6fEeA0e0315cb49c8Cd539" # This is the current marketplace Proxy. marketplace is 0x19a8ed4860007a66805782ed7e0bed4e44fc6717
     abi: Marketplace
@@ -82,6 +84,7 @@ dataSources:
     file: ./src/mappings/marketplace.ts
 - kind: ethereum/contract
   name: EstateRegistry
+  network: mainnet
   source:
     address: "0x959e104e1a4db6317fa58f8295f586e1a978c297"
     abi: Estate
@@ -109,6 +112,7 @@ dataSources:
     file: ./src/mappings/estate.ts
 - kind: ethereum/contract
   name: MortgageManager
+  network: mainnet
   source:
     address: "0x9ABf1295086aFA0E49C60e95c437aa400c5333B8"
     abi: MortgageManager
@@ -140,6 +144,7 @@ dataSources:
     file: ./src/mappings/mortgageManager.ts
 - kind: ethereum/contract
   name: Invite
+  network: mainnet
   source:
     address: "0xf886313f213c198458eba7ae9329525e64eb763a"
     abi: Invite

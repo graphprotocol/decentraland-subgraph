@@ -40,6 +40,10 @@ export function handleTransfer(event: Transfer): void {
 
   let userFromID = event.params.from.toHex()
   let userFrom = User.load(userFromID)
-  userFrom.mana = userTo.mana.minus(event.params.value)
+  if (userFrom == null){
+    userFrom = new User(userFromID)
+    userFrom.mana = BigInt.fromI32(0)
+  }
+  userFrom.mana = userFrom.mana.minus(event.params.value)
   userFrom.save()
 }

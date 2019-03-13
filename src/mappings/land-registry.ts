@@ -3,7 +3,8 @@ import {
   Transfer,
   Update,
   UpdateOperator,
-  Transfer2
+  Transfer2,
+  Transfer3
 } from '../types/LANDRegistry/LANDRegistry'
 import {Decentraland, Parcel, ParcelData, User} from '../types/schema'
 import {Address} from "@graphprotocol/graph-ts/index";
@@ -156,10 +157,6 @@ export function handleLandUpdate(event: Update): void {
     let parcel = new Parcel(parcelId)
     parcel.x = coordinate.value0
     parcel.y = coordinate.value1
-    parcel.data = dataId
-    parcel.owner = event.params.holder
-    parcel.updatedAt = event.block.timestamp
-    parcel.save()
 
     let decentraland = Decentraland.load("1")
     if (decentraland == null) {
@@ -176,6 +173,10 @@ export function handleLandUpdate(event: Update): void {
     user.parcels = []
     user.save()
   }
+  parcel.data = dataId
+  parcel.owner = event.params.holder
+  parcel.updatedAt = event.block.timestamp
+  parcel.save()
 }
 
 // Technical you can assign many operators, as it is just approval for
@@ -211,4 +212,37 @@ export function handleUpdateOperator(event: UpdateOperator):void{
   parcel.operators = operators
   parcel.save()
 
+}
+
+// Here we ignore event data about operator, userData, and operatorData. They appear to always be 0, or a blank string.
+// And these are not part of the Transfer interface of ERC721 today
+export function handleOldestLegacyLandTransfer(event: Transfer3){
+  let parcelId = event.params.assetId.toHex()
+  let parcel = Parcel.load(parcelId)
+  if (parcel == null) {
+    parcel = new Parcel(parcelId)
+    let registry = LANDRegistry.bind(Address.fromString("0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d"))
+    let coordinate = registry.decodeTokenId(event.params.assetId)
+    parcel.x = coordinate.value0
+    parcel.y = coordinate.value1
+
+    let decentraland = Decentraland.load("1")
+    if (decentraland == null){
+      decentraland = new Decentraland("1")
+      decentraland.landCount = 0
+      decentraland.estateCount = 0
+    }
+    let landLength = decentraland.landCount
+    landLength = landLength + 1
+    decentraland.landCount = landLength
+    decentraland.save()
+  }
+  parcel.owner = event.params.to
+  parcel.updatedAt = event.block.timestamp
+  parcel.lastTransferredAt = event.block.timestamp
+  parcel.save()
+
+  let user = new User(event.params.to.toHex())
+  user.parcels = []
+  user.save()
 }

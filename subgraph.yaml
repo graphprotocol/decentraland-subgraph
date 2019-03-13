@@ -19,8 +19,10 @@ dataSources:
     - ParcelData
     abis:
     - name: LANDRegistry
-      file: ./abis/UpdatedLANDRegistry.json
+      file: ./abis/ModifiedLANDRegistry.json
     eventHandlers:
+    - event: Transfer(address,address,uint256,address,bytes,bytes)
+      handler: handleOldestLegacyLandTransfer
     - event: Transfer(address,address,uint256,address,bytes)
       handler: handleLegacyLandTransfer
     - event: Transfer(address,address,uint256)
@@ -45,7 +47,7 @@ dataSources:
     - name: LegacyMarketplace
       file: ./abis/LegacyMarketplace.json
     - name: LANDRegistry
-      file: ./abis/UpdatedLANDRegistry.json
+      file: ./abis/ModifiedLANDRegistry.json
     eventHandlers:
     - event: AuctionCreated(bytes32,uint256,address,uint256,uint256)
       handler: handleLegacyAuctionCreated
@@ -70,6 +72,8 @@ dataSources:
     abis:
       - name: Marketplace
         file: ./abis/Marketplace.json
+      - name: LANDRegistry
+        file: ./abis/ModifiedLANDRegistry.json
     eventHandlers:
       - event: OrderCreated(bytes32,uint256,address,address,uint256,uint256)
         handler: handleOrderCreated
@@ -100,6 +104,8 @@ dataSources:
     abis:
       - name: Estate
         file: ./abis/Estate.json
+      - name: LANDRegistry
+        file: ./abis/ModifiedLANDRegistry.json
     eventHandlers:
       - event: CreateEstate(address,uint256,string)
         handler: handleCreateEstate
@@ -165,26 +171,26 @@ dataSources:
       - event: UpdateInvites(address,uint256)
         handler: handleUpdateInvites
     file: ./src/mappings/invite.ts
-- kind: ethereum/contract
-  name: Mana
-  network: mainnet
-  source:
-    address: "0x0F5D2fB29fb7d3CFeE444a200298f468908cC942"
-    abi: Mana
-  mapping:
-    kind: ethereum/events
-    apiVersion: 0.0.1
-    language: wasm/assemblyscript
-    entities:
-      - User
-    abis:
-      - name: Mana
-        file: ./abis/manaToken.json
-    eventHandlers:
-      - event: Burn(address,uint256)
-        handler: handleBurn
-      - event: Mint(address,uint256)
-        handler: handleMint
-      - event: Transfer(address,address,uint256)
-        handler: handleTransfer
-    file: ./src/mappings/manaToken.ts
+#- kind: ethereum/contract
+#  name: Mana
+#  network: mainnet
+#  source:
+#    address: "0x0F5D2fB29fb7d3CFeE444a200298f468908cC942"
+#    abi: Mana
+#  mapping:
+#    kind: ethereum/events
+#    apiVersion: 0.0.1
+#    language: wasm/assemblyscript
+#    entities:
+#      - User
+#    abis:
+#      - name: Mana
+#        file: ./abis/manaToken.json
+#    eventHandlers:
+#      - event: Burn(address,uint256)
+#        handler: handleBurn
+#      - event: Mint(address,uint256)
+#        handler: handleMint
+#      - event: Transfer(address,address,uint256)
+#        handler: handleTransfer
+#    file: ./src/mappings/manaToken.ts

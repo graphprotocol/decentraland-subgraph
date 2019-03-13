@@ -7,7 +7,7 @@ import {
   Update
 } from '../types/EstateRegistry/Estate'
 import {Estate, Parcel, Decentraland, User} from '../types/schema'
-import {LANDRegistry} from "../types/LANDRegistry/LANDRegistry";
+import {LANDRegistry} from "../types/EstateRegistry/LANDRegistry";
 
 export function handleCreateEstate(event: CreateEstate): void {
   let id = event.params._estateId.toString()
@@ -115,14 +115,14 @@ export function handleRemoveLand(event: RemoveLand): void {
 
 export function handleUpdateOperator(event: UpdateOperator): void {
   let id = event.params._estateId.toString()
-  let estate = Estate.load(id)
+  let estate = new Estate(id)
   estate.operator = event.params._operator
   estate.save()
 }
 
 export function handleEstate(event: Update): void {
     let id = event.params._assetId.toHex()
-    let estate = Estate.load(id)
+    let estate = new Estate(id)
     estate.metaData = event.params._data
     estate.save()
 }

@@ -9,7 +9,7 @@ import {
 } from '../types/Marketplace/Marketplace'
 import {Decentraland, Order, Parcel, User} from '../types/schema'
 import {Address} from "@graphprotocol/graph-ts";
-import {LANDRegistry} from "../types/LANDRegistry/LANDRegistry";
+import {LANDRegistry} from "../types/Marketplace/LANDRegistry";
 
 /*
 Note - a legacy auction is very similar to an order. an order is updated to include

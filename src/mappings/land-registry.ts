@@ -218,7 +218,7 @@ export function handleUpdateOperator(event: UpdateOperator):void{
 
 // Here we ignore event data about operator, userData, and operatorData. They appear to always be 0, or a blank string.
 // And these are not part of the Transfer interface of ERC721 today
-export function handleOldestLegacyLandTransfer(event: Transfer3){
+export function handleOldestLegacyLandTransfer(event: Transfer3):void{
   let parcelId = event.params.assetId.toHex()
   let parcel = Parcel.load(parcelId)
   if (parcel == null) {

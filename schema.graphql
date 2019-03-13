@@ -7,12 +7,12 @@ type Decentraland @entity {
 # aka LAND
 type Parcel @entity {
   id: ID!
+  idNumber: BigInt!                               # we store ID in hex and in uint256. This helps with interacting with the contract and dapp
   x: BigInt!
   y: BigInt!
   estate: Estate
   owner: Bytes!
   data: ParcelData
-  lastTransferredAt: BigInt! # TODO , maybe remove!
   orderOwner: Bytes
   orderPrice: BigInt
   activeOrder: Order

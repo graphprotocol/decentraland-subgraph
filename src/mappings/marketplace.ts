@@ -48,6 +48,7 @@ export function handleOrderCreated(event: OrderCreated): void {
   let parcel = Parcel.load(assetID)
   if (parcel == null) {
     parcel = new Parcel(assetID)
+    parcel.idNumber = event.params.assetId
     let registry = LANDRegistry.bind(Address.fromString("0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d"))
     let coordinate = registry.decodeTokenId(event.params.assetId)
     parcel.x = coordinate.value0
@@ -104,6 +105,7 @@ export function handleOrderSuccessful(event: OrderSuccessful): void {
   let parcel = Parcel.load(parcelId)
   if (parcel == null) {
     parcel = new Parcel(parcelId)
+    parcel.idNumber = event.params.assetId
     let registry = LANDRegistry.bind(Address.fromString("0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d"))
     let coordinate = registry.decodeTokenId(event.params.assetId)
     parcel.x = coordinate.value0
@@ -122,7 +124,6 @@ export function handleOrderSuccessful(event: OrderSuccessful): void {
   }
   parcel.owner = event.params.buyer
   parcel.updatedAt = event.block.timestamp
-  parcel.lastTransferredAt = event.block.timestamp
   parcel.activeOrder = null
   parcel.orderOwner = null
   parcel.orderPrice = null
@@ -150,6 +151,7 @@ export function handleOrderCancelled(event: OrderCancelled): void {
   let parcel = Parcel.load(parcelId)
   if (parcel == null) {
     parcel = new Parcel(parcelId)
+    parcel.idNumber = event.params.assetId
     let registry = LANDRegistry.bind(Address.fromString("0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d"))
     let coordinate = registry.decodeTokenId(event.params.assetId)
     parcel.x = coordinate.value0
@@ -198,6 +200,7 @@ export function handleAuctionCreated(event: AuctionCreated): void {
   let parcel = Parcel.load(parcelId)
   if (parcel == null) {
     parcel = new Parcel(parcelId)
+    parcel.idNumber = event.params.assetId
     let registry = LANDRegistry.bind(Address.fromString("0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d"))
     let coordinate = registry.decodeTokenId(event.params.assetId)
     parcel.x = coordinate.value0
@@ -252,12 +255,11 @@ export function handleAuctionCancelled(event: AuctionCancelled): void {
   let parcel = Parcel.load(parcelId)
   if (parcel == null) {
     parcel = new Parcel(parcelId)
+    parcel.idNumber = event.params.assetId
     let registry = LANDRegistry.bind(Address.fromString("0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d"))
     let coordinate = registry.decodeTokenId(event.params.assetId)
     parcel.x = coordinate.value0
     parcel.y = coordinate.value1
-    parcel.updatedAt = event.block.timestamp
-    parcel.owner = event.params.seller
 
     let decentraland = Decentraland.load("1")
     if (decentraland == null){
@@ -270,7 +272,8 @@ export function handleAuctionCancelled(event: AuctionCancelled): void {
     decentraland.landCount = landLength
     decentraland.save()
   }
-
+  parcel.owner = event.params.seller
+  parcel.updatedAt = event.block.timestamp
   parcel.activeOrder = null
   parcel.orderOwner = null
   parcel.orderPrice = null
@@ -296,11 +299,11 @@ export function handleAuctionSuccessful(event: AuctionSuccessful): void {
   let parcel = Parcel.load(parcelId)
   if (parcel == null) {
     parcel = new Parcel(parcelId)
+    parcel.idNumber = event.params.assetId
     let registry = LANDRegistry.bind(Address.fromString("0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d"))
     let coordinate = registry.decodeTokenId(event.params.assetId)
     parcel.x = coordinate.value0
     parcel.y = coordinate.value1
-    parcel.updatedAt = event.block.timestamp
 
     let decentraland = Decentraland.load("1")
     if (decentraland == null){
@@ -313,8 +316,8 @@ export function handleAuctionSuccessful(event: AuctionSuccessful): void {
     decentraland.landCount = landLength
     decentraland.save()
   }
+  parcel.updatedAt = event.block.timestamp
   parcel.owner = event.params.winner
-  parcel.lastTransferredAt = event.block.timestamp
   parcel.activeOrder = null
   parcel.orderOwner = null
   parcel.orderPrice = null

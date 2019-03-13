@@ -35,6 +35,7 @@ export function handleLegacyAuctionCreated(event: AuctionCreated): void {
   let parcel = Parcel.load(parcelId)
   if (parcel == null) {
     parcel = new Parcel(parcelId)
+    parcel.idNumber = event.params.assetId
     let registry = LANDRegistry.bind(Address.fromString("0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d"))
     let coordinate = registry.decodeTokenId(event.params.assetId)
     parcel.x = coordinate.value0
@@ -87,6 +88,7 @@ export function handleLegacyAuctionCancelled(event: AuctionCancelled): void {
   let parcel = Parcel.load(parcelId)
   if (parcel == null) {
     parcel = new Parcel(parcelId)
+    parcel.idNumber = event.params.assetId
     // At block 5662897 the subgraph fails. We hardcode around this to avoid this problem.
     // It appears it fails because the assetID of the parcel is way off, it doesn't correspond to an actual value on the
     // Decentraland map. It isn't clear why this failure is happening, because it is saying `decodetokenID doesnt exist`.
@@ -141,6 +143,7 @@ export function handleLegacyAuctionSuccessful(event: AuctionSuccessful): void {
   let parcel = Parcel.load(parcelId)
   if (parcel == null) {
     parcel = new Parcel(parcelId)
+    parcel.idNumber = event.params.assetId
     let registry = LANDRegistry.bind(Address.fromString("0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d"))
     let coordinate = registry.decodeTokenId(event.params.assetId)
     parcel.x = coordinate.value0
@@ -159,7 +162,6 @@ export function handleLegacyAuctionSuccessful(event: AuctionSuccessful): void {
   }
   parcel.owner = event.params.winner
   parcel.updatedAt = event.block.timestamp
-  parcel.lastTransferredAt = event.block.timestamp
   parcel.activeOrder = null
   parcel.orderOwner = null
   parcel.orderPrice = null

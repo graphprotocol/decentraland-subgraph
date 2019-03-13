@@ -59,6 +59,7 @@ export function handleLegacyLandTransfer(event: Transfer): void {
   let parcel = Parcel.load(parcelId)
   if (parcel == null) {
     parcel = new Parcel(parcelId)
+    parcel.idNumber = event.params.assetId
     let registry = LANDRegistry.bind(Address.fromString("0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d"))
     let coordinate = registry.decodeTokenId(event.params.assetId)
     parcel.x = coordinate.value0
@@ -77,7 +78,6 @@ export function handleLegacyLandTransfer(event: Transfer): void {
   }
   parcel.owner = event.params.to
   parcel.updatedAt = event.block.timestamp
-  parcel.lastTransferredAt = event.block.timestamp
   parcel.save()
 
   let user = new User(event.params.to.toHex())
@@ -92,6 +92,7 @@ export function handleLandTransfer(event: Transfer2): void {
   let parcel = Parcel.load(parcelId)
   if (parcel == null) {
     parcel = new Parcel(parcelId)
+    parcel.idNumber = event.params.assetId
     let registry = LANDRegistry.bind(Address.fromString("0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d"))
     let coordinate = registry.decodeTokenId(event.params.assetId)
     parcel.x = coordinate.value0
@@ -110,7 +111,6 @@ export function handleLandTransfer(event: Transfer2): void {
   }
   parcel.owner = event.params.to
   parcel.updatedAt = event.block.timestamp
-  parcel.lastTransferredAt = event.block.timestamp
   parcel.save()
 
   let user = new User(event.params.to.toHex())
@@ -155,6 +155,7 @@ export function handleLandUpdate(event: Update): void {
   let parcel = Parcel.load(parcelId)
   if (parcel == null) {
     let parcel = new Parcel(parcelId)
+    parcel.idNumber = event.params.assetId
     parcel.x = coordinate.value0
     parcel.y = coordinate.value1
 
@@ -186,6 +187,7 @@ export function handleUpdateOperator(event: UpdateOperator):void{
   let parcel = Parcel.load(parcelId)
   if (parcel == null) {
     parcel = new Parcel(parcelId)
+    parcel.idNumber = event.params.assetId
     let registry = LANDRegistry.bind(Address.fromString("0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d"))
     let coordinate = registry.decodeTokenId(event.params.assetId)
     parcel.x = coordinate.value0
@@ -221,6 +223,7 @@ export function handleOldestLegacyLandTransfer(event: Transfer3){
   let parcel = Parcel.load(parcelId)
   if (parcel == null) {
     parcel = new Parcel(parcelId)
+    parcel.idNumber = event.params.assetId
     let registry = LANDRegistry.bind(Address.fromString("0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d"))
     let coordinate = registry.decodeTokenId(event.params.assetId)
     parcel.x = coordinate.value0
@@ -239,7 +242,6 @@ export function handleOldestLegacyLandTransfer(event: Transfer3){
   }
   parcel.owner = event.params.to
   parcel.updatedAt = event.block.timestamp
-  parcel.lastTransferredAt = event.block.timestamp
   parcel.save()
 
   let user = new User(event.params.to.toHex())

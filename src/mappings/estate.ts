@@ -50,11 +50,11 @@ export function handleAddLand(event: AddLand): void {
   // Because if land parcel doesn't exist, we get a crashed node
   if (parcel == null) {
     parcel = new Parcel(event.params._landId.toHex())
+    parcel.idNumber = event.params._landId
     let registry = LANDRegistry.bind(Address.fromString("0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d"))
     let coordinate = registry.decodeTokenId(event.params._landId)
     parcel.x = coordinate.value0
     parcel.y = coordinate.value1
-    parcel.owner = estate.owner
 
     let decentraland = Decentraland.load("1")
     if (decentraland == null){
@@ -67,6 +67,7 @@ export function handleAddLand(event: AddLand): void {
     decentraland.landCount = landLength
     decentraland.save()
   }
+  parcel.owner = estate.owner
   parcel.estate = id
   parcel.updatedAt = event.block.timestamp
   parcel.save()
@@ -88,6 +89,7 @@ export function handleRemoveLand(event: RemoveLand): void {
   // Because if land parcel doesn't exist, we get a crashed node
   if (parcel == null) {
     parcel = new Parcel(event.params._landId.toHex())
+    parcel.idNumber = event.params._landId
     let registry = LANDRegistry.bind(Address.fromString("0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d"))
     let coordinate = registry.decodeTokenId(event.params._landId)
     parcel.x = coordinate.value0
@@ -106,7 +108,6 @@ export function handleRemoveLand(event: RemoveLand): void {
     decentraland.save()
   }
   parcel.owner = event.params._destinatary
-  parcel.lastTransferredAt = event.block.timestamp
   parcel.estate = null
   parcel.updatedAt = event.block.timestamp
   parcel.save()
@@ -121,8 +122,8 @@ export function handleUpdateOperator(event: UpdateOperator): void {
 }
 
 export function handleEstate(event: Update): void {
-    let id = event.params._assetId.toHex()
-    let estate = new Estate(id)
-    estate.metaData = event.params._data
-    estate.save()
+  let id = event.params._assetId.toHex()
+  let estate = new Estate(id)
+  estate.metaData = event.params._data
+  estate.save()
 }

@@ -68,13 +68,13 @@ Events not included:
 * `ChangeLegacyNFTAddress`
 * `OwnerUpdate` (Proxy Contract)
 
-#### MortageHelper.sol (NOT TRACKED)
+#### MortgageHelper.sol (NOT TRACKED)
 This contract code come from the [Ripio Network](https://github.com/ripio/rcn-mortgages). There were three instances of it shown to exist on etherscan from https://github.com/decentraland/contracts :
 * 0x59ccfc50bd19dcd4f40a25459f2075084eebc11e - appears to be a typo, as this is not a contract address
-* 0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376 - Has seven events emitted, mostly setting global variables, and one Mortage. Seems deprecated, so was left out of analysis
+* 0xb3d9444f88dc1c30f18c69ebd8ec6f1fa2706376 - Has seven events emitted, mostly setting global variables, and one Mortgage. Seems deprecated, so was left out of analysis
 * 0x90263Ea5C57Dc6603CA7202920735A6E31235bB9 - The current live contract. Oddly only has one event emitted. So this whole contract isn't tracked in the subgraph either
 
-#### MortageManager.sol
+#### MortgageManager.sol
 This contract code comes from the [Ripio Network](https://github.com/ripio/rcn-mortgages). There were three instances of it shown to exist on etherscan from https://github.com/decentraland/contracts :
 * 0xea06746f1bd82412f9f243f6bee0b8194d67a67d - appears to be a typo, as this is not a contract address
 * 0x0bdaf0d7eb72cac0e0c8defcbe83ccc06c66a602 - Only 4 events, appears it has been abandoned, so it isn't tracked in the subgraph

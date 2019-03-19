@@ -19,6 +19,7 @@ type Parcel @entity {
   orders: [Order!] @derivedFrom(field: "parcel")  # history of all orders. should only ever be ONE open order. all others must be closed or sold
   updatedAt: BigInt!
   operators: [Bytes!]
+  testTxHashDELETE: Bytes
 }
 
 type ParcelData @entity {
@@ -29,6 +30,7 @@ type ParcelData @entity {
   description: String
   ipns: String
 }
+
 
 type Order @entity {
   id: ID!
@@ -70,6 +72,11 @@ type Estate @entity {
   orders: [Order!] @derivedFrom(field: "estate")
   size: Int!
   createTransaction: Bytes!
+  updatedAt: BigInt!
+  activeOrder: Order
+  orderOwner: Bytes
+  orderPrice: BigInt
+
 }
 
  type Mortgage @entity {

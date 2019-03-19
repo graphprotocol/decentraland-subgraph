@@ -9,6 +9,8 @@ import {LANDRegistry} from "../types/LegacyMarketplace/LANDRegistry";
 
 /*
 Note - the variable name 'auction` is kept throughout, even through we are creating new Order entities. This is to more clearly seperate legacy marketplace from marketplace.
+Note - estates can't be updated by legacy auctions, since there is no field for NFT address
+
  */
 
 // There is no `Estate` here , because there were only parcels auctioned off at the start
@@ -123,6 +125,7 @@ export function handleLegacyAuctionCancelled(event: AuctionCancelled): void {
   parcel.orderOwner = null
   parcel.updatedAt = event.block.timestamp
   parcel.orderPrice = null
+  parcel.testTxHashDELETE = event.transaction.hash
   parcel.save()
 }
 

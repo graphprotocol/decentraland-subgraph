@@ -17,6 +17,7 @@ export function handleCreateEstate(event: CreateEstate): void {
   estate.land = []
   estate.size = 0
   estate.createTransaction = event.transaction.hash
+  estate.updatedAt = event.block.timestamp
   estate.save()
 
   let decentraland = Decentraland.load("1")
@@ -43,6 +44,7 @@ export function handleAddLand(event: AddLand): void {
   lands.push(event.params._landId)
   estate.land = lands
   estate.size = estate.land.length
+  estate.updatedAt = event.block.timestamp
   estate.save()
 
   let parcel = Parcel.load(event.params._landId.toHex())
@@ -73,6 +75,7 @@ export function handleAddLand(event: AddLand): void {
   parcel.save()
 }
 
+// TODO - this appears to be broken, im getting estate ids as parcel ids
 export function handleRemoveLand(event: RemoveLand): void {
   let id = event.params._estateId.toString()
   let estate = Estate.load(id)
@@ -82,13 +85,14 @@ export function handleRemoveLand(event: RemoveLand): void {
   lands.splice(i, 1)
   estate.land = lands
   estate.size = estate.land.length
+  estate.updatedAt = event.block.timestamp
   estate.save()
 
   let parcel = Parcel.load(event.params._landId.toHex())
   // Would expect that this isn't needed, but it is here for safety, since failing at block 6,000,000 slows down iterative testing
   // Because if land parcel doesn't exist, we get a crashed node
   if (parcel == null) {
-    parcel = new Parcel(event.params._landId.toHex())
+    parcel = new Parcel(event.params._landId.toHex()) // TODO = THIS WOULD BE BROKEN
     parcel.idNumber = event.params._landId
     let registry = LANDRegistry.bind(Address.fromString("0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d"))
     let coordinate = registry.decodeTokenId(event.params._landId)
@@ -118,6 +122,7 @@ export function handleUpdateOperator(event: UpdateOperator): void {
   let id = event.params._estateId.toString()
   let estate = new Estate(id)
   estate.operator = event.params._operator
+  estate.updatedAt = event.block.timestamp
   estate.save()
 }
 
@@ -125,5 +130,6 @@ export function handleEstate(event: Update): void {
   let id = event.params._assetId.toHex()
   let estate = new Estate(id)
   estate.metaData = event.params._data
+  estate.updatedAt = event.block.timestamp
   estate.save()
 }

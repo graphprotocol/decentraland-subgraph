@@ -45,7 +45,7 @@ export function handleLegacyAuctionCreated(event: AuctionCreated): void {
     parcel.owner = event.params.seller
 
     let decentraland = Decentraland.load("1")
-    if (decentraland == null){
+    if (decentraland == null) {
       decentraland = new Decentraland("1")
       decentraland.landCount = 0
       decentraland.estateCount = 0
@@ -59,7 +59,7 @@ export function handleLegacyAuctionCreated(event: AuctionCreated): void {
     // and they just overwrite them in place. But the subgraph stores all orders ever
     // you can also overwrite ones that are expired
     let oldOrder = Order.load(parcel.activeOrder)
-    if (oldOrder != null){
+    if (oldOrder != null) {
       oldOrder.status = 'cancelled'
       oldOrder.timeUpdatedAt = event.block.timestamp
     }
@@ -86,32 +86,29 @@ export function handleLegacyAuctionCancelled(event: AuctionCancelled): void {
   auction.timeUpdatedAt = event.block.timestamp
   auction.save()
 
-  // Clear the active auction of the parcel
-  let parcel = Parcel.load(parcelId)
-  if (parcel == null) {
-    parcel = new Parcel(parcelId)
-    parcel.idNumber = event.params.assetId
-    // At block 5662897 the subgraph fails. We hardcode around this to avoid this problem.
-    // It appears it fails because the assetID of the parcel is way off, it doesn't correspond to an actual value on the
-    // Decentraland map. It isn't clear why this failure is happening, because it is saying `decodetokenID doesnt exist`.
-    // It could be that the wrong value could be a wrong type, and then the interface doesn't match. Maybe an error
-    // in the solidity code that let this pass through somehow, or else a bug in the EVM or compiler, or a snafu
-    // in this specific block. Either way it isn't a big deal, we still get all the important info that the auction
-    // is cancelled. The parcel data shouldn't matter.
-    if (event.block.number.toI32() != 5662897) {
+  // At block 5662897 the subgraph fails. We hardcode around this to avoid this problem.
+  // It appears it fails because the assetID of the parcel is way off, it doesn't correspond to an actual value on the
+  // Decentraland map. It isn't clear why this failure is happening, because it is saying `decodetokenID doesnt exist`.
+  // It could be that the wrong value could be a wrong type, and then the interface doesn't match. Maybe an error
+  // in the solidity code that let this pass through somehow, or else a bug in the EVM or compiler, or a snafu
+  // in this specific block. Either way it isn't a big deal, we still get all the important info that the auction
+  // is cancelled. The parcel data shouldn't matter.
+  // It is also clear the decentraland wallet called to cancle this auction, probably because they noticed it was off
+  if (event.block.number.toI32() != 5662897) {
+    // Clear the active auction of the parcel
+    let parcel = Parcel.load(parcelId)
+    if (parcel == null) {
+      parcel = new Parcel(parcelId)
+      parcel.idNumber = event.params.assetId
       let registry = LANDRegistry.bind(Address.fromString("0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d"))
       let coordinate = registry.decodeTokenId(event.params.assetId)
       parcel.x = coordinate.value0
       parcel.y = coordinate.value1
       parcel.owner = event.params.seller
-    } else {
-      parcel.x = BigInt.fromI32(555)
-      parcel.y = BigInt.fromI32(555)
-      parcel.owner = event.params.seller
     }
 
     let decentraland = Decentraland.load("1")
-    if (decentraland == null){
+    if (decentraland == null) {
       decentraland = new Decentraland("1")
       decentraland.landCount = 0
       decentraland.estateCount = 0
@@ -120,13 +117,13 @@ export function handleLegacyAuctionCancelled(event: AuctionCancelled): void {
     landLength = landLength + 1
     decentraland.landCount = landLength
     decentraland.save()
+
+    parcel.activeOrder = null
+    parcel.orderOwner = null
+    parcel.updatedAt = event.block.timestamp
+    parcel.orderPrice = null
+    parcel.save()
   }
-  parcel.activeOrder = null
-  parcel.orderOwner = null
-  parcel.updatedAt = event.block.timestamp
-  parcel.orderPrice = null
-  parcel.testTxHashDELETE = event.transaction.hash
-  parcel.save()
 }
 
 export function handleLegacyAuctionSuccessful(event: AuctionSuccessful): void {
@@ -153,7 +150,7 @@ export function handleLegacyAuctionSuccessful(event: AuctionSuccessful): void {
     parcel.y = coordinate.value1
 
     let decentraland = Decentraland.load("1")
-    if (decentraland == null){
+    if (decentraland == null) {
       decentraland = new Decentraland("1")
       decentraland.landCount = 0
       decentraland.estateCount = 0

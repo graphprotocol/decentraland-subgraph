@@ -47,14 +47,21 @@ export function handleOrderCreated(event: OrderCreated): void {
   // i.e. its an estate
   if (event.params.nftAddress.toHex() == "0x959e104e1a4db6317fa58f8295f586e1a978c297") {
     let estate = Estate.load(assetID)
-    // Here we are setting old orders as cancelled, because the samrt contract allows new orders to be created
-    // and they just overwrite them in place. But the subgraph stores all orders ever
-    // you can also overwrite ones that are expired
-    let oldOrder = Order.load(estate.activeOrder)
-    if (oldOrder != null) {
-      oldOrder.status = 'cancelled'
-      oldOrder.timeUpdatedAt = event.block.timestamp
+    // NOTE - necessary check, otherwise the subgraph will fail, unintuitively, because you would think an estate would
+    // exist before it can have an order created for it
+    if (estate  == null) {
+      estate = new Estate(assetID)
+      estate.owner = event.params.seller
 
+    } else {
+      // Here we are setting old orders as cancelled, because the smart contract allows new orders to be created
+      // and they just overwrite them in place. But the subgraph stores all orders ever
+      // you can also overwrite ones that are expired
+      let oldOrder = Order.load(estate.activeOrder)
+      if (oldOrder != null) {
+        oldOrder.status = 'cancelled'
+        oldOrder.timeUpdatedAt = event.block.timestamp
+      }
     }
     estate.updatedAt = event.block.timestamp
     estate.activeOrder = orderID

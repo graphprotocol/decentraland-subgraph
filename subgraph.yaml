@@ -171,26 +171,26 @@ dataSources:
       - event: UpdateInvites(address,uint256)
         handler: handleUpdateInvites
     file: ./src/mappings/invite.ts
-#- kind: ethereum/contract
-#  name: Mana
-#  network: mainnet
-#  source:
-#    address: "0x0F5D2fB29fb7d3CFeE444a200298f468908cC942"
-#    abi: Mana
-#  mapping:
-#    kind: ethereum/events
-#    apiVersion: 0.0.1
-#    language: wasm/assemblyscript
-#    entities:
-#      - User
-#    abis:
-#      - name: Mana
-#        file: ./abis/manaToken.json
-#    eventHandlers:
-#      - event: Burn(address,uint256)
-#        handler: handleBurn
-#      - event: Mint(address,uint256)
-#        handler: handleMint
-#      - event: Transfer(address,address,uint256)
-#        handler: handleTransfer
-#    file: ./src/mappings/manaToken.ts
+- kind: ethereum/contract
+  name: Mana
+  network: mainnet
+  source:
+    address: "0x0F5D2fB29fb7d3CFeE444a200298f468908cC942"
+    abi: Mana
+  mapping:
+    kind: ethereum/events
+    apiVersion: 0.0.1
+    language: wasm/assemblyscript
+    entities:
+      - User
+    abis:
+      - name: Mana
+        file: ./abis/manaToken.json
+    eventHandlers:
+      - event: Burn(address,uint256)
+        handler: handleBurn
+      - event: Mint(address,uint256)
+        handler: handleMint
+      - event: Transfer(address,address,uint256)
+        handler: handleTransfer
+    file: ./src/mappings/manaToken.ts

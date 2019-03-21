@@ -24,7 +24,7 @@ export function handleBurn(event: Burn): void{
     user = new User(id)
     user.mana = BigInt.fromI32(0)
   }
-  user.mana = user.mana.plus(event.params.value)
+  user.mana = user.mana.minus(event.params.value)
   user.save()
 }
 

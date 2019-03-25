@@ -105,19 +105,19 @@ export function handleLegacyAuctionCancelled(event: AuctionCancelled): void {
       parcel.x = coordinate.value0
       parcel.y = coordinate.value1
       parcel.owner = event.params.seller
-    }
 
-    let decentraland = Decentraland.load("1")
-    if (decentraland == null) {
-      decentraland = new Decentraland("1")
-      decentraland.landCount = 0
-      decentraland.estateCount = 0
-    }
-    let landLength = decentraland.landCount
-    landLength = landLength + 1
-    decentraland.landCount = landLength
-    decentraland.save()
 
+      let decentraland = Decentraland.load("1")
+      if (decentraland == null) {
+        decentraland = new Decentraland("1")
+        decentraland.landCount = 0
+        decentraland.estateCount = 0
+      }
+      let landLength = decentraland.landCount
+      landLength = landLength + 1
+      decentraland.landCount = landLength
+      decentraland.save()
+    }
     parcel.activeOrder = null
     parcel.orderOwner = null
     parcel.updatedAt = event.block.timestamp

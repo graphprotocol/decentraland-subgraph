@@ -5,11 +5,11 @@
   "license": "MIT",
   "scripts": {
     "codegen": "graph codegen --output-dir src/types/",
-    "create-local": "graph create graphprotocol/decentraland --node http://127.0.0.1:8020",
+    "create-local": "graph create --node http://127.0.0.1:8020 graphprotocol/decentraland",
     "build": "graph build",
-    "deploy-local": "graph deploy graphprotocol/decentraland --debug --ipfs http://localhost:5001 --node http://127.0.0.1:8020/",
-    "deploy": "graph deploy --debug graphprotocol/decentraland --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/",
-    "watch-local": "graph deploy graphprotocol/decentraland --watch --debug --node http://127.0.0.1:8020/ --ipfs http://localhost:5001"
+    "deploy-local": "graph deploy --ipfs http://localhost:5001 --node http://127.0.0.1:8020/ graphprotocol/decentraland",
+    "deploy": "graph deploy --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/ graphprotocol/decentraland",
+    "watch-local": "graph deploy --watch --node http://127.0.0.1:8020/ --ipfs http://localhost:5001 graphprotocol/decentraland"
   },
   "devDependencies": {
     "@graphprotocol/graph-cli": "^0.13.1",

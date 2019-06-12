@@ -11,7 +11,7 @@ type Parcel @entity {
   x: BigInt!
   y: BigInt!
   estate: Estate
-  owner: Bytes!
+  owner: User!
   data: ParcelData
   orderOwner: Bytes
   orderPrice: BigInt
@@ -64,7 +64,7 @@ enum OrderStatus @entity {
 
 type Estate @entity {
   id: ID!           # estate ID (based on total supply of estates)
-  owner: Bytes!
+  owner: User!
   operator: Bytes
   metaData: String
   land: [BigInt!]   # AddLand and TransferLand events
@@ -86,7 +86,7 @@ type Estate @entity {
    lastUpdatedAt: BigInt!
    status: MortgageStatus!
 
-   borrower: Bytes!
+   borrower: User!
    rcnEngine: Bytes!
    loan_id: BigInt!
    landMarket: Bytes!

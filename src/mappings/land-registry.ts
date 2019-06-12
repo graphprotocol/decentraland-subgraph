@@ -3,8 +3,8 @@ import {
   Transfer,
   Update,
   UpdateOperator,
-  Transfer2,
-  Transfer3
+  Transfer1,
+  Transfer2
 } from '../types/LANDRegistry/LANDRegistry'
 import {Decentraland, Parcel, ParcelData, User} from '../types/schema'
 import {Address} from "@graphprotocol/graph-ts/index";
@@ -87,7 +87,7 @@ export function handleLegacyLandTransfer(event: Transfer): void {
 
 // New LANDRegistry at block 6,240,242
 // address : 0x46fbCfd32eA671CAa21897C09072CB6cb44C0bc9
-export function handleLandTransfer(event: Transfer2): void {
+export function handleLandTransfer(event: Transfer1): void {
   let parcelId = event.params.assetId.toHex()
   let parcel = Parcel.load(parcelId)
   if (parcel == null) {
@@ -218,7 +218,7 @@ export function handleUpdateOperator(event: UpdateOperator):void{
 
 // Here we ignore event data about operator, userData, and operatorData. They appear to always be 0, or a blank string.
 // And these are not part of the Transfer interface of ERC721 today
-export function handleOldestLegacyLandTransfer(event: Transfer3):void{
+export function handleOldestLegacyLandTransfer(event: Transfer2):void{
   let parcelId = event.params.assetId.toHex()
   let parcel = Parcel.load(parcelId)
   if (parcel == null) {

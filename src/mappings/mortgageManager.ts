@@ -21,7 +21,7 @@ export function handleRequestedMortgage(event: RequestedMortgage): void{
   mortgage.status = "pending"
 
   // event fields
-  mortgage.borrower = event.params._borrower
+  mortgage.borrower = event.params._borrower.toHex()
   mortgage.rcnEngine = event.params._engine
   mortgage.loan_id = event.params._loanId
   mortgage.landMarket = event.params._landMarket

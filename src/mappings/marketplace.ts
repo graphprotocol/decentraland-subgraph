@@ -51,7 +51,7 @@ export function handleOrderCreated(event: OrderCreated): void {
     // exist before it can have an order created for it
     if (estate  == null) {
       estate = new Estate(assetID)
-      estate.owner = event.params.seller
+      estate.owner = event.params.seller.toHex()
 
     } else {
       // Here we are setting old orders as cancelled, because the smart contract allows new orders to be created
@@ -78,7 +78,7 @@ export function handleOrderCreated(event: OrderCreated): void {
       let coordinate = registry.decodeTokenId(event.params.assetId)
       parcel.x = coordinate.value0
       parcel.y = coordinate.value1
-      parcel.owner = event.params.seller
+      parcel.owner = event.params.seller.toHex()
 
       let decentraland = Decentraland.load("1")
       if (decentraland == null) {
@@ -130,7 +130,7 @@ export function handleOrderSuccessful(event: OrderSuccessful): void {
 
   if (event.params.nftAddress.toHex() == "0x959e104e1a4db6317fa58f8295f586e1a978c297") {
     let estate = Estate.load(assetID)
-    estate.owner = event.params.buyer
+    estate.owner = event.params.buyer.toHex()
     estate.updatedAt = event.block.timestamp
     estate.activeOrder = null
     estate.orderOwner = null
@@ -157,7 +157,7 @@ export function handleOrderSuccessful(event: OrderSuccessful): void {
       decentraland.landCount = landLength
       decentraland.save()
     }
-    parcel.owner = event.params.buyer
+    parcel.owner = event.params.buyer.toHex()
     parcel.updatedAt = event.block.timestamp
     parcel.activeOrder = null
     parcel.orderOwner = null
@@ -199,7 +199,7 @@ export function handleOrderCancelled(event: OrderCancelled): void {
       let coordinate = registry.decodeTokenId(event.params.assetId)
       parcel.x = coordinate.value0
       parcel.y = coordinate.value1
-      parcel.owner = event.params.seller
+      parcel.owner = event.params.seller.toHex()
 
       let decentraland = Decentraland.load("1")
       if (decentraland == null) {
@@ -251,7 +251,7 @@ export function handleAuctionCreated(event: AuctionCreated): void {
     let coordinate = registry.decodeTokenId(event.params.assetId)
     parcel.x = coordinate.value0
     parcel.y = coordinate.value1
-    parcel.owner = event.params.seller
+    parcel.owner = event.params.seller.toHex()
 
     let decentraland = Decentraland.load("1")
     if (decentraland == null) {
@@ -318,7 +318,7 @@ export function handleAuctionCancelled(event: AuctionCancelled): void {
     decentraland.landCount = landLength
     decentraland.save()
   }
-  parcel.owner = event.params.seller
+  parcel.owner = event.params.seller.toHex()
   parcel.updatedAt = event.block.timestamp
   parcel.activeOrder = null
   parcel.orderOwner = null
@@ -363,7 +363,7 @@ export function handleAuctionSuccessful(event: AuctionSuccessful): void {
     decentraland.save()
   }
   parcel.updatedAt = event.block.timestamp
-  parcel.owner = event.params.winner
+  parcel.owner = event.params.winner.toHex()
   parcel.activeOrder = null
   parcel.orderOwner = null
   parcel.orderPrice = null

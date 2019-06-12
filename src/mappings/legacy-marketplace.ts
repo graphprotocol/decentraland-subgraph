@@ -42,7 +42,7 @@ export function handleLegacyAuctionCreated(event: AuctionCreated): void {
     let coordinate = registry.decodeTokenId(event.params.assetId)
     parcel.x = coordinate.value0
     parcel.y = coordinate.value1
-    parcel.owner = event.params.seller
+    parcel.owner = event.params.seller.toHex()
 
     let decentraland = Decentraland.load("1")
     if (decentraland == null) {
@@ -104,7 +104,7 @@ export function handleLegacyAuctionCancelled(event: AuctionCancelled): void {
       let coordinate = registry.decodeTokenId(event.params.assetId)
       parcel.x = coordinate.value0
       parcel.y = coordinate.value1
-      parcel.owner = event.params.seller
+      parcel.owner = event.params.seller.toHex()
 
 
       let decentraland = Decentraland.load("1")
@@ -160,7 +160,7 @@ export function handleLegacyAuctionSuccessful(event: AuctionSuccessful): void {
     decentraland.landCount = landLength
     decentraland.save()
   }
-  parcel.owner = event.params.winner
+  parcel.owner = event.params.winner.toHex()
   parcel.updatedAt = event.block.timestamp
   parcel.activeOrder = null
   parcel.orderOwner = null

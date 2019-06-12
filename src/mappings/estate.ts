@@ -12,7 +12,7 @@ import {LANDRegistry} from "../types/EstateRegistry/LANDRegistry";
 export function handleCreateEstate(event: CreateEstate): void {
   let id = event.params._estateId.toString()
   let estate = new Estate(id)
-  estate.owner = event.params._owner
+  estate.owner = event.params._owner.toHex()
   estate.metaData = event.params._data
   estate.land = []
   estate.size = 0
@@ -110,7 +110,7 @@ export function handleRemoveLand(event: RemoveLand): void {
     decentraland.landCount = landLength
     decentraland.save()
   }
-  parcel.owner = event.params._destinatary
+  parcel.owner = event.params._destinatary.toHex()
   parcel.estate = null
   parcel.updatedAt = event.block.timestamp
   parcel.save()

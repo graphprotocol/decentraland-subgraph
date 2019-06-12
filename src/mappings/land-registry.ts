@@ -76,7 +76,7 @@ export function handleLegacyLandTransfer(event: Transfer): void {
     decentraland.landCount = landLength
     decentraland.save()
   }
-  parcel.owner = event.params.to
+  parcel.owner = event.params.to.toHex()
   parcel.updatedAt = event.block.timestamp
   parcel.save()
 
@@ -109,7 +109,7 @@ export function handleLandTransfer(event: Transfer2): void {
     decentraland.landCount = landLength
     decentraland.save()
   }
-  parcel.owner = event.params.to
+  parcel.owner = event.params.to.toHex()
   parcel.updatedAt = event.block.timestamp
   parcel.save()
 
@@ -175,7 +175,7 @@ export function handleLandUpdate(event: Update): void {
     user.save()
   }
   parcel.data = dataId
-  parcel.owner = event.params.holder
+  parcel.owner = event.params.holder.toHex()
   parcel.updatedAt = event.block.timestamp
   parcel.save()
 }
@@ -240,7 +240,7 @@ export function handleOldestLegacyLandTransfer(event: Transfer3):void{
     decentraland.landCount = landLength
     decentraland.save()
   }
-  parcel.owner = event.params.to
+  parcel.owner = event.params.to.toHex()
   parcel.updatedAt = event.block.timestamp
   parcel.save()
 

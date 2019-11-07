@@ -108,7 +108,7 @@ export function handleOrderCreated(event: OrderCreated): void {
   }
 
   let user = new User(event.params.seller.toHex())
-  user.parcels = []
+
   user.estates = []
   user.save()
 }
@@ -165,7 +165,7 @@ export function handleOrderSuccessful(event: OrderSuccessful): void {
     parcel.save()
 
     let user = new User(event.params.buyer.toHex())
-    user.parcels = []
+
     user.estates = []
     user.save()
   }
@@ -280,7 +280,7 @@ export function handleAuctionCreated(event: AuctionCreated): void {
   parcel.save()
 
   let user = new User(event.params.seller.toHex())
-  user.parcels = []
+
   user.estates = []
   user.save()
 }
@@ -370,7 +370,7 @@ export function handleAuctionSuccessful(event: AuctionSuccessful): void {
   parcel.save()
 
   let user = new User(event.params.winner.toHex())
-  user.parcels = []
+
   user.estates = []
   user.save()
 }

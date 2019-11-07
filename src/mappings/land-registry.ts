@@ -81,7 +81,7 @@ export function handleLegacyLandTransfer(event: Transfer): void {
   parcel.save()
 
   let user = new User(event.params.to.toHex())
-  user.parcels = []
+
   user.save()
 }
 
@@ -114,7 +114,7 @@ export function handleLandTransfer(event: Transfer1): void {
   parcel.save()
 
   let user = new User(event.params.to.toHex())
-  user.parcels = []
+
   user.save()
 }
 
@@ -171,7 +171,7 @@ export function handleLandUpdate(event: Update): void {
     decentraland.save()
 
     let user = new User(event.params.holder.toHex())
-    user.parcels = []
+
     user.save()
   }
   parcel.data = dataId
@@ -245,6 +245,5 @@ export function handleOldestLegacyLandTransfer(event: Transfer2):void{
   parcel.save()
 
   let user = new User(event.params.to.toHex())
-  user.parcels = []
   user.save()
 }

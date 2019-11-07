@@ -32,7 +32,7 @@ export function handleCreateEstate(event: CreateEstate): void {
   decentraland.save()
 
   let user = new User(event.params._owner.toHex())
-  user.parcels = []
+
   user.estates = []
   user.save()
 }

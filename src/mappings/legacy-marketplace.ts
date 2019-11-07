@@ -1,4 +1,4 @@
-import {Address, BigInt} from '@graphprotocol/graph-ts'
+import {Address, BigInt, log} from '@graphprotocol/graph-ts'
 import {
   AuctionCreated,
   AuctionCancelled,
@@ -71,17 +71,28 @@ export function handleLegacyAuctionCreated(event: AuctionCreated): void {
   parcel.save()
 
   let user = new User(event.params.seller.toHex())
-  user.parcels = []
   user.save()
 }
 
 export function handleLegacyAuctionCancelled(event: AuctionCancelled): void {
   let auctionId = event.params.id.toHex()
   let parcelId = event.params.assetId.toHex()
+  log.info("auctionId: {}", [event.params.id.toHexString()])
+  let auction = Order.load(auctionId)
+  if (auction == null) {
+    // Mark the auction as cancelled
+    log.debug("create new Order entity for auctionID: {}", [auctionId])
+    let auction = new Order(auctionId)
+    auction.txHash = event.transaction.hash
+    auction.blockNumber = event.block.number
+    auction.marketplace = event.address
+    auction.timeCreated = event.block.timestamp
+    auction.type = 'parcel'
+    auction.owner = event.params.seller
+    auction.parcel = parcelId
+    auction.expiresAt = BigInt.fromI32(0)
+  }
 
-  // Mark the auction as cancelled
-  let auction = new Order(auctionId)
-  auction.type = 'parcel'
   auction.status = 'cancelled'
   auction.timeUpdatedAt = event.block.timestamp
   auction.save()
@@ -130,8 +141,19 @@ export function handleLegacyAuctionSuccessful(event: AuctionSuccessful): void {
   let auctionId = event.params.id.toHex()
   let parcelId = event.params.assetId.toHex()
 
+  let auction = Order.load(auctionId)
+  if (auction == null) {
+    auction = new Order(auctionId)
+    auction.txHash = event.transaction.hash
+    auction.blockNumber = event.block.number
+    auction.marketplace = event.address
+    auction.timeCreated = event.block.timestamp
+    auction.type = 'parcel'
+    auction.owner = event.params.seller
+    auction.parcel = parcelId
+    auction.expiresAt = BigInt.fromI32(0)
+  }
   // Mark the auction as sold
-  let auction = new Order(auctionId)
   auction.type = 'parcel'
   auction.status = 'sold'
   auction.buyer = event.params.winner
@@ -168,6 +190,6 @@ export function handleLegacyAuctionSuccessful(event: AuctionSuccessful): void {
   parcel.save()
 
   let user = new User(event.params.winner.toHex())
-  user.parcels = []
+
   user.save()
 }
